@@ -15,4 +15,8 @@
     <string name="menu_rates">Taux horaires</string>
     <string name="menu_delimiter_elements">Éléments</string>
     <string name="menu_trips">Déplacements</string>
+    <string name="settings_notifications_title">Activer notifications de message</string>
+    <string name="settings_feedback_title">Envoyer rétroaction</string>
+    <string name="settings_feedback_summary">Rapporter problèmes techniques ou suggérer de nouvelles fonctionnalités</string>
+    <string name="nav_header_desc">En-tête de navigation</string>
 </resources>

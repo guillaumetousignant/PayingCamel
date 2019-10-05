@@ -4,7 +4,7 @@
 
     <SwitchPreferenceCompat
         app:key="notifications"
-        app:title="Enable message notifications"/>
+        app:title="@string/settings_notifications_title"/>
 
     <Preference
         app:key="feedback"

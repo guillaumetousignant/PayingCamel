@@ -17,4 +17,7 @@
     <string name="menu_rates">Hourly Rates</string>
     <string name="menu_delimiter_elements">Elements</string>
     <string name="menu_trips">Trips</string>
+    <string name="settings_notifications_title">Enable message notifications</string>
+    <string name="settings_feedback_title">Send feedback</string>
+    <string name="settings_feedback_summary">Report technical issues or suggest new features</string>
 </resources>
