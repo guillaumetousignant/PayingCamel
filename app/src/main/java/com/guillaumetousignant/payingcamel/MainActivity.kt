@@ -14,19 +14,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 
-//import com.guillaumetousignant.payingcamel.ui.settings.SettingsFragment  // Added
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        //supportFragmentManager // Added
-        //    .beginTransaction() // Added
-        //    .replace(R.id.nav_settings, SettingsFragment()) // Added
-        //    .commit() // Added
 
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
