@@ -10,7 +10,7 @@
 
     <string name="menu_home">Calendar</string>
     <string name="menu_gallery">Skaters</string>
-    <string name="menu_slideshow">Overview</string>
+    <string name="menu_overview">Overview</string>
     <string name="menu_tools">Paths</string>
     <string name="menu_share">Expenses</string>
     <string name="menu_send">Gas</string>

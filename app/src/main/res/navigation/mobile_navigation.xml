@@ -18,10 +18,10 @@
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.guillaumetousignant.payingcamel.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_overview"
+        android:name="com.guillaumetousignant.payingcamel.ui.overview.OverviewFragment"
+        android:label="@string/menu_overview"
+        tools:layout="@layout/fragment_overview" />
 
     <fragment
         android:id="@+id/nav_tools"

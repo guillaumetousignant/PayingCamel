@@ -7,7 +7,7 @@
     <string name="menu_send">Gas</string>
     <string name="menu_share">Expenses</string>
     <string name="menu_tools">Paths</string>
-    <string name="menu_slideshow">Overview</string>
+    <string name="menu_overview">Overview</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="menu_delimiter">Management</string>

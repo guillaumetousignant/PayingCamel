@@ -1,10 +1,10 @@
-package com.guillaumetousignant.payingcamel.ui.slideshow
+package com.guillaumetousignant.payingcamel.ui.overview
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class SlideshowViewModel : ViewModel() {
+class OverviewViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is the overview Fragment"
