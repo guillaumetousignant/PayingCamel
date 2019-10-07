@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 import java.util.UUID
 import java.util.Calendar
 
-@Entity(tableName = "bill_table")
-class Bill(@PrimaryKey @ColumnInfo(name = "uuid") val uuid: UUID,
+@Entity(tableName = "course_table")
+class Course(@PrimaryKey @ColumnInfo(name = "uuid") val uuid: UUID,
            @ColumnInfo(name = "skater") val skater: UUID,
            @ColumnInfo(name = "start_time") val start_time: Calendar,
            @ColumnInfo(name = "end_time") val end_time: Calendar,

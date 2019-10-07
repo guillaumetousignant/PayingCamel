@@ -7,19 +7,19 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-interface BillDao {
+interface CourseDao {
 
     // LiveData is a data holder class that can be observed within a given lifecycle.
     // Always holds/caches latest version of data. Notifies its active observers when the
     // data has changed. Since we are getting all the contents of the database,
     // we are notified whenever any of the database contents have changed.
-    @Query("SELECT * from bill_table ORDER BY start_time DESC")
-    fun getDescBills(): LiveData<List<Bill>>
+    @Query("SELECT * from course_table ORDER BY start_time DESC")
+    fun getDescCourses(): LiveData<List<Course>>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun insert(bill: Bill)
+    fun insert(course: Course)
 
 
-    @Query("DELETE FROM bill_table")
+    @Query("DELETE FROM course_table")
     fun deleteAll()
 }

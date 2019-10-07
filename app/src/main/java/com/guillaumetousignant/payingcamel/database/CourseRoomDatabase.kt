@@ -12,29 +12,29 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 // Annotates class to be a Room Database with a table (entity) of the Word class
-@Database(entities = [Bill::class], version = 1)
+@Database(entities = [Course::class], version = 1)
 @TypeConverters(Converters::class)
-abstract class BillRoomDatabase : RoomDatabase() {
+abstract class CoachRoomDatabase : RoomDatabase() {
 
-    abstract fun billDao(): BillDao
+    abstract fun courseDao(): CourseDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the
         // same time.
         @Volatile
-        private var INSTANCE: BillRoomDatabase? = null
+        private var INSTANCE: CoachRoomDatabase? = null
 
         fun getDatabase(
             context: Context//,
             //scope: CoroutineScope
-        ): BillRoomDatabase {
+        ): CoachRoomDatabase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    BillRoomDatabase::class.java,
-                    "bill_database"
+                    CoachRoomDatabase::class.java,
+                    "coach_database"
                 )
                     // Wipes and rebuilds instead of migrating if no Migration object.
                     // Migration is not part of this codelab. (Add back two following lines and
