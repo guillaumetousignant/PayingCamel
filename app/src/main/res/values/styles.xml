@@ -17,4 +17,15 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!-- The default font for RecyclerView items is too small.
+    The margin is a simple delimiter between the words. -->
+    <style name="course_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/list_height</item>
+        <item name="android:textSize">@dimen/list_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginBottom">@dimen/list_margin_bottom</item>
+        <item name="android:paddingLeft">@dimen/list_padding_left</item>
+    </style>
+
 </resources>

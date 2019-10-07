@@ -32,8 +32,8 @@ abstract class CoachRoomDatabase : RoomDatabase() {
         private var INSTANCE: CoachRoomDatabase? = null
 
         fun getDatabase(
-            context: Context//,
-            //scope: CoroutineScope
+            context: Context,
+            scope: CoroutineScope
         ): CoachRoomDatabase {
             // if the INSTANCE is not null, then return it,
             // if it is, then create the database
@@ -47,7 +47,7 @@ abstract class CoachRoomDatabase : RoomDatabase() {
                     // Migration is not part of this codelab. (Add back two following lines and
                     // the one with scope, then add callback. GT)
                     //.fallbackToDestructiveMigration() // Removed
-                    //.addCallback(BillDatabaseCallback(scope)) // Removed
+                    //.addCallback(CourseDatabaseCallback(scope)) // Removed
                     .build()
                 INSTANCE = instance
                 // return instance
