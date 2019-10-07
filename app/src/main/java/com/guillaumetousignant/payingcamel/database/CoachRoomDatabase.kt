@@ -12,11 +12,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 // Annotates class to be a Room Database with a table (entity) of the Word class
-@Database(entities = [Course::class], version = 1)
+@Database(entities = [Course::class, Expense::class, Fill::class, Path::class, Rate::class, Skater::class, Trip::class],
+          version = 2)
 @TypeConverters(Converters::class)
 abstract class CoachRoomDatabase : RoomDatabase() {
 
-    abstract fun courseDao(): CourseDao
+    abstract fun courseDao():  CourseDao
+    abstract fun expenseDao(): ExpenseDao
+    abstract fun fillDao():    FillDao
+    abstract fun pathDao():    PathDao
+    abstract fun rateDao():    RateDao
+    abstract fun skaterDao():  SkaterDao
+    abstract fun tripDao():    TripDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the
