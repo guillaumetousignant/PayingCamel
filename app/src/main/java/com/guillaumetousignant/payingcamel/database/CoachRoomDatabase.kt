@@ -75,35 +75,35 @@ abstract class CoachRoomDatabase : RoomDatabase() {
                     }
                 }
             }
-        }
 
-        /**
-         * Populate the database in a new coroutine.
-         * If you want to start with more words, just add them.
-         */
-        fun populateDatabase(courseDao: CourseDao) {
-            // Start the app with a clean database every time.
-            // Not needed if you only populate on creation.
-            courseDao.deleteAll()
+            /**
+             * Populate the database in a new coroutine.
+             * If you want to start with more words, just add them.
+             */
+            fun populateDatabase(courseDao: CourseDao) {
+                // Start the app with a clean database every time.
+                // Not needed if you only populate on creation.
+                courseDao.deleteAll()
 
-            var course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
-                                2000, 1000, "first course", "First course note", true)
-            courseDao.insert(course)
-            course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
-                2000, 2000, "second course", "Second course note", false)
-            courseDao.insert(course)
+                var course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
+                    2000, 1000, "first course", "First course note", true)
+                courseDao.insert(course)
+                course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
+                    2000, 2000, "second course", "Second course note", false)
+                courseDao.insert(course)
 
-            course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
-                2000, 2000, "third course", "Third course note", false)
-            courseDao.insert(course)
+                course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
+                    2000, 2000, "third course", "Third course note", false)
+                courseDao.insert(course)
 
-            course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
-                2000, 2000, "fourth course", "Fourth course note", false)
-            courseDao.insert(course)
+                course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
+                    2000, 2000, "fourth course", "Fourth course note", false)
+                courseDao.insert(course)
 
-            course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
-                2000, 2000, "fifth course", "Fifth course note", false)
-            courseDao.insert(course)
+                course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
+                    2000, 2000, "fifth course", "Fifth course note", false)
+                courseDao.insert(course)
+            }
         }
     }
 }

@@ -33,7 +33,15 @@ class OverviewFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(getActivity()) // CHECK can return null
 
+        overviewViewModel.allCourses.observe(this, Observer { courses ->
+            // Update the cached copy of the words in the adapter.
+            courses?.let { adapter.setCourses(it) }
+        })
 
         return root
+    }
+
+    companion object {
+        const val newCourseActivityRequestCode = 1
     }
 }
