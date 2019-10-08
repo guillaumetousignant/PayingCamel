@@ -90,7 +90,19 @@ abstract class CoachRoomDatabase : RoomDatabase() {
                                 2000, 1000, "first course", "First course note", true)
             courseDao.insert(course)
             course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
-                2000, 2000, "second course", null, false)
+                2000, 2000, "second course", "Second course note", false)
+            courseDao.insert(course)
+
+            course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
+                2000, 2000, "third course", "Third course note", false)
+            courseDao.insert(course)
+
+            course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
+                2000, 2000, "fourth course", "Fourth course note", false)
+            courseDao.insert(course)
+
+            course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
+                2000, 2000, "fifth course", "Fifth course note", false)
             courseDao.insert(course)
         }
     }
