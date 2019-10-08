@@ -20,4 +20,5 @@
     <string name="settings_notifications_title">Enable message notifications</string>
     <string name="settings_feedback_title">Send feedback</string>
     <string name="settings_feedback_summary">Report technical issues or suggest new features</string>
+    <string name="course_default_name">Course</string>
 </resources>

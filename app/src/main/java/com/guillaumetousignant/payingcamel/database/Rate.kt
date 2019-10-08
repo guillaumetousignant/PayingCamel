@@ -8,7 +8,6 @@ import java.util.UUID
 
 @Entity(tableName = "rate_table")
 class Rate(@PrimaryKey @ColumnInfo(name = "uuid") val uuid: UUID,
-           @ColumnInfo(name = "rate") val rate: Int,
            @ColumnInfo(name = "amount") val amount: Int,
            @ColumnInfo(name = "name") val name: String?,
            @ColumnInfo(name = "note") val note: String?,

@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 import java.util.UUID
-import java.util.Calendar
+import android.icu.util.Calendar
 
 @Entity(tableName = "expense_table")
 class Expense(@PrimaryKey @ColumnInfo(name = "uuid") val uuid: UUID,

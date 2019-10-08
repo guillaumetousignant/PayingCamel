@@ -8,7 +8,6 @@ import java.util.UUID
 
 @Entity(tableName = "path_table")
 class Path(@PrimaryKey @ColumnInfo(name = "uuid") val uuid: UUID,
-           @ColumnInfo(name = "amount") val amount: Int,
            @ColumnInfo(name = "distance") val distance: Double,
            @ColumnInfo(name = "from") val from: String?,
            @ColumnInfo(name = "to") val to: String?,

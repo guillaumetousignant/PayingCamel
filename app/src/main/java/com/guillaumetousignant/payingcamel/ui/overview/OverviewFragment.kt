@@ -29,9 +29,9 @@ class OverviewFragment : Fragment() {
 
         val recyclerView: RecyclerView = root.findViewById(R.id.overview_recyclerview)
         //val adapter = CourseListAdapter(this)
-        val adapter = CourseListAdapter(inflater)
+        val adapter = CourseListAdapter()
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(getActivity())
+        recyclerView.layoutManager = LinearLayoutManager(getActivity()) // CHECK can return null
 
 
         return root
