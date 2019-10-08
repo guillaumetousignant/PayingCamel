@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview"
+        android:id="@+id/overview_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorRecyclerBackground"

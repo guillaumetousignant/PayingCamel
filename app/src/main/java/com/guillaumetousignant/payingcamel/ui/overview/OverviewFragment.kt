@@ -10,6 +10,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.guillaumetousignant.payingcamel.R
 
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.guillaumetousignant.payingcamel.database.CourseListAdapter
+
 class OverviewFragment : Fragment() {
 
     private lateinit var overviewViewModel: OverviewViewModel
@@ -22,10 +26,14 @@ class OverviewFragment : Fragment() {
         overviewViewModel =
             ViewModelProviders.of(this).get(OverviewViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_overview, container, false)
-        val textView: TextView = root.findViewById(R.id.text_overview)
-        overviewViewModel.text.observe(this, Observer {
-            textView.text = it
-        })
+
+        val recyclerView: RecyclerView = root.findViewById(R.id.overview_recyclerview)
+        //val adapter = CourseListAdapter(this)
+        val adapter = CourseListAdapter(inflater)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(getActivity())
+
+
         return root
     }
 }
