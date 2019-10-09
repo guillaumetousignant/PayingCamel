@@ -9,6 +9,7 @@
     <dimen name="list_height">26dp</dimen>
     <dimen name="list_text_size">24sp</dimen>
     <!-- <dimen name="list_text_style">bold</dimen> -->
-    <dimen name="list_margin_bottom">6dp</dimen>
+    <dimen name="list_margin_bottom">5dp</dimen>
+    <dimen name="list_padding">10dp</dimen>
     <dimen name="list_padding_left">8dp</dimen>
 </resources>

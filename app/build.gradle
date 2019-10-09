@@ -70,4 +70,7 @@ dependencies {
 
     // Test helpers
     testImplementation "androidx.room:room-testing:2.1.0"
+
+    // Cardview
+    implementation "androidx.cardview:cardview:1.0.0"
 }
