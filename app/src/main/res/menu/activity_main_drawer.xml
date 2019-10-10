@@ -5,13 +5,13 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/nav_calendar"
             android:icon="@drawable/ic_test_calendar_grey_24dp"
-            android:title="@string/menu_home" />
+            android:title="@string/menu_calendar" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_skaters"
             android:icon="@drawable/ic_test_skater_grey_24dp"
-            android:title="@string/menu_gallery" />
+            android:title="@string/menu_skaters" />
         <item
             android:id="@+id/nav_overview"
             android:icon="@drawable/ic_test_overview_grey_24dp"
@@ -25,21 +25,21 @@
                 android:icon="@drawable/ic_test_trips_grey_24dp"
                 android:title="@string/menu_trips" />
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_expenses"
                 android:icon="@drawable/ic_test_expense_grey_24dp"
-                android:title="@string/menu_share" />
+                android:title="@string/menu_expenses" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/nav_gas"
                 android:icon="@drawable/ic_test_gas_grey_24dp"
-                android:title="@string/menu_send" />
+                android:title="@string/menu_gas" />
         </menu>
     </item>
     <item android:title="@string/menu_delimiter">
         <menu>
             <item
-                android:id="@+id/nav_tools"
+                android:id="@+id/nav_paths"
                 android:icon="@drawable/ic_test_path_grey_24dp"
-                android:title="@string/menu_tools" />
+                android:title="@string/menu_paths" />
             <item
                 android:id="@+id/nav_rates"
                 android:icon="@drawable/ic_test_rates_grey_24dp"

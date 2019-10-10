@@ -3,19 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_calendar">
 
     <fragment
-        android:id="@+id/nav_home"
-        android:name="com.guillaumetousignant.payingcamel.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/nav_calendar"
+        android:name="com.guillaumetousignant.payingcamel.ui.calendar.CalendarFragment"
+        android:label="@string/menu_calendar"
+        tools:layout="@layout/fragment_calendar" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.guillaumetousignant.payingcamel.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_skaters"
+        android:name="com.guillaumetousignant.payingcamel.ui.skaters.SkatersFragment"
+        android:label="@string/menu_skaters"
+        tools:layout="@layout/fragment_skaters" />
 
     <fragment
         android:id="@+id/nav_overview"
@@ -24,10 +24,10 @@
         tools:layout="@layout/fragment_overview" />
 
     <fragment
-        android:id="@+id/nav_tools"
-        android:name="com.guillaumetousignant.payingcamel.ui.tools.ToolsFragment"
-        android:label="@string/menu_tools"
-        tools:layout="@layout/fragment_tools" />
+        android:id="@+id/nav_paths"
+        android:name="com.guillaumetousignant.payingcamel.ui.paths.PathsFragment"
+        android:label="@string/menu_paths"
+        tools:layout="@layout/fragment_paths" />
 
     <fragment
         android:id="@+id/nav_trips"
@@ -36,16 +36,16 @@
         tools:layout="@layout/fragment_trips" />
 
     <fragment
-        android:id="@+id/nav_share"
-        android:name="com.guillaumetousignant.payingcamel.ui.share.ShareFragment"
-        android:label="@string/menu_share"
-        tools:layout="@layout/fragment_share" />
+        android:id="@+id/nav_expenses"
+        android:name="com.guillaumetousignant.payingcamel.ui.expenses.ExpensesFragment"
+        android:label="@string/menu_expenses"
+        tools:layout="@layout/fragment_expenses" />
 
     <fragment
-        android:id="@+id/nav_send"
-        android:name="com.guillaumetousignant.payingcamel.ui.send.SendFragment"
-        android:label="@string/menu_send"
-        tools:layout="@layout/fragment_send" />
+        android:id="@+id/nav_gas"
+        android:name="com.guillaumetousignant.payingcamel.ui.gas.GasFragment"
+        android:label="@string/menu_gas"
+        tools:layout="@layout/fragment_gas" />
 
     <fragment
         android:id="@+id/nav_rates"

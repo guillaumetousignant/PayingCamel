@@ -1,4 +1,4 @@
-package com.guillaumetousignant.payingcamel.ui.tools
+package com.guillaumetousignant.payingcamel.ui.calendar
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,20 +10,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.guillaumetousignant.payingcamel.R
 
-class ToolsFragment : Fragment() {
+class CalendarFragment : Fragment() {
 
-    private lateinit var toolsViewModel: ToolsViewModel
+    private lateinit var calendarViewModel: CalendarViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        toolsViewModel =
-            ViewModelProviders.of(this).get(ToolsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_tools, container, false)
-        val textView: TextView = root.findViewById(R.id.text_tools)
-        toolsViewModel.text.observe(this, Observer {
+        calendarViewModel =
+            ViewModelProviders.of(this).get(CalendarViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_calendar, container, false)
+        val textView: TextView = root.findViewById(R.id.text_calendar)
+        calendarViewModel.text.observe(this, Observer {
             textView.text = it
         })
         return root

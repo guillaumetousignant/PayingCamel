@@ -8,12 +8,12 @@
     <string name="action_settings">Settings</string>
     <string name="menu_delimiter">Management</string>
 
-    <string name="menu_home">Calendar</string>
-    <string name="menu_gallery">Skaters</string>
+    <string name="menu_calendar">Calendar</string>
+    <string name="menu_skaters">Skaters</string>
     <string name="menu_overview">Overview</string>
-    <string name="menu_tools">Paths</string>
-    <string name="menu_share">Expenses</string>
-    <string name="menu_send">Gas</string>
+    <string name="menu_paths">Paths</string>
+    <string name="menu_expenses">Expenses</string>
+    <string name="menu_gas">Gas</string>
     <string name="menu_rates">Hourly Rates</string>
     <string name="menu_delimiter_elements">Elements</string>
     <string name="menu_trips">Trips</string>

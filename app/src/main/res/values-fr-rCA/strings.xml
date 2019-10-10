@@ -2,14 +2,14 @@
 <resources>
     <string name="app_name">Paying Camel</string>
     <string name="action_settings">Paramètres</string>
-    <string name="menu_gallery">Patineuses</string>
-    <string name="menu_send">Essence</string>
-    <string name="menu_share">Dépenses</string>
-    <string name="menu_tools">Trajets</string>
+    <string name="menu_skaters">Patineuses</string>
+    <string name="menu_gas">Essence</string>
+    <string name="menu_expenses">Dépenses</string>
+    <string name="menu_paths">Trajets</string>
     <string name="navigation_drawer_close">Fermer panneau de navigation</string>
     <string name="navigation_drawer_open">Ouvrir panneau de navigation</string>
     <string name="menu_overview">Bilan</string>
-    <string name="menu_home">Calendrier</string>
+    <string name="menu_calendar">Calendrier</string>
     <string name="menu_delimiter">Gestion</string>
     <string name="nav_header_title">Paying Camel</string>
     <string name="menu_rates">Taux horaires</string>

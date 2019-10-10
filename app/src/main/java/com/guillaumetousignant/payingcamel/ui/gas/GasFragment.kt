@@ -1,4 +1,4 @@
-package com.guillaumetousignant.payingcamel.ui.trips
+package com.guillaumetousignant.payingcamel.ui.gas
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,29 +12,29 @@ import com.guillaumetousignant.payingcamel.R
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.guillaumetousignant.payingcamel.database.TripListAdapter
+import com.guillaumetousignant.payingcamel.database.FillListAdapter
 
-class TripsFragment : Fragment() {
+class GasFragment : Fragment() {
 
-    private lateinit var tripsViewModel: TripsViewModel
+    private lateinit var gasViewModel: GasViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        tripsViewModel =
-            ViewModelProviders.of(this).get(TripsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_trips, container, false)
-        val recyclerView: RecyclerView = root.findViewById(R.id.trips_recyclerview)
+        gasViewModel =
+            ViewModelProviders.of(this).get(GasViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_gas, container, false)
+        val recyclerView: RecyclerView = root.findViewById(R.id.gas_recyclerview)
         //val adapter = CourseListAdapter(this)
-        val adapter = TripListAdapter()
+        val adapter = FillListAdapter()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(getActivity()) // CHECK can return null
 
-        tripsViewModel.allTrips.observe(this, Observer { expenses ->
+        gasViewModel.allFills.observe(this, Observer { fills ->
             // Update the cached copy of the words in the adapter.
-            expenses?.let { adapter.setTrips(it) }
+            fills?.let { adapter.setFills(it) }
         })
         return root
     }

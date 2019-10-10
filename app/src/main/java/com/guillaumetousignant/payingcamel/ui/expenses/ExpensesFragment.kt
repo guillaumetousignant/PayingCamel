@@ -1,4 +1,4 @@
-package com.guillaumetousignant.payingcamel.ui.trips
+package com.guillaumetousignant.payingcamel.ui.expenses
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,29 +12,29 @@ import com.guillaumetousignant.payingcamel.R
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.guillaumetousignant.payingcamel.database.TripListAdapter
+import com.guillaumetousignant.payingcamel.database.ExpenseListAdapter
 
-class TripsFragment : Fragment() {
+class ExpensesFragment : Fragment() {
 
-    private lateinit var tripsViewModel: TripsViewModel
+    private lateinit var expensesViewModel: ExpensesViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        tripsViewModel =
-            ViewModelProviders.of(this).get(TripsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_trips, container, false)
-        val recyclerView: RecyclerView = root.findViewById(R.id.trips_recyclerview)
+        expensesViewModel =
+            ViewModelProviders.of(this).get(ExpensesViewModel::class.java)
+        val root = inflater.inflate(R.layout.fragment_expenses, container, false)
+        val recyclerView: RecyclerView = root.findViewById(R.id.expenses_recyclerview)
         //val adapter = CourseListAdapter(this)
-        val adapter = TripListAdapter()
+        val adapter = ExpenseListAdapter()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(getActivity()) // CHECK can return null
 
-        tripsViewModel.allTrips.observe(this, Observer { expenses ->
+        expensesViewModel.allExpenses.observe(this, Observer { expenses ->
             // Update the cached copy of the words in the adapter.
-            expenses?.let { adapter.setTrips(it) }
+            expenses?.let { adapter.setExpenses(it) }
         })
         return root
     }
