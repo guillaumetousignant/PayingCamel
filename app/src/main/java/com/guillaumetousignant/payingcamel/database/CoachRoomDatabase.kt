@@ -71,7 +71,10 @@ abstract class CoachRoomDatabase : RoomDatabase() {
                 // comment out the following line.
                 INSTANCE?.let { database ->
                     scope.launch(Dispatchers.IO) {
-                        populateDatabase(database.courseDao())
+                        populateDatabase(database.courseDao(), database.expenseDao(),
+                                            database.fillDao(), database.pathDao(),
+                                            database.rateDao(), database.skaterDao(),
+                                            database.tripDao())
                     }
                 }
             }
@@ -80,14 +83,27 @@ abstract class CoachRoomDatabase : RoomDatabase() {
              * Populate the database in a new coroutine.
              * If you want to start with more words, just add them.
              */
-            fun populateDatabase(courseDao: CourseDao) {
+            fun populateDatabase(courseDao: CourseDao,
+                                 expenseDao: ExpenseDao,
+                                 fillDao: FillDao,
+                                 pathDao: PathDao,
+                                 rateDao: RateDao,
+                                 skaterDao: SkaterDao,
+                                 tripDao: TripDao) {
                 // Start the app with a clean database every time.
                 // Not needed if you only populate on creation.
                 courseDao.deleteAll()
+                expenseDao.deleteAll()
+                fillDao.deleteAll()
+                pathDao.deleteAll()
+                rateDao.deleteAll()
+                skaterDao.deleteAll()
+                tripDao.deleteAll()
 
                 var course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
                     2000, 1000, "first course", "First course note", true)
                 courseDao.insert(course)
+
                 course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
                     2000, 2000, "second course", "Second course note", false)
                 courseDao.insert(course)
@@ -103,6 +119,61 @@ abstract class CoachRoomDatabase : RoomDatabase() {
                 course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
                     2000, 2000, "fifth course", "Fifth course note", false)
                 courseDao.insert(course)
+
+                var expense = Expense(UUID.randomUUID(), 1000, Calendar.getInstance(),
+                    null, null, "Beignes", "Beignes pour manger miam miam")
+                expenseDao.insert(expense)
+
+                expense = Expense(UUID.randomUUID(), 2000, Calendar.getInstance(),
+                    null, null, "Beignes 2", "2e achat de beignes miam miam")
+                expenseDao.insert(expense)
+
+                var fill = Fill(UUID.randomUUID(), 4300, Calendar.getInstance(), "Plein",
+                    null)
+                fillDao.insert(fill)
+
+                fill = Fill(UUID.randomUUID(), 1300, Calendar.getInstance(), "Plein",
+                    "Plus d'essence")
+                fillDao.insert(fill)
+
+                var path = Path(UUID.randomUUID(), 10.5, "maison", "aréna",
+                    "Maison-Cholette", null)
+                pathDao.insert(path)
+
+                path = Path(UUID.randomUUID(), 30.5, "maison", "Baribeauy",
+                    "Maison-Baribeau", "Sans traffic")
+                pathDao.insert(path)
+
+                var rate = Rate(UUID.randomUUID(), 2100, "Privé", "Augmentation 2019",
+                    null)
+                rateDao.insert(rate)
+
+                rate = Rate(UUID.randomUUID(), 2450, "Club", "Augmentation 2019",
+                    null)
+                rateDao.insert(rate)
+
+                var skater = Skater(UUID.randomUUID(), "Guillaume", "Tousignant",
+                    "Niveau 0 lol", "moi_guillaume@hotmail.com", true)
+                skaterDao.insert(skater)
+
+                skater = Skater(UUID.randomUUID(), "Ariane", "Laurier",
+                    "Amour d'amour ❤❤❤", null, true)
+                skaterDao.insert(skater)
+
+                var trip = Trip(UUID.randomUUID(), "Maison-Cholette", "maison",
+                    "Cholette", 10.5, Calendar.getInstance(), null, null,
+                    "Mardi soir", "J'ai vu un chevreuil")
+                tripDao.insert(trip)
+
+                trip = Trip(UUID.randomUUID(), "Maison-Baribeau", "maison",
+                    "Baribeau", 30.5, Calendar.getInstance(), null, null,
+                    "Mardi pm", null)
+                tripDao.insert(trip)
+
+                trip = Trip(UUID.randomUUID(), "Maison-Cholette", "maison",
+                    "Cholette", 10.5, Calendar.getInstance(), null, null,
+                    "Jeudi soir", null)
+                tripDao.insert(trip)
             }
         }
     }
