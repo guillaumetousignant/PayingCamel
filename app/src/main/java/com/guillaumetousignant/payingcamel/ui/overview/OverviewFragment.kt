@@ -14,6 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.guillaumetousignant.payingcamel.database.CourseListAdapter
 
+//import com.google.android.material.floatingactionbutton.FloatingActionButton
+//import com.google.android.material.snackbar.Snackbar
+//import kotlinx.android.synthetic.main.fragment_overview.fab
+
 class OverviewFragment : Fragment() {
 
     private lateinit var overviewViewModel: OverviewViewModel
@@ -37,6 +41,11 @@ class OverviewFragment : Fragment() {
             // Update the cached copy of the words in the adapter.
             courses?.let { adapter.setCourses(it) }
         })
+
+        /*fab.setOnClickListener { view ->
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+        }*/
 
         return root
     }
