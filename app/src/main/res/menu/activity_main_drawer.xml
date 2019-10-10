@@ -6,15 +6,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_test_calendar_grey_24dp"
             android:title="@string/menu_home" />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_test_skater_grey_24dp"
             android:title="@string/menu_gallery" />
         <item
             android:id="@+id/nav_overview"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_test_overview_grey_24dp"
             android:title="@string/menu_overview" />
     </group>
 
@@ -22,15 +22,15 @@
         <menu>
             <item
                 android:id="@+id/nav_trips"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/ic_test_trips_grey_24dp"
                 android:title="@string/menu_trips" />
             <item
                 android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_test_expense_grey_24dp"
                 android:title="@string/menu_share" />
             <item
                 android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_test_gas_grey_24dp"
                 android:title="@string/menu_send" />
         </menu>
     </item>
@@ -38,15 +38,15 @@
         <menu>
             <item
                 android:id="@+id/nav_tools"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/ic_test_path_grey_24dp"
                 android:title="@string/menu_tools" />
             <item
                 android:id="@+id/nav_rates"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/ic_test_rates_grey_24dp"
                 android:title="@string/menu_rates" />
             <item
                 android:id="@+id/nav_settings"
-                android:icon="@drawable/ic_menu_manage"
+                android:icon="@drawable/ic_test_settings_grey_24dp"
                 android:title="@string/action_settings" />
         </menu>
     </item>
