@@ -16,7 +16,7 @@ import com.guillaumetousignant.payingcamel.database.CourseListAdapter
 
 //import com.google.android.material.floatingactionbutton.FloatingActionButton
 //import com.google.android.material.snackbar.Snackbar
-//import kotlinx.android.synthetic.main.fragment_overview.fab
+//import kotlinx.android.synthetic.main.app_bar_main.fab
 
 class OverviewFragment : Fragment() {
 
