@@ -20,4 +20,5 @@
     <string name="settings_feedback_summary">Rapporter problèmes techniques ou suggérer de nouvelles fonctionnalités</string>
     <string name="nav_header_desc">En-tête de navigation</string>
     <string name="course_default_name">Cours</string>
+    <string name="skater_name_default">%s %s</string>
 </resources>
