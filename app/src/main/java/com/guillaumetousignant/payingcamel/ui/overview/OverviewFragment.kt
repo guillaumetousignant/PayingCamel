@@ -12,11 +12,11 @@ import com.guillaumetousignant.payingcamel.R
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.guillaumetousignant.payingcamel.database.CourseListAdapter
 
-//import com.google.android.material.floatingactionbutton.FloatingActionButton
-//import com.google.android.material.snackbar.Snackbar
-//import kotlinx.android.synthetic.main.app_bar_main.fab
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_overview.fab_overview
 
 class OverviewFragment : Fragment() {
 
@@ -42,10 +42,15 @@ class OverviewFragment : Fragment() {
             courses?.let { adapter.setCourses(it) }
         })
 
-        /*fab.setOnClickListener { view ->
+        /*fab_overview.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }*/
+        val fabOverview: FloatingActionButton = root.findViewById(R.id.fab_overview)
+        fabOverview.setOnClickListener { view ->
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+        }
 
         return root
     }
