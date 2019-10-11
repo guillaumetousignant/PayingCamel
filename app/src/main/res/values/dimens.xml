@@ -15,4 +15,6 @@
     <dimen name="list_corner_radius">5dp</dimen>
     <dimen name="fab_size_mini">40dp</dimen>
     <dimen name="calendar_margin">50dp</dimen>
+    <dimen name="small_padding">6dp</dimen>
+    <dimen name="big_padding">16dp</dimen>
 </resources>
