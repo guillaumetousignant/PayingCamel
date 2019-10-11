@@ -12,6 +12,8 @@ import com.guillaumetousignant.payingcamel.R
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.database.PathListAdapter
 
 class PathsFragment : Fragment() {
@@ -36,6 +38,13 @@ class PathsFragment : Fragment() {
             // Update the cached copy of the words in the adapter.
             paths?.let { adapter.setPaths(it) }
         })
+
+        val fabPaths: FloatingActionButton = root.findViewById(R.id.fab_paths)
+        fabPaths.setOnClickListener { view ->
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+        }
+
         return root
     }
 }

@@ -12,6 +12,8 @@ import com.guillaumetousignant.payingcamel.R
 
 import android.widget.CalendarView
 import android.widget.Toast
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 
 class CalendarFragment : Fragment() {
 
@@ -38,6 +40,12 @@ class CalendarFragment : Fragment() {
         calendarViewModel.text.observe(this, Observer {
             textView.text = it
         })*/
+
+        val fabCalendar: FloatingActionButton = root.findViewById(R.id.fab_calendar)
+        fabCalendar.setOnClickListener { view ->
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+        }
         return root
     }
 }
