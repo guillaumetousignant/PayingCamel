@@ -49,14 +49,14 @@ class OverviewFragment : Fragment() {
             courses?.let { adapter.setCourses(it) }
         })
 
-        /*fab_overview.setOnClickListener { view ->
+        val fabOverview: FloatingActionButton = root.findViewById(R.id.fab_overview)
+        /*fabOverview.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }*/
-        val fabOverview: FloatingActionButton = root.findViewById(R.id.fab_overview)
-        fabOverview.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        fabOverview.setOnClickListener {
+            val intent = Intent(activity, NewCourseActivity::class.java)
+            startActivityForResult(intent, newCourseActivityRequestCode)
         }
 
         return root
