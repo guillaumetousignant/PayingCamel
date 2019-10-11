@@ -1,8 +1,8 @@
 package com.guillaumetousignant.payingcamel
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
+//import com.google.android.material.floatingactionbutton.FloatingActionButton
+//import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp

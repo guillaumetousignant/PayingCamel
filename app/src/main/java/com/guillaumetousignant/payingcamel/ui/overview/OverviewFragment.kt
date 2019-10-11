@@ -16,10 +16,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.guillaumetousignant.payingcamel.database.CourseListAdapter
 
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_overview.fab_overview
+//import kotlinx.android.synthetic.main.fragment_overview.fab_overview
+import android.content.Intent
+import android.app.Activity
+import android.widget.Toast
+import com.guillaumetousignant.payingcamel.NewCourseActivity
+import com.guillaumetousignant.payingcamel.database.Course
+import java.util.*
 
 class OverviewFragment : Fragment() {
 
+    private val newCourseActivityRequestCode = 1
     private lateinit var overviewViewModel: OverviewViewModel
 
     override fun onCreateView(
@@ -55,7 +62,21 @@ class OverviewFragment : Fragment() {
         return root
     }
 
-    companion object {
-        const val newCourseActivityRequestCode = 1
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intentData)
+
+        if (requestCode == newCourseActivityRequestCode && resultCode == Activity.RESULT_OK) {
+            intentData?.let { data ->
+                val course = Course(UUID.randomUUID(), data.getStringExtra(NewCourseActivity.EXTRA_REPLY))
+                overviewViewModel.insert(course)
+                Unit
+            }
+        } else {
+            Toast.makeText(
+                context,
+                R.string.empty_not_saved,
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 }
