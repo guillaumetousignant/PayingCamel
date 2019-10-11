@@ -4,6 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <CalendarView
+        android:id="@+id/calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/calendar_margin"
+        android:layout_marginBottom="@dimen/calendar_margin"
+        android:layout_marginLeft="@dimen/calendar_margin"
+        android:layout_marginRight="@dimen/calendar_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <!-- added margin top -->
+
+    <!--
     <TextView
         android:id="@+id/text_calendar"
         android:layout_width="match_parent"
@@ -16,4 +31,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    -->
 </androidx.constraintlayout.widget.ConstraintLayout>
