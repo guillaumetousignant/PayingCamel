@@ -30,7 +30,7 @@ class TripsFragment : Fragment() {
         //val adapter = CourseListAdapter(this)
         val adapter = TripListAdapter()
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(getActivity()) // CHECK can return null
+        recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
         tripsViewModel.allTrips.observe(this, Observer { expenses ->
             // Update the cached copy of the words in the adapter.

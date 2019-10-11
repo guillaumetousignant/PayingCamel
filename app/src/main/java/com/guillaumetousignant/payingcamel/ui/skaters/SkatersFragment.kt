@@ -30,7 +30,7 @@ class SkatersFragment : Fragment() {
         //val adapter = CourseListAdapter(this)
         val adapter = SkaterListAdapter()
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(getActivity()) // CHECK can return null
+        recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
         skatersViewModel.allSkaters.observe(this, Observer { skaters ->
             // Update the cached copy of the words in the adapter.

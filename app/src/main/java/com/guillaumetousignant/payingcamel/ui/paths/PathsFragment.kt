@@ -30,7 +30,7 @@ class PathsFragment : Fragment() {
         //val adapter = CourseListAdapter(this)
         val adapter = PathListAdapter()
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(getActivity()) // CHECK can return null
+        recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
         pathsViewModel.allPaths.observe(this, Observer { paths ->
             // Update the cached copy of the words in the adapter.

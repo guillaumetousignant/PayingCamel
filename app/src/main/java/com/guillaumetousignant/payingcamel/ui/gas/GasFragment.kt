@@ -30,7 +30,7 @@ class GasFragment : Fragment() {
         //val adapter = CourseListAdapter(this)
         val adapter = FillListAdapter()
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(getActivity()) // CHECK can return null
+        recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
         gasViewModel.allFills.observe(this, Observer { fills ->
             // Update the cached copy of the words in the adapter.

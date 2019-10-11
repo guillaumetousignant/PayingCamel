@@ -35,7 +35,7 @@ class OverviewFragment : Fragment() {
         //val adapter = CourseListAdapter(this)
         val adapter = CourseListAdapter()
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(getActivity()) // CHECK can return null
+        recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
         overviewViewModel.allCourses.observe(this, Observer { courses ->
             // Update the cached copy of the words in the adapter.

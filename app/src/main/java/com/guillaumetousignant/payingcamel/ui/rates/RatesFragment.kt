@@ -30,7 +30,7 @@ class RatesFragment : Fragment() {
         //val adapter = CourseListAdapter(this)
         val adapter = RateListAdapter()
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(getActivity()) // CHECK can return null
+        recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
         ratesViewModel.allRates.observe(this, Observer { rates ->
             // Update the cached copy of the words in the adapter.
