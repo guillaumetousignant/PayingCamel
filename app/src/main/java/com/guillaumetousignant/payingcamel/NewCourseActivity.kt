@@ -8,17 +8,26 @@ import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
 
+import java.util.UUID
+import android.icu.util.Calendar
+import androidx.lifecycle.ViewModelProviders
+import com.guillaumetousignant.payingcamel.ui.new_course.NewCourseViewModel
+
 /**
  * Activity for entering a word.
  */
 class NewCourseActivity : AppCompatActivity() {
 
     private lateinit var editCourseView: EditText
+    private lateinit var overviewViewModel: NewCourseViewModel // Added
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_course)
         editCourseView = findViewById(R.id.edit_course)
+
+        overviewViewModel =
+            ViewModelProviders.of(this).get(NewCourseViewModel::class.java) // Added
 
         val button = findViewById<Button>(R.id.button_save_course)
         button.setOnClickListener {

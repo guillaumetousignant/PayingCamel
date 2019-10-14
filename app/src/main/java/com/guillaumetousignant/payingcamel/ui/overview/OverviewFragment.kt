@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.guillaumetousignant.payingcamel.database.CourseListAdapter
 
-import com.google.android.material.snackbar.Snackbar
+//import com.google.android.material.snackbar.Snackbar
 //import kotlinx.android.synthetic.main.fragment_overview.fab_overview
 import android.content.Intent
 import android.app.Activity
