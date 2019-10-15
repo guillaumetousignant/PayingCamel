@@ -22,6 +22,7 @@ import android.app.Activity
 //import android.widget.Toast
 import com.guillaumetousignant.payingcamel.NewCourseActivity
 import com.guillaumetousignant.payingcamel.database.Course
+import com.guillaumetousignant.payingcamel.ui.new_course.NewCourseDialog
 import java.util.*
 
 class OverviewFragment : Fragment() {
@@ -51,6 +52,7 @@ class OverviewFragment : Fragment() {
 
         val fabOverview: FloatingActionButton = root.findViewById(R.id.fab_overview)
         fabOverview.setOnClickListener {
+            openDialog()
             /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()*/
             /*val intent = Intent(activity, NewCourseActivity::class.java)
@@ -58,6 +60,12 @@ class OverviewFragment : Fragment() {
         }
 
         return root
+    }
+
+    private fun openDialog() {
+        fragmentManager?.let {
+            NewCourseDialog.display(it)
+        }
     }
 
     /*override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
