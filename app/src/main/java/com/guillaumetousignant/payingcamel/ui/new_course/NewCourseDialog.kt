@@ -47,7 +47,7 @@ class NewCourseDialog : DialogFragment() {
         toolbar?.setNavigationOnClickListener{ v ->
             dismiss()
         }
-        toolbar?.title = "Some Title"
+        toolbar?.title = getString(R.string.new_course_dialog_title)
         toolbar?.inflateMenu(R.menu.new_word_dialog_menu)
         toolbar?.setOnMenuItemClickListener { item ->
             dismiss()
