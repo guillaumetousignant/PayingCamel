@@ -15,18 +15,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.guillaumetousignant.payingcamel.database.CourseListAdapter
 
-//import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.snackbar.Snackbar
 //import kotlinx.android.synthetic.main.fragment_overview.fab_overview
 import android.content.Intent
 import android.app.Activity
-import android.widget.Toast
+//import android.widget.Toast
 import com.guillaumetousignant.payingcamel.NewCourseActivity
 import com.guillaumetousignant.payingcamel.database.Course
 import java.util.*
 
 class OverviewFragment : Fragment() {
 
-    private val newCourseActivityRequestCode = 1
+    //private val newCourseActivityRequestCode = 1
     private lateinit var overviewViewModel: OverviewViewModel
 
     override fun onCreateView(
@@ -50,19 +50,17 @@ class OverviewFragment : Fragment() {
         })
 
         val fabOverview: FloatingActionButton = root.findViewById(R.id.fab_overview)
-        /*fabOverview.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }*/
         fabOverview.setOnClickListener {
-            val intent = Intent(activity, NewCourseActivity::class.java)
-            startActivityForResult(intent, newCourseActivityRequestCode)
+            /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()*/
+            /*val intent = Intent(activity, NewCourseActivity::class.java)
+            startActivityForResult(intent, newCourseActivityRequestCode)*/
         }
 
         return root
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
+    /*override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
 
         if (requestCode == newCourseActivityRequestCode && resultCode == Activity.RESULT_OK) {
@@ -72,11 +70,16 @@ class OverviewFragment : Fragment() {
                 Unit
             }
         } else {
-            Toast.makeText(
+            view?.let{
+                Snackbar.make(it, R.string.empty_not_saved, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+            }
+
+            /*Toast.makeText(
                 context,
                 R.string.empty_not_saved,
                 Toast.LENGTH_LONG
-            ).show()
+            ).show()*/
         }
-    }
+    }*/
 }

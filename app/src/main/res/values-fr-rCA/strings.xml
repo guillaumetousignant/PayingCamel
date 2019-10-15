@@ -22,7 +22,7 @@
     <string name="course_default_name">Cours</string>
     <string name="skater_name_default">%s %s</string>
     <string name="calendar_toast">Date sélectionnée : %d-%d-%d</string>
-    <string name="button_save">Sauvegarder</string>
-    <string name="hint_course">Cours...</string>
+    <string name="button_save">Enregistrer</string>
+    <string name="hint_course">Cours…</string>
     <string name="empty_not_saved">Mot non sauvegardé parce que vide.</string>
 </resources>

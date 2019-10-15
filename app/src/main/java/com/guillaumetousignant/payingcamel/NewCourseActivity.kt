@@ -12,6 +12,12 @@ import java.util.UUID
 import android.icu.util.Calendar
 import androidx.lifecycle.ViewModelProviders
 import com.guillaumetousignant.payingcamel.ui.new_course.NewCourseViewModel
+import android.widget.Toast
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.MenuItem
+
 
 /**
  * Activity for entering a word.
@@ -40,6 +46,24 @@ class NewCourseActivity : AppCompatActivity() {
                 setResult(Activity.RESULT_OK, replyIntent)
             }
             finish()
+        }
+
+        setSupportActionBar(findViewById(R.id.new_course_toolbar))
+
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp) // set drawable icon
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val replyIntent = Intent()
+
+        return when (item.itemId) {
+            android.R.id.home -> {
+                setResult(Activity.RESULT_CANCELED, replyIntent)
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
     }
 
