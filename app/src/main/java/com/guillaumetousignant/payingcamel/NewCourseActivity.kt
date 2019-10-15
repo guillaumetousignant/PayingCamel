@@ -41,8 +41,23 @@ class NewCourseActivity : AppCompatActivity() {
             if (TextUtils.isEmpty(editCourseView.text)) {
                 setResult(Activity.RESULT_CANCELED, replyIntent)
             } else {
-                val course = editCourseView.text.toString()
-                replyIntent.putExtra(EXTRA_REPLY, course)
+                val name = editCourseView.text.toString()
+                replyIntent.putExtra(EXTRA_NAME, name)
+                val skater = UUID.randomUUID()
+                replyIntent.putExtra(EXTRA_SKATER, skater)
+                val startTime = Calendar.getInstance()
+                replyIntent.putExtra(EXTRA_START, startTime)
+                val endTime = Calendar.getInstance()
+                replyIntent.putExtra(EXTRA_END, endTime)
+                val rate = 1000
+                replyIntent.putExtra(EXTRA_RATE, rate)
+                val amount = 1000
+                replyIntent.putExtra(EXTRA_AMOUNT, amount)
+                val note : String? = null
+                replyIntent.putExtra(EXTRA_NOTE, note)
+                val paid = false
+                replyIntent.putExtra(EXTRA_PAID, paid)
+
                 setResult(Activity.RESULT_OK, replyIntent)
             }
             finish()
@@ -52,6 +67,7 @@ class NewCourseActivity : AppCompatActivity() {
 
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp) // set drawable icon
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        window.statusBarColor = getColor(R.color.colorPrimaryDark) // Why is this needed??
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -68,6 +84,13 @@ class NewCourseActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val EXTRA_REPLY = "com.example.android.wordlistsql.REPLY"
+        const val EXTRA_NAME = "com.example.android.wordlistsql.REPLY_NAME"
+        const val EXTRA_SKATER = "com.example.android.wordlistsql.REPLY_SKATER"
+        const val EXTRA_START = "com.example.android.wordlistsql.REPLY_START"
+        const val EXTRA_END = "com.example.android.wordlistsql.REPLY_END"
+        const val EXTRA_RATE = "com.example.android.wordlistsql.REPLY_RATE"
+        const val EXTRA_AMOUNT = "com.example.android.wordlistsql.REPLY_AMOUNT"
+        const val EXTRA_NOTE = "com.example.android.wordlistsql.REPLY_NOTE"
+        const val EXTRA_PAID = "com.example.android.wordlistsql.REPLY_PAID"
     }
 }
