@@ -16,7 +16,10 @@ import android.widget.Toast
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.widget.Toolbar
+import kotlinx.android.synthetic.main.app_bar_main.*
 
 
 /**
@@ -25,43 +28,15 @@ import android.view.MenuItem
 class NewCourseActivity : AppCompatActivity() {
 
     private lateinit var editCourseView: EditText
-    private lateinit var overviewViewModel: NewCourseViewModel // Added
+    private lateinit var newCourseViewModel: NewCourseViewModel // Added
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_course)
         editCourseView = findViewById(R.id.edit_course)
 
-        overviewViewModel =
+        newCourseViewModel =
             ViewModelProviders.of(this).get(NewCourseViewModel::class.java) // Added
-
-        val button = findViewById<Button>(R.id.button_save_course)
-        button.setOnClickListener {
-            val replyIntent = Intent()
-            if (TextUtils.isEmpty(editCourseView.text)) {
-                setResult(Activity.RESULT_CANCELED, replyIntent)
-            } else {
-                val name = editCourseView.text.toString()
-                replyIntent.putExtra(EXTRA_NAME, name)
-                val skater = UUID.randomUUID()
-                replyIntent.putExtra(EXTRA_SKATER, skater)
-                val startTime = Calendar.getInstance()
-                replyIntent.putExtra(EXTRA_START, startTime)
-                val endTime = Calendar.getInstance()
-                replyIntent.putExtra(EXTRA_END, endTime)
-                val rate = 1000
-                replyIntent.putExtra(EXTRA_RATE, rate)
-                val amount = 1000
-                replyIntent.putExtra(EXTRA_AMOUNT, amount)
-                val note : String? = null
-                replyIntent.putExtra(EXTRA_NOTE, note)
-                val paid = false
-                replyIntent.putExtra(EXTRA_PAID, paid)
-
-                setResult(Activity.RESULT_OK, replyIntent)
-            }
-            finish()
-        }
 
         setSupportActionBar(findViewById(R.id.new_course_toolbar))
 
@@ -79,8 +54,41 @@ class NewCourseActivity : AppCompatActivity() {
                 finish()
                 true
             }
+            R.id.new_word_save_button -> {
+                if (TextUtils.isEmpty(editCourseView.text)) {
+                    setResult(Activity.RESULT_CANCELED, replyIntent)
+                } else {
+                    val name = editCourseView.text.toString()
+                    replyIntent.putExtra(EXTRA_NAME, name)
+                    val skater = UUID.randomUUID()
+                    replyIntent.putExtra(EXTRA_SKATER, skater)
+                    val startTime = Calendar.getInstance()
+                    replyIntent.putExtra(EXTRA_START, startTime)
+                    val endTime = Calendar.getInstance()
+                    replyIntent.putExtra(EXTRA_END, endTime)
+                    val rate = 1000
+                    replyIntent.putExtra(EXTRA_RATE, rate)
+                    val amount = 1000
+                    replyIntent.putExtra(EXTRA_AMOUNT, amount)
+                    val note : String? = null
+                    replyIntent.putExtra(EXTRA_NOTE, note)
+                    val paid = false
+                    replyIntent.putExtra(EXTRA_PAID, paid)
+
+                    setResult(Activity.RESULT_OK, replyIntent)
+                }
+                finish()
+
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.new_word_menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     companion object {
