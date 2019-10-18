@@ -20,12 +20,9 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import com.guillaumetousignant.payingcamel.ui.pickers.TimePickerFragment
-import kotlinx.android.synthetic.main.app_bar_main.*
 import java.text.DateFormat
-import java.text.SimpleDateFormat
 
 
 /**
