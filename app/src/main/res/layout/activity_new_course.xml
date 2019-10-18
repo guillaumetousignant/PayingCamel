@@ -18,6 +18,18 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
     </com.google.android.material.appbar.AppBarLayout>
 
+    <EditText
+        android:id="@+id/edit_course"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/big_padding"
+        android:layout_marginVertical="@dimen/small_padding"
+        android:fontFamily="sans-serif-light"
+        android:hint="@string/hint_course"
+        android:inputType="textAutoComplete"
+        android:padding="@dimen/small_padding"
+        android:textSize="18sp" />
+
     <LinearLayout
         style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
@@ -75,17 +87,5 @@
             android:clickable="true"
             android:onClick="showEndTimePickerDialog"/>
     </LinearLayout>
-
-    <EditText
-        android:id="@+id/edit_course"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/big_padding"
-        android:layout_marginVertical="@dimen/small_padding"
-        android:fontFamily="sans-serif-light"
-        android:hint="@string/hint_course"
-        android:inputType="textAutoComplete"
-        android:padding="@dimen/small_padding"
-        android:textSize="18sp" />
 
 </LinearLayout>

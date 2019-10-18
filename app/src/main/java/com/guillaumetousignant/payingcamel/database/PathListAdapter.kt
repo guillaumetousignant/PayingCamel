@@ -27,7 +27,7 @@ class PathListAdapter internal constructor(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PathViewHolder {
         //val itemView = inflater.inflate(R.layout.recyclerview_item, parent, false)
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(R.layout.recyclerview_item, parent, false)
+            .inflate(R.layout.course_item, parent, false)
         return PathViewHolder(itemView)
     }
 
