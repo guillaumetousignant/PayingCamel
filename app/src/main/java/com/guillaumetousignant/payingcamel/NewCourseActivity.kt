@@ -18,8 +18,14 @@ import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
+import com.guillaumetousignant.payingcamel.ui.pickers.TimePickerFragment
 import kotlinx.android.synthetic.main.app_bar_main.*
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 
 
 /**
@@ -27,13 +33,15 @@ import kotlinx.android.synthetic.main.app_bar_main.*
  */
 class NewCourseActivity : AppCompatActivity() {
 
-    private lateinit var editCourseView: EditText
     private lateinit var newCourseViewModel: NewCourseViewModel // Added
+    private lateinit var editCourseView: EditText
+    private lateinit var startTimeText: TextView
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_course)
         editCourseView = findViewById(R.id.edit_course)
+        startTimeText = findViewById(R.id.start_time)
 
         newCourseViewModel =
             ViewModelProviders.of(this).get(NewCourseViewModel::class.java) // Added
@@ -43,6 +51,16 @@ class NewCourseActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp) // set drawable icon
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         window.statusBarColor = getColor(R.color.colorPrimaryDark) // Why is this needed??
+
+        val startTimeObserver = Observer<Calendar> { calendar ->
+            // Update the UI, in this case, a TextView.
+            val myFormat = DateFormat.getTimeInstance(DateFormat.SHORT) // CHECK add locale
+            //getTimeInstance
+
+            startTimeText.text = myFormat.format(calendar.time)
+        }
+
+        newCourseViewModel.calendar.observe(this, startTimeObserver)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -89,6 +107,16 @@ class NewCourseActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.new_word_menu, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    fun showTimePickerDialog(v: View) {
+        TimePickerFragment(newCourseViewModel).show(supportFragmentManager, "timePicker")
+
+        /*val myFormatString = "hh:mm"
+        val myFormat = SimpleDateFormat(myFormatString)
+
+        val startTime: TextView = findViewById(R.id.start_time)
+        startTime.text = myFormat.format(newCourseViewModel.calendar.time)*/
     }
 
     companion object {

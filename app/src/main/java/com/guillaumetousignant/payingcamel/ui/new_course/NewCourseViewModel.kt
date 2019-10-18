@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 //import androidx.lifecycle.MutableLiveData
 //import androidx.lifecycle.ViewModel
 import android.app.Application
+import android.icu.util.Calendar
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import com.guillaumetousignant.payingcamel.database.SkaterRepository
 import com.guillaumetousignant.payingcamel.database.Skater
 import com.guillaumetousignant.payingcamel.database.RateRepository
@@ -32,6 +34,7 @@ class NewCourseViewModel(application: Application) : AndroidViewModel(applicatio
     // - Repository is completely separated from the UI through the ViewModel.
     val allSkaters: LiveData<List<Skater>>
     val allRates: LiveData<List<Rate>>
+    val calendar: MutableLiveData<Calendar>
 
     init {
         val skaterDao = CoachRoomDatabase.getDatabase(application, scope).skaterDao()
@@ -41,6 +44,8 @@ class NewCourseViewModel(application: Application) : AndroidViewModel(applicatio
         val rateDao = CoachRoomDatabase.getDatabase(application, scope).rateDao()
         rateRepository = RateRepository(rateDao)
         allRates = rateRepository.allRates
+
+        calendar = MutableLiveData(Calendar.getInstance())
     }
 
     override fun onCleared() {

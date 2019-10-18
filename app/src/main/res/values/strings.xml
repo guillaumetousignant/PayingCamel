@@ -24,7 +24,7 @@
     <string name="skater_name_default">%s %s</string>
     <string name="calendar_toast">Selected date is: %d-%d-%d</string>
     <string name="button_save">Save</string>
-    <string name="hint_course">Course…</string>
+    <string name="hint_course">Add a title</string>
     <string name="empty_not_saved">Word not saved because it is empty.</string>
     <string name="new_course_dialog_title">New course</string>
 </resources>

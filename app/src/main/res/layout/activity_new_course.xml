@@ -26,21 +26,23 @@
         android:layout_marginVertical="@dimen/small_padding"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/button2"
-            style="?android:attr/buttonBarButtonStyle"
+        <EditText
+            android:id="@+id/editText3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:ems="10"
+            android:inputType="date" />
 
-        <Button
-            android:id="@+id/button3"
-            style="?android:attr/buttonBarButtonStyle"
+        <TextView
+            android:id="@+id/start_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Button" />
+            android:layout_weight="0"
+            android:ems="4"
+            android:focusable="false"
+            android:clickable="true"
+            android:onClick="showTimePickerDialog"/>
     </LinearLayout>
 
     <LinearLayout
@@ -51,21 +53,21 @@
         android:layout_marginVertical="@dimen/small_padding"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/button4"
-            style="?android:attr/buttonBarButtonStyle"
+        <EditText
+            android:id="@+id/editText6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:ems="10"
+            android:inputType="date" />
 
-        <Button
-            android:id="@+id/button5"
-            style="?android:attr/buttonBarButtonStyle"
+        <EditText
+            android:id="@+id/editText5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Button" />
+            android:layout_weight="0"
+            android:ems="4"
+            android:inputType="time" />
     </LinearLayout>
 
     <EditText
