@@ -1,12 +1,11 @@
 package com.guillaumetousignant.payingcamel.ui.new_course
 
 import androidx.lifecycle.LiveData
-//import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.MutableLiveData
 //import androidx.lifecycle.ViewModel
 import android.app.Application
 import android.icu.util.Calendar
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
 import com.guillaumetousignant.payingcamel.database.SkaterRepository
 import com.guillaumetousignant.payingcamel.database.Skater
 import com.guillaumetousignant.payingcamel.database.RateRepository

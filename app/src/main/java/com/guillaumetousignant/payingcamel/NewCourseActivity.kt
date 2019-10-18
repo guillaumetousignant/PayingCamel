@@ -110,13 +110,7 @@ class NewCourseActivity : AppCompatActivity() {
     }
 
     fun showTimePickerDialog(v: View) {
-        TimePickerFragment(newCourseViewModel).show(supportFragmentManager, "timePicker")
-
-        /*val myFormatString = "hh:mm"
-        val myFormat = SimpleDateFormat(myFormatString)
-
-        val startTime: TextView = findViewById(R.id.start_time)
-        startTime.text = myFormat.format(newCourseViewModel.calendar.time)*/
+        TimePickerFragment(newCourseViewModel.calendar).show(supportFragmentManager, "timePicker")
     }
 
     companion object {
