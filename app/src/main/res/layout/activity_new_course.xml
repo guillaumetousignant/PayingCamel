@@ -34,7 +34,7 @@
             android:ems="10"
             android:focusable="false"
             android:clickable="true"
-            android:onClick="showDatePickerDialog" />
+            android:onClick="showStartDatePickerDialog" />
 
         <TextView
             android:id="@+id/start_time"
@@ -44,7 +44,7 @@
             android:ems="4"
             android:focusable="false"
             android:clickable="true"
-            android:onClick="showTimePickerDialog"/>
+            android:onClick="showStartTimePickerDialog"/>
     </LinearLayout>
 
     <LinearLayout
@@ -55,21 +55,25 @@
         android:layout_marginVertical="@dimen/small_padding"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/editText6"
+        <TextView
+            android:id="@+id/end_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="date" />
+            android:focusable="false"
+            android:clickable="true"
+            android:onClick="showEndDatePickerDialog" />
 
-        <EditText
-            android:id="@+id/editText5"
+        <TextView
+            android:id="@+id/end_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:ems="4"
-            android:inputType="time" />
+            android:focusable="false"
+            android:clickable="true"
+            android:onClick="showEndTimePickerDialog"/>
     </LinearLayout>
 
     <EditText

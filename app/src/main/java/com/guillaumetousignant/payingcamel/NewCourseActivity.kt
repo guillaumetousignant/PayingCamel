@@ -35,6 +35,8 @@ class NewCourseActivity : AppCompatActivity() {
     private lateinit var editCourseView: EditText
     private lateinit var startTimeText: TextView
     private lateinit var startDateText: TextView
+    private lateinit var endTimeText: TextView
+    private lateinit var endDateText: TextView
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +44,8 @@ class NewCourseActivity : AppCompatActivity() {
         editCourseView = findViewById(R.id.edit_course)
         startTimeText = findViewById(R.id.start_time)
         startDateText = findViewById(R.id.start_date)
+        endTimeText = findViewById(R.id.end_time)
+        endDateText = findViewById(R.id.end_date)
 
         newCourseViewModel =
             ViewModelProviders.of(this).get(NewCourseViewModel::class.java) // Added
@@ -62,7 +66,18 @@ class NewCourseActivity : AppCompatActivity() {
             startDateText.text = dateFormat.format(calendar.time)
         }
 
-        newCourseViewModel.calendar.observe(this, startObserver)
+        val endObserver = Observer<Calendar> { calendar ->
+            // Update the UI, in this case, a TextView.
+            val timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT) // CHECK add locale
+            val dateFormat = DateFormat.getDateInstance(DateFormat.LONG) // CHECK add locale
+            //getTimeInstance
+
+            endTimeText.text = timeFormat.format(calendar.time)
+            endDateText.text = dateFormat.format(calendar.time)
+        }
+
+        newCourseViewModel.startCalendar.observe(this, startObserver)
+        newCourseViewModel.endCalendar.observe(this, endObserver)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -82,10 +97,8 @@ class NewCourseActivity : AppCompatActivity() {
                     replyIntent.putExtra(EXTRA_NAME, name)
                     val skater = UUID.randomUUID()
                     replyIntent.putExtra(EXTRA_SKATER, skater)
-                    val startTime = Calendar.getInstance()
-                    replyIntent.putExtra(EXTRA_START, startTime)
-                    val endTime = Calendar.getInstance()
-                    replyIntent.putExtra(EXTRA_END, endTime)
+                    replyIntent.putExtra(EXTRA_START, newCourseViewModel.startCalendar.value)
+                    replyIntent.putExtra(EXTRA_END, newCourseViewModel.endCalendar.value)
                     val rate = 1000
                     replyIntent.putExtra(EXTRA_RATE, rate)
                     val amount = 1000
@@ -111,12 +124,20 @@ class NewCourseActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    fun showTimePickerDialog(v: View) {
-        TimePickerFragment(newCourseViewModel.calendar).show(supportFragmentManager, "StartTimePicker")
+    fun showStartTimePickerDialog(v: View) {
+        TimePickerFragment(newCourseViewModel.startCalendar).show(supportFragmentManager, "StartTimePicker")
     }
 
-    fun showDatePickerDialog(v: View) {
-        DatePickerFragment(newCourseViewModel.calendar).show(supportFragmentManager, "StartDatePicker")
+    fun showStartDatePickerDialog(v: View) {
+        DatePickerFragment(newCourseViewModel.startCalendar).show(supportFragmentManager, "StartDatePicker")
+    }
+
+    fun showEndTimePickerDialog(v: View) {
+        TimePickerFragment(newCourseViewModel.endCalendar).show(supportFragmentManager, "EndTimePicker")
+    }
+
+    fun showEndDatePickerDialog(v: View) {
+        DatePickerFragment(newCourseViewModel.endCalendar).show(supportFragmentManager, "EndDatePicker")
     }
 
     companion object {
