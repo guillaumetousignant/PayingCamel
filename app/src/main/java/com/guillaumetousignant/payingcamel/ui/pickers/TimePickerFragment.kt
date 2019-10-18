@@ -15,7 +15,6 @@ class TimePickerFragment(val calendar: MutableLiveData<Calendar>) : DialogFragme
         // Use the current time as the default values for the picker
         val hour = calendar.value?.get(Calendar.HOUR_OF_DAY)
         val minute = calendar.value?.get(Calendar.MINUTE)
-
         // Create a new instance of TimePickerDialog and return it
         return TimePickerDialog(activity, this, hour?:12, minute?:0, DateFormat.is24HourFormat(activity))
     }

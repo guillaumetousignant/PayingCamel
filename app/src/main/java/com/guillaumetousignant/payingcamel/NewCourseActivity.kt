@@ -21,6 +21,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.lifecycle.Observer
+import com.guillaumetousignant.payingcamel.ui.pickers.DatePickerFragment
 import com.guillaumetousignant.payingcamel.ui.pickers.TimePickerFragment
 import java.text.DateFormat
 
@@ -107,7 +108,11 @@ class NewCourseActivity : AppCompatActivity() {
     }
 
     fun showTimePickerDialog(v: View) {
-        TimePickerFragment(newCourseViewModel.calendar).show(supportFragmentManager, "timePicker")
+        TimePickerFragment(newCourseViewModel.calendar).show(supportFragmentManager, "StartTimePicker")
+    }
+
+    fun showDatePickerDialog(v: View) {
+        DatePickerFragment(newCourseViewModel.calendar).show(supportFragmentManager, "StartDatePicker")
     }
 
     companion object {
