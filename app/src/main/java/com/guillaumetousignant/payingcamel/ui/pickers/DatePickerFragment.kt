@@ -1,5 +1,6 @@
 package com.guillaumetousignant.payingcamel.ui.pickers
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.icu.util.Calendar
@@ -16,8 +17,11 @@ class DatePickerFragment(val calendar: MutableLiveData<Calendar>) : DialogFragme
         val month = calendar.value?.get(Calendar.MONTH)
         val day = calendar.value?.get(Calendar.DAY_OF_MONTH)
 
+        //val activityTest = getActivity() as Activity
+
         // Create a new instance of DatePickerDialog and return it
-        return DatePickerDialog(activity, this, year?:1995, month?:4, day?:20)
+        return DatePickerDialog(activity as Activity, this, year?:1995, month?:4, day?:20)
+        // Why does activity
     }
 
     override fun onDateSet(view: DatePicker, year: Int, month: Int, day: Int) {

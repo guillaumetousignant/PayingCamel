@@ -34,12 +34,14 @@ class NewCourseActivity : AppCompatActivity() {
     private lateinit var newCourseViewModel: NewCourseViewModel // Added
     private lateinit var editCourseView: EditText
     private lateinit var startTimeText: TextView
+    private lateinit var startDateText: TextView
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_course)
         editCourseView = findViewById(R.id.edit_course)
         startTimeText = findViewById(R.id.start_time)
+        startDateText = findViewById(R.id.start_date)
 
         newCourseViewModel =
             ViewModelProviders.of(this).get(NewCourseViewModel::class.java) // Added
@@ -50,15 +52,17 @@ class NewCourseActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         window.statusBarColor = getColor(R.color.colorPrimaryDark) // Why is this needed??
 
-        val startTimeObserver = Observer<Calendar> { calendar ->
+        val startObserver = Observer<Calendar> { calendar ->
             // Update the UI, in this case, a TextView.
-            val myFormat = DateFormat.getTimeInstance(DateFormat.SHORT) // CHECK add locale
+            val timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT) // CHECK add locale
+            val dateFormat = DateFormat.getDateInstance(DateFormat.LONG) // CHECK add locale
             //getTimeInstance
 
-            startTimeText.text = myFormat.format(calendar.time)
+            startTimeText.text = timeFormat.format(calendar.time)
+            startDateText.text = dateFormat.format(calendar.time)
         }
 
-        newCourseViewModel.calendar.observe(this, startTimeObserver)
+        newCourseViewModel.calendar.observe(this, startObserver)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
