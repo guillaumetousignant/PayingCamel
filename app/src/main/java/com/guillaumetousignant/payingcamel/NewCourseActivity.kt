@@ -20,10 +20,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import com.guillaumetousignant.payingcamel.ui.pickers.DatePickerFragment
+import com.guillaumetousignant.payingcamel.ui.pickers.SkaterPickerFragment
 import com.guillaumetousignant.payingcamel.ui.pickers.TimePickerFragment
 import java.text.DateFormat
+import androidx.fragment.app.FragmentManager
 
 
 /**
@@ -138,6 +141,10 @@ class NewCourseActivity : AppCompatActivity() {
 
     fun showEndDatePickerDialog(v: View) {
         DatePickerFragment(newCourseViewModel.endCalendar).show(supportFragmentManager, "EndDatePicker")
+    }
+
+    fun showSkaterPickerDialog(v: View) {
+        SkaterPickerFragment(newCourseViewModel.skater, newCourseViewModel.allSkaters).show(supportFragmentManager, "SkaterPicker")
     }
 
     companion object {

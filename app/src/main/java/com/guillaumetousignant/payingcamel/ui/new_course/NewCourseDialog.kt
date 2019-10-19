@@ -56,11 +56,9 @@ class NewCourseDialog : DialogFragment() {
     }
 
     companion object {
-        val TAG = "example_dialog"
-
         fun display(fragmentManager: FragmentManager): NewCourseDialog {
             val newCourseDialog = NewCourseDialog()
-            newCourseDialog.show(fragmentManager, TAG)
+            newCourseDialog.show(fragmentManager, "New_Course_Dialog")
             return newCourseDialog
         }
     }

@@ -27,4 +27,5 @@
     <string name="hint_course">Add a title</string>
     <string name="empty_not_saved">Word not saved because it is empty.</string>
     <string name="new_course_dialog_title">New course</string>
+    <string name="skater_hint">Add skater</string>
 </resources>

@@ -33,8 +33,10 @@ class NewCourseViewModel(application: Application) : AndroidViewModel(applicatio
     // - Repository is completely separated from the UI through the ViewModel.
     val allSkaters: LiveData<List<Skater>>
     val allRates: LiveData<List<Rate>>
+
     val startCalendar: MutableLiveData<Calendar>
     val endCalendar: MutableLiveData<Calendar>
+    val skater: MutableLiveData<Skater?>
 
     init {
         val skaterDao = CoachRoomDatabase.getDatabase(application, scope).skaterDao()
@@ -49,6 +51,8 @@ class NewCourseViewModel(application: Application) : AndroidViewModel(applicatio
         val endCalendarTemp: Calendar = startCalendar.value?.clone() as Calendar
         endCalendarTemp.add(Calendar.HOUR, 1)
         endCalendar = MutableLiveData(endCalendarTemp)
+
+        skater = MutableLiveData(null)
     }
 
     override fun onCleared() {
