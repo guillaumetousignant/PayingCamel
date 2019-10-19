@@ -104,6 +104,15 @@
         android:onClick="showRatePickerDialog"
         android:padding="@dimen/big_padding" />
 
+    <EditText
+        android:id="@+id/amount_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/amount_hint"
+        android:inputType="number"
+        android:padding="@dimen/big_padding" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
