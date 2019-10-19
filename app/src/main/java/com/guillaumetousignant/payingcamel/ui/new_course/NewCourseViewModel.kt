@@ -17,7 +17,7 @@ import kotlinx.coroutines.Job
 //import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class NewCourseViewModel(application: Application) : AndroidViewModel(application) {
+class NewCourseViewModel(application: Application, initCalendar: Calendar) : AndroidViewModel(application) {
 
     private var parentJob = Job()
     // By default all the coroutines launched in this scope should be using the Main dispatcher
@@ -50,7 +50,7 @@ class NewCourseViewModel(application: Application) : AndroidViewModel(applicatio
         rateRepository = RateRepository(rateDao)
         allRates = rateRepository.allRates
 
-        startCalendar = MutableLiveData(Calendar.getInstance())
+        startCalendar = MutableLiveData(initCalendar)
         val endCalendarTemp: Calendar = startCalendar.value?.clone() as Calendar
         endCalendarTemp.add(Calendar.HOUR, 1)
         endCalendar = MutableLiveData(endCalendarTemp)

@@ -27,6 +27,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.database.Rate
 import com.guillaumetousignant.payingcamel.database.Skater
 import com.guillaumetousignant.payingcamel.ui.pickers.RatePickerFragment
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import com.guillaumetousignant.payingcamel.ui.new_course.NewCourseViewModelFactory
 
 
 /**
@@ -58,8 +62,12 @@ class NewCourseActivity : AppCompatActivity() {
         paidCheckbox = findViewById(R.id.paid_checkbox)
         editNoteView = findViewById(R.id.edit_note)
 
+        val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR) as Calendar
+
+        val factory = NewCourseViewModelFactory(application, initCalendar)
+
         newCourseViewModel =
-            ViewModelProviders.of(this).get(NewCourseViewModel::class.java) // Added
+            ViewModelProviders.of(this, factory).get(NewCourseViewModel::class.java) // Added
 
         setSupportActionBar(findViewById(R.id.new_course_toolbar))
 
@@ -194,5 +202,6 @@ class NewCourseActivity : AppCompatActivity() {
         const val EXTRA_AMOUNT = "com.example.android.wordlistsql.REPLY_AMOUNT"
         const val EXTRA_NOTE = "com.example.android.wordlistsql.REPLY_NOTE"
         const val EXTRA_PAID = "com.example.android.wordlistsql.REPLY_PAID"
+        const val EXTRA_CALENDAR = "com.example.android.wordlistsql.INPUT_CALENDAR"
     }
 }

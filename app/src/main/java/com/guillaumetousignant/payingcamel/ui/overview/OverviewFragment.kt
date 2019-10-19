@@ -57,6 +57,7 @@ class OverviewFragment : Fragment() {
             /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()*/
             val intent = Intent(activity, NewCourseActivity::class.java)
+            intent.putExtra(NewCourseActivity.EXTRA_CALENDAR, Calendar.getInstance())
             startActivityForResult(intent, newCourseActivityRequestCode)
         }
 
