@@ -88,13 +88,15 @@
             android:onClick="showEndTimePickerDialog"/>
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/textView2"
+    <TextView
+        android:id="@+id/skater_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/big_padding"
         android:layout_marginVertical="@dimen/small_padding"
         android:hint="@string/skater_hint"
+        android:focusable="false"
+        android:clickable="true"
         android:onClick="showSkaterPickerDialog"/>
 
 </LinearLayout>

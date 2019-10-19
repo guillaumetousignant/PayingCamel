@@ -16,6 +16,7 @@ import com.guillaumetousignant.payingcamel.R
 class SkaterListAdapter internal constructor(
     //context: Context
     //inflater_in: LayoutInflater
+    val listener: (Skater) -> Unit
 ) : RecyclerView.Adapter<SkaterListAdapter.SkaterViewHolder>() {
 
     //private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -41,6 +42,10 @@ class SkaterListAdapter internal constructor(
             //current.first_name + " " + current.last_name
         holder.skaterItemView.text = String.format("%s %s", current.first_name, current.last_name)
         // CHECK should use a formatted string from resources, but I have no idea on how to get it.
+
+        holder.skaterItemView.setOnClickListener {
+            listener(current)
+        }
     }
 
     internal fun setSkaters(skaters: List<Skater>) {

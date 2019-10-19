@@ -27,6 +27,7 @@ import com.guillaumetousignant.payingcamel.ui.pickers.SkaterPickerFragment
 import com.guillaumetousignant.payingcamel.ui.pickers.TimePickerFragment
 import java.text.DateFormat
 import androidx.fragment.app.FragmentManager
+import com.guillaumetousignant.payingcamel.database.Skater
 
 
 /**
@@ -40,6 +41,7 @@ class NewCourseActivity : AppCompatActivity() {
     private lateinit var startDateText: TextView
     private lateinit var endTimeText: TextView
     private lateinit var endDateText: TextView
+    private lateinit var skaterNameText: TextView
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +51,7 @@ class NewCourseActivity : AppCompatActivity() {
         startDateText = findViewById(R.id.start_date)
         endTimeText = findViewById(R.id.end_time)
         endDateText = findViewById(R.id.end_date)
+        skaterNameText = findViewById(R.id.skater_name)
 
         newCourseViewModel =
             ViewModelProviders.of(this).get(NewCourseViewModel::class.java) // Added
@@ -79,8 +82,16 @@ class NewCourseActivity : AppCompatActivity() {
             endDateText.text = dateFormat.format(calendar.time)
         }
 
+        val skaterObserver = Observer<Skater?> { skater ->
+            // Update the UI, in this case, a TextView.
+            skater?.let{
+                skaterNameText.text = "%s %s".format(it.last_name, it.last_name)
+            }
+        }
+
         newCourseViewModel.startCalendar.observe(this, startObserver)
         newCourseViewModel.endCalendar.observe(this, endObserver)
+        newCourseViewModel.skater.observe(this, skaterObserver)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -98,8 +109,7 @@ class NewCourseActivity : AppCompatActivity() {
                 } else {
                     val name = editCourseView.text.toString()
                     replyIntent.putExtra(EXTRA_NAME, name)
-                    val skater = UUID.randomUUID()
-                    replyIntent.putExtra(EXTRA_SKATER, skater)
+                    replyIntent.putExtra(EXTRA_SKATER, newCourseViewModel.skater.value?.uuid)
                     replyIntent.putExtra(EXTRA_START, newCourseViewModel.startCalendar.value)
                     replyIntent.putExtra(EXTRA_END, newCourseViewModel.endCalendar.value)
                     val rate = 1000
