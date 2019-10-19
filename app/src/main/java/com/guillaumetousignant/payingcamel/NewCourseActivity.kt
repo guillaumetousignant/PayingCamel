@@ -141,7 +141,8 @@ class NewCourseActivity : AppCompatActivity() {
 
                     val replaceable =
                         String.format("[%s,.]", NumberFormat.getCurrencyInstance().currency.symbol)
-                    val cleanString = s.toString().replace(replaceable, "")
+                    var cleanString = s.toString().replace(replaceable.toRegex(), "")
+                    cleanString = cleanString.replace("\\s".toRegex(), "")
                     //val cleanString = s.toString().replace("[$,.]", "")
 
                     //val parsed = Double.parseDouble(cleanString)
