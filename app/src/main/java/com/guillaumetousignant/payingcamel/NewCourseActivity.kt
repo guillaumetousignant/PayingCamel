@@ -100,12 +100,12 @@ class NewCourseActivity : AppCompatActivity() {
                 true
             }
             R.id.new_word_save_button -> {
-                if ((newCourseViewModel.startCalendar.value?.compareTo(newCourseViewModel.startCalendar.value))?:0 > 0) {
+                if (newCourseViewModel.startCalendar.value?.compareTo(newCourseViewModel.endCalendar.value)?:0 > 0) {
                     val view = findViewById<View>(android.R.id.content)
 
                     Snackbar.make(view, R.string.end_before_start, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show()
-                } else {
+                } else if (false){
                     val replyIntent = Intent()
                     val name = if (TextUtils.isEmpty(editCourseView.text)) {
                         null
