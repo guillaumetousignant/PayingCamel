@@ -110,7 +110,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/amount_hint"
-        android:inputType="number"
+        android:inputType="numberDecimal"
         android:padding="@dimen/big_padding" />
 
     <LinearLayout

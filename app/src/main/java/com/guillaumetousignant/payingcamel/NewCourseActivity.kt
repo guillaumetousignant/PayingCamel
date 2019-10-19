@@ -2,12 +2,16 @@ package com.guillaumetousignant.payingcamel
 
 import android.app.Activity
 import android.content.Intent
+import android.icu.text.DecimalFormat
+import android.icu.text.NumberFormat
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
 import android.widget.EditText
 
 import android.icu.util.Calendar
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.lifecycle.ViewModelProviders
 import com.guillaumetousignant.payingcamel.ui.new_course.NewCourseViewModel
 //import androidx.core.app.ComponentActivity.ExtraData
@@ -18,6 +22,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import com.guillaumetousignant.payingcamel.ui.pickers.DatePickerFragment
 import com.guillaumetousignant.payingcamel.ui.pickers.SkaterPickerFragment
@@ -27,10 +32,15 @@ import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.database.Rate
 import com.guillaumetousignant.payingcamel.database.Skater
 import com.guillaumetousignant.payingcamel.ui.pickers.RatePickerFragment
+//import androidx.core.app.ComponentActivity.ExtraData
+//import androidx.core.content.ContextCompat.getSystemService
+import com.guillaumetousignant.payingcamel.ui.new_course.NewCourseViewModelFactory
+import java.util.Collections.replaceAll
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import com.guillaumetousignant.payingcamel.ui.new_course.NewCourseViewModelFactory
+
+
 
 
 /**
@@ -48,6 +58,7 @@ class NewCourseActivity : AppCompatActivity() {
     private lateinit var rateNameText: TextView
     private lateinit var paidCheckbox : CheckBox
     private lateinit var editNoteView : EditText
+    private lateinit var amountView : EditText
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +72,7 @@ class NewCourseActivity : AppCompatActivity() {
         rateNameText = findViewById(R.id.rate_name)
         paidCheckbox = findViewById(R.id.paid_checkbox)
         editNoteView = findViewById(R.id.edit_note)
+        amountView = findViewById(R.id.amount_number)
 
         val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR) as Calendar
 
@@ -106,6 +118,7 @@ class NewCourseActivity : AppCompatActivity() {
             // Update the UI, in this case, a TextView.
             rate?.let{
                 rateNameText.text = it.name
+                newCourseViewModel.manualAmount = false
             }
         }
 
@@ -113,6 +126,36 @@ class NewCourseActivity : AppCompatActivity() {
         newCourseViewModel.endCalendar.observe(this, endObserver)
         newCourseViewModel.skater.observe(this, skaterObserver)
         newCourseViewModel.rate.observe(this, rateObserver)
+
+        amountView.addTextChangedListener(object : TextWatcher {
+            var current = ""
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(s.toString() != current){
+                    amountView.removeTextChangedListener(this)
+
+                    val replaceable =
+                        String.format("[%s,.]", NumberFormat.getCurrencyInstance().currency.symbol)
+                    val cleanString = s.toString().replace(replaceable, "")
+                    //val cleanString = s.toString().replace("[$,.]", "")
+
+                    //val parsed = Double.parseDouble(cleanString)
+                    val parsed = cleanString.toDouble()
+                    val formatted = NumberFormat.getCurrencyInstance().format((parsed/100))
+
+                    current = formatted
+                    amountView.setText(formatted)
+                    amountView.setSelection(formatted.length)
+
+                    amountView.addTextChangedListener(this)
+                }
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -39,7 +39,7 @@ class NewCourseViewModel(application: Application, initCalendar: Calendar) : And
     val skater: MutableLiveData<Skater?>
     val rate: MutableLiveData<Rate?>
     val amount: MutableLiveData<Int>
-    val manualAmount: Boolean
+    var manualAmount: Boolean
 
     init {
         val skaterDao = CoachRoomDatabase.getDatabase(application, scope).skaterDao()
