@@ -105,7 +105,8 @@ class NewCourseActivity : AppCompatActivity() {
 
                     Snackbar.make(view, R.string.end_before_start, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show()
-                } else if (false){
+                }
+                else {
                     val replyIntent = Intent()
                     val name = if (TextUtils.isEmpty(editCourseView.text)) {
                         null
