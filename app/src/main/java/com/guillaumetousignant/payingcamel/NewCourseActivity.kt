@@ -16,6 +16,7 @@ import com.guillaumetousignant.payingcamel.ui.new_course.NewCourseViewModel
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.CheckBox
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import com.guillaumetousignant.payingcamel.ui.pickers.DatePickerFragment
@@ -38,6 +39,8 @@ class NewCourseActivity : AppCompatActivity() {
     private lateinit var endTimeText: TextView
     private lateinit var endDateText: TextView
     private lateinit var skaterNameText: TextView
+    private lateinit var paidCheckbox : CheckBox
+    private lateinit var editNoteView : EditText
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +51,8 @@ class NewCourseActivity : AppCompatActivity() {
         endTimeText = findViewById(R.id.end_time)
         endDateText = findViewById(R.id.end_date)
         skaterNameText = findViewById(R.id.skater_name)
+        paidCheckbox = findViewById(R.id.paid_checkbox)
+        editNoteView = findViewById(R.id.edit_note)
 
         newCourseViewModel =
             ViewModelProviders.of(this).get(NewCourseViewModel::class.java) // Added
@@ -121,10 +126,13 @@ class NewCourseActivity : AppCompatActivity() {
                     replyIntent.putExtra(EXTRA_RATE, rate)
                     val amount = 1000
                     replyIntent.putExtra(EXTRA_AMOUNT, amount)
-                    val note : String? = null
+                    val note = if (TextUtils.isEmpty(editNoteView.text)) {
+                        null
+                    } else {
+                        editNoteView.text.toString()
+                    }
                     replyIntent.putExtra(EXTRA_NOTE, note)
-                    val paid = false
-                    replyIntent.putExtra(EXTRA_PAID, paid)
+                    replyIntent.putExtra(EXTRA_PAID, paidCheckbox.isChecked)
 
                     setResult(Activity.RESULT_OK, replyIntent)
                     finish()

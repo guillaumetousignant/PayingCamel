@@ -22,30 +22,26 @@
         android:id="@+id/edit_course"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/big_padding"
-        android:layout_marginVertical="@dimen/small_padding"
         android:fontFamily="sans-serif-light"
         android:hint="@string/hint_course"
         android:inputType="textAutoComplete"
-        android:padding="@dimen/small_padding"
+        android:padding="@dimen/big_padding"
         android:textSize="18sp" />
 
     <LinearLayout
-        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/date_button_height"
-        android:layout_marginHorizontal="@dimen/big_padding"
-        android:layout_marginVertical="@dimen/small_padding"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/big_padding">
 
         <TextView
             android:id="@+id/start_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:clickable="true"
             android:ems="10"
             android:focusable="false"
-            android:clickable="true"
             android:onClick="showStartDatePickerDialog" />
 
         <TextView
@@ -53,28 +49,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
+            android:clickable="true"
             android:ems="4"
             android:focusable="false"
-            android:clickable="true"
-            android:onClick="showStartTimePickerDialog"/>
+            android:gravity="center_vertical|end"
+            android:onClick="showStartTimePickerDialog" />
     </LinearLayout>
 
     <LinearLayout
-        style="?android:attr/buttonBarStyle"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/date_button_height"
-        android:layout_marginHorizontal="@dimen/big_padding"
-        android:layout_marginVertical="@dimen/small_padding"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/big_padding">
 
         <TextView
             android:id="@+id/end_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:clickable="true"
             android:ems="10"
             android:focusable="false"
-            android:clickable="true"
             android:onClick="showEndDatePickerDialog" />
 
         <TextView
@@ -82,21 +77,50 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
+            android:clickable="true"
             android:ems="4"
             android:focusable="false"
-            android:clickable="true"
-            android:onClick="showEndTimePickerDialog"/>
+            android:gravity="center_vertical|end"
+            android:onClick="showEndTimePickerDialog" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/skater_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/big_padding"
-        android:layout_marginVertical="@dimen/small_padding"
-        android:hint="@string/skater_hint"
-        android:focusable="false"
         android:clickable="true"
-        android:onClick="showSkaterPickerDialog"/>
+        android:focusable="false"
+        android:hint="@string/skater_hint"
+        android:onClick="showSkaterPickerDialog"
+        android:padding="@dimen/big_padding" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/big_padding">
+
+        <TextView
+            android:id="@+id/textViewPaid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/paid" />
+
+        <CheckBox
+            android:id="@+id/paid_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|end"
+            android:tooltipText="@string/paid_tooltip" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/edit_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/note_hint"
+        android:inputType="textLongMessage|textAutoComplete|textImeMultiLine"
+        android:padding="@dimen/big_padding" />
 
 </LinearLayout>

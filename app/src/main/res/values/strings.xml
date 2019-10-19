@@ -31,4 +31,7 @@
     <string name="cancelled">Cancelled</string>
     <string name="unknown_result_code">Unknown result code</string>
     <string name="end_before_start">End time should be after start time</string>
+    <string name="paid">Paid</string>
+    <string name="paid_tooltip">Has the course been paid?</string>
+    <string name="note_hint">Add a note</string>
 </resources>

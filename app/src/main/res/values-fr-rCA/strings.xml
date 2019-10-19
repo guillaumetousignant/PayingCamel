@@ -30,4 +30,7 @@
     <string name="cancelled">Annulé</string>
     <string name="unknown_result_code">Code résultat inconnu</string>
     <string name="end_before_start">Le moment de fin doit être après le moment de départ</string>
+    <string name="paid">Payé</string>
+    <string name="paid_tooltip">Le cours a-t-il été payé?</string>
+    <string name="note_hint">Ajouter une note</string>
 </resources>
