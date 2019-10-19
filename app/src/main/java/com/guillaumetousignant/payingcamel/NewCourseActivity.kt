@@ -90,7 +90,7 @@ class NewCourseActivity : AppCompatActivity() {
         val skaterObserver = Observer<Skater?> { skater ->
             // Update the UI, in this case, a TextView.
             skater?.let{
-                skaterNameText.text = "%s %s".format(it.last_name, it.last_name)
+                skaterNameText.text = "%s %s".format(it.first_name, it.last_name)
             }
         }
 
