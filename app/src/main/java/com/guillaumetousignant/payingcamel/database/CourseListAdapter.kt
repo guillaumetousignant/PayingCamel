@@ -33,7 +33,7 @@ class CourseListAdapter internal constructor(
 
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
         val current = courses[position]
-        holder.courseItemView.text = current.name?:"Default course name"
+        holder.courseItemView.text = current.name?:"(...)"
     }
 
     internal fun setCourses(courses: List<Course>) {
