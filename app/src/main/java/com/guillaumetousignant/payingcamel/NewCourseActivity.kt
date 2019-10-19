@@ -5,28 +5,24 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
-import android.widget.Button
 import android.widget.EditText
 
-import java.util.UUID
 import android.icu.util.Calendar
 import androidx.lifecycle.ViewModelProviders
 import com.guillaumetousignant.payingcamel.ui.new_course.NewCourseViewModel
-import android.widget.Toast
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+//import androidx.core.app.ComponentActivity.ExtraData
+//import androidx.core.content.ContextCompat.getSystemService
+//import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import com.guillaumetousignant.payingcamel.ui.pickers.DatePickerFragment
 import com.guillaumetousignant.payingcamel.ui.pickers.SkaterPickerFragment
 import com.guillaumetousignant.payingcamel.ui.pickers.TimePickerFragment
 import java.text.DateFormat
-import androidx.fragment.app.FragmentManager
+import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.database.Skater
 
 
@@ -95,19 +91,27 @@ class NewCourseActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val replyIntent = Intent()
 
         return when (item.itemId) {
             android.R.id.home -> {
+                val replyIntent = Intent()
                 setResult(Activity.RESULT_CANCELED, replyIntent)
                 finish()
                 true
             }
             R.id.new_word_save_button -> {
-                if (TextUtils.isEmpty(editCourseView.text)) {
-                    setResult(Activity.RESULT_CANCELED, replyIntent)
+                if ((newCourseViewModel.startCalendar.value?.compareTo(newCourseViewModel.startCalendar.value))?:0 > 0) {
+                    val view = findViewById<View>(android.R.id.content)
+
+                    Snackbar.make(view, R.string.end_before_start, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
                 } else {
-                    val name = editCourseView.text.toString()
+                    val replyIntent = Intent()
+                    val name = if (TextUtils.isEmpty(editCourseView.text)) {
+                        null
+                    } else {
+                        editCourseView.text.toString()
+                    }
                     replyIntent.putExtra(EXTRA_NAME, name)
                     replyIntent.putExtra(EXTRA_SKATER, newCourseViewModel.skater.value?.uuid)
                     replyIntent.putExtra(EXTRA_START, newCourseViewModel.startCalendar.value)
@@ -122,8 +126,8 @@ class NewCourseActivity : AppCompatActivity() {
                     replyIntent.putExtra(EXTRA_PAID, paid)
 
                     setResult(Activity.RESULT_OK, replyIntent)
+                    finish()
                 }
-                finish()
 
                 true
             }

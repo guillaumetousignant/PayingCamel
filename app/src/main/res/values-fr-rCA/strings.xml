@@ -27,4 +27,7 @@
     <string name="empty_not_saved">Mot non sauvegardé parce que vide.</string>
     <string name="new_course_dialog_title">Nouveau cours</string>
     <string name="skater_hint">Ajouter patineuse</string>
+    <string name="cancelled">Annulé</string>
+    <string name="unknown_result_code">Code résultat inconnu</string>
+    <string name="end_before_start">Le moment de fin doit être après le moment de départ</string>
 </resources>

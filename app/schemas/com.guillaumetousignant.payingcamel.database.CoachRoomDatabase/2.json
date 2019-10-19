@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "db6c30735099a7fca90986195bbb1ff5",
+    "identityHash": "7db8fe391de4adf7b6060799cd8c0059",
     "entities": [
       {
         "tableName": "course_table",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `skater` TEXT NOT NULL, `start_time` INTEGER NOT NULL, `end_time` INTEGER NOT NULL, `rate` INTEGER NOT NULL, `amount` INTEGER NOT NULL, `name` TEXT, `note` TEXT, `paid` INTEGER NOT NULL, PRIMARY KEY(`uuid`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`uuid` TEXT NOT NULL, `skater` TEXT, `start_time` INTEGER NOT NULL, `end_time` INTEGER NOT NULL, `rate` INTEGER, `amount` INTEGER NOT NULL, `name` TEXT, `note` TEXT, `paid` INTEGER NOT NULL, PRIMARY KEY(`uuid`))",
         "fields": [
           {
             "fieldPath": "uuid",
@@ -18,7 +18,7 @@
             "fieldPath": "skater",
             "columnName": "skater",
             "affinity": "TEXT",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "start_time",
@@ -36,7 +36,7 @@
             "fieldPath": "rate",
             "columnName": "rate",
             "affinity": "INTEGER",
-            "notNull": true
+            "notNull": false
           },
           {
             "fieldPath": "amount",
@@ -394,7 +394,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'db6c30735099a7fca90986195bbb1ff5')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '7db8fe391de4adf7b6060799cd8c0059')"
     ]
   }
 }

@@ -28,4 +28,7 @@
     <string name="empty_not_saved">Word not saved because it is empty.</string>
     <string name="new_course_dialog_title">New course</string>
     <string name="skater_hint">Add skater</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="unknown_result_code">Unknown result code</string>
+    <string name="end_before_start">End time should be after start time</string>
 </resources>

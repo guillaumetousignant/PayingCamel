@@ -63,11 +63,11 @@ class OverviewFragment : Fragment() {
         return root
     }
 
-    private fun openDialog() {
+    /*private fun openDialog() {
         fragmentManager?.let {
             NewCourseDialog.display(it)
         }
-    }
+    }*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
@@ -75,7 +75,7 @@ class OverviewFragment : Fragment() {
         if (requestCode == newCourseActivityRequestCode && resultCode == Activity.RESULT_OK) {
             intentData?.let { data ->
                 val course = Course(UUID.randomUUID(),
-                    data.getSerializableExtra(NewCourseActivity.EXTRA_SKATER) as UUID,
+                    data.getSerializableExtra(NewCourseActivity.EXTRA_SKATER) as UUID?,
                     data.getSerializableExtra(NewCourseActivity.EXTRA_START) as Calendar,
                     data.getSerializableExtra(NewCourseActivity.EXTRA_END) as Calendar,
                     data.getIntExtra(NewCourseActivity.EXTRA_RATE, 0),
@@ -86,17 +86,24 @@ class OverviewFragment : Fragment() {
                 overviewViewModel.insert(course)
                 Unit
             }
-        } else {
-            view?.let{
-                Snackbar.make(it, R.string.empty_not_saved, Snackbar.LENGTH_LONG)
+        }
+        else if (requestCode == newCourseActivityRequestCode && resultCode == Activity.RESULT_CANCELED) {
+           /* view?.let{
+                Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
-            }
+            }*/
 
             /*Toast.makeText(
                 context,
-                R.string.empty_not_saved,
+                R.string.cancelled,
                 Toast.LENGTH_LONG
             ).show()*/
+        }
+        else {
+            view?.let{
+                Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+            }
         }
     }
 }
