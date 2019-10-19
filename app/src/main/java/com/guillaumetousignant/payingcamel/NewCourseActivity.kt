@@ -24,7 +24,9 @@ import com.guillaumetousignant.payingcamel.ui.pickers.SkaterPickerFragment
 import com.guillaumetousignant.payingcamel.ui.pickers.TimePickerFragment
 import java.text.DateFormat
 import com.google.android.material.snackbar.Snackbar
+import com.guillaumetousignant.payingcamel.database.Rate
 import com.guillaumetousignant.payingcamel.database.Skater
+import com.guillaumetousignant.payingcamel.ui.pickers.RatePickerFragment
 
 
 /**
@@ -39,6 +41,7 @@ class NewCourseActivity : AppCompatActivity() {
     private lateinit var endTimeText: TextView
     private lateinit var endDateText: TextView
     private lateinit var skaterNameText: TextView
+    private lateinit var rateNameText: TextView
     private lateinit var paidCheckbox : CheckBox
     private lateinit var editNoteView : EditText
 
@@ -51,6 +54,7 @@ class NewCourseActivity : AppCompatActivity() {
         endTimeText = findViewById(R.id.end_time)
         endDateText = findViewById(R.id.end_date)
         skaterNameText = findViewById(R.id.skater_name)
+        rateNameText = findViewById(R.id.rate_name)
         paidCheckbox = findViewById(R.id.paid_checkbox)
         editNoteView = findViewById(R.id.edit_note)
 
@@ -90,9 +94,17 @@ class NewCourseActivity : AppCompatActivity() {
             }
         }
 
+        val rateObserver = Observer<Rate?> { rate ->
+            // Update the UI, in this case, a TextView.
+            rate?.let{
+                rateNameText.text = it.name
+            }
+        }
+
         newCourseViewModel.startCalendar.observe(this, startObserver)
         newCourseViewModel.endCalendar.observe(this, endObserver)
         newCourseViewModel.skater.observe(this, skaterObserver)
+        newCourseViewModel.rate.observe(this, rateObserver)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -122,8 +134,7 @@ class NewCourseActivity : AppCompatActivity() {
                     replyIntent.putExtra(EXTRA_SKATER, newCourseViewModel.skater.value?.uuid)
                     replyIntent.putExtra(EXTRA_START, newCourseViewModel.startCalendar.value)
                     replyIntent.putExtra(EXTRA_END, newCourseViewModel.endCalendar.value)
-                    val rate = 1000
-                    replyIntent.putExtra(EXTRA_RATE, rate)
+                    replyIntent.putExtra(EXTRA_RATE, newCourseViewModel.rate.value?.amount)
                     val amount = 1000
                     replyIntent.putExtra(EXTRA_AMOUNT, amount)
                     val note = if (TextUtils.isEmpty(editNoteView.text)) {
@@ -168,6 +179,10 @@ class NewCourseActivity : AppCompatActivity() {
 
     fun showSkaterPickerDialog(v: View) {
         SkaterPickerFragment(newCourseViewModel.skater, newCourseViewModel.allSkaters).show(supportFragmentManager, "SkaterPicker")
+    }
+
+    fun showRatePickerDialog(v: View) {
+        RatePickerFragment(newCourseViewModel.rate, newCourseViewModel.allRates).show(supportFragmentManager, "RatePicker")
     }
 
     companion object {

@@ -30,7 +30,7 @@ class RatesFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_rates, container, false)
         val recyclerView: RecyclerView = root.findViewById(R.id.rates_recyclerview)
         //val adapter = CourseListAdapter(this)
-        val adapter = RateListAdapter()
+        val adapter = RateListAdapter{}
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 

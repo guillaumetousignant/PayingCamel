@@ -33,4 +33,5 @@
     <string name="paid">Paid</string>
     <string name="paid_tooltip">Has the course been paid?</string>
     <string name="note_hint">Add a note</string>
+    <string name="rate_hint">Add hourly rate</string>
 </resources>

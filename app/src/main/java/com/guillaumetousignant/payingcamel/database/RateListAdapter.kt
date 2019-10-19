@@ -14,6 +14,7 @@ import com.guillaumetousignant.payingcamel.R
 class RateListAdapter internal constructor(
     //context: Context
     //inflater_in: LayoutInflater
+    val listener: (Rate) -> Unit
 ) : RecyclerView.Adapter<RateListAdapter.RateViewHolder>() {
 
     //private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -33,7 +34,11 @@ class RateListAdapter internal constructor(
 
     override fun onBindViewHolder(holder: RateViewHolder, position: Int) {
         val current = rates[position]
-        holder.rateItemView.text = current.name?:"Default rate name"
+        holder.rateItemView.text = current.name?:"(..)"
+
+        holder.rateItemView.setOnClickListener {
+            listener(current)
+        }
     }
 
     internal fun setRates(rates: List<Rate>) {

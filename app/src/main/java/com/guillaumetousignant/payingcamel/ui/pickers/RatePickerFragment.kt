@@ -11,10 +11,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.guillaumetousignant.payingcamel.R
-import com.guillaumetousignant.payingcamel.database.Skater
-import com.guillaumetousignant.payingcamel.database.SkaterListAdapter
+import com.guillaumetousignant.payingcamel.database.Rate
+import com.guillaumetousignant.payingcamel.database.RateListAdapter
 
-class SkaterPickerFragment(val skater: MutableLiveData<Skater?>, private val allSkaters: LiveData<List<Skater>>) : DialogFragment() {
+class RatePickerFragment(val rate: MutableLiveData<Rate?>, private val allRates: LiveData<List<Rate>>) : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,20 +22,20 @@ class SkaterPickerFragment(val skater: MutableLiveData<Skater?>, private val all
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        val view = inflater.inflate(R.layout.skater_picker_dialog, container, false)
+        val view = inflater.inflate(R.layout.rate_picker_dialog, container, false)
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.skater_picker_dialog_recyclerview)
+        val recyclerView: RecyclerView = view.findViewById(R.id.rate_picker_dialog_recyclerview)
         //val adapter = CourseListAdapter(this)
-        val adapter = SkaterListAdapter{
-            skater.postValue(it)
+        val adapter = RateListAdapter{
+            rate.postValue(it)
             dismiss()
         }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
-        allSkaters.observe(this, Observer { skaters ->
+        allRates.observe(this, Observer { rates ->
             // Update the cached copy of the words in the adapter.
-            skaters?.let { adapter.setSkaters(it) }
+            rates?.let { adapter.setRates(it) }
         })
 
         //val listener :RecyclerView.set

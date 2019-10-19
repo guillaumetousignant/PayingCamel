@@ -37,6 +37,7 @@ class NewCourseViewModel(application: Application) : AndroidViewModel(applicatio
     val startCalendar: MutableLiveData<Calendar>
     val endCalendar: MutableLiveData<Calendar>
     val skater: MutableLiveData<Skater?>
+    val rate: MutableLiveData<Rate?>
 
     init {
         val skaterDao = CoachRoomDatabase.getDatabase(application, scope).skaterDao()
@@ -53,6 +54,7 @@ class NewCourseViewModel(application: Application) : AndroidViewModel(applicatio
         endCalendar = MutableLiveData(endCalendarTemp)
 
         skater = MutableLiveData(null)
+        rate = MutableLiveData(null)
     }
 
     override fun onCleared() {
