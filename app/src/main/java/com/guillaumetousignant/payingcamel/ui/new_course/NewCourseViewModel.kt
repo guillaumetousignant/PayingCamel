@@ -38,7 +38,7 @@ class NewCourseViewModel(application: Application, initCalendar: Calendar) : And
     val endCalendar: MutableLiveData<Calendar>
     val skater: MutableLiveData<Skater?>
     val rate: MutableLiveData<Rate?>
-    val amount: MutableLiveData<Int>
+    //val amount: MutableLiveData<Int>
     var manualAmount: Boolean
 
     init {
@@ -57,7 +57,7 @@ class NewCourseViewModel(application: Application, initCalendar: Calendar) : And
 
         skater = MutableLiveData(null)
         rate = MutableLiveData(null)
-        amount = MutableLiveData(0)
+        //amount = MutableLiveData(0)
         manualAmount = false
     }
 
