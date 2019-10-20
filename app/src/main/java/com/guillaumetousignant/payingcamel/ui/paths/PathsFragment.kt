@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.guillaumetousignant.payingcamel.NewPathActivity
 import com.guillaumetousignant.payingcamel.database.Path
 import com.guillaumetousignant.payingcamel.database.PathListAdapter
 import java.util.*

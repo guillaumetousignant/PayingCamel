@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.guillaumetousignant.payingcamel.NewRateActivity
 import com.guillaumetousignant.payingcamel.database.Rate
 import com.guillaumetousignant.payingcamel.database.RateListAdapter
 import java.util.*
@@ -63,10 +64,10 @@ class RatesFragment : Fragment() {
             intentData?.let { data ->
                 val rate = Rate(
                     UUID.randomUUID(),
-                    data.getIntExtra(NewRateeActivity.EXTRA_AMOUNT, 0),
-                    data.getStringExtra(NewRateeActivity.EXTRA_NAME),
-                    data.getStringExtra(NewRateeActivity.EXTRA_NOTE),
-                    data.getSerializableExtra(NewRateeActivity.EXTRA_SKATER) as UUID?)
+                    data.getIntExtra(NewRateActivity.EXTRA_AMOUNT, 0),
+                    data.getStringExtra(NewRateActivity.EXTRA_NAME),
+                    data.getStringExtra(NewRateActivity.EXTRA_NOTE),
+                    data.getSerializableExtra(NewRateActivity.EXTRA_SKATER) as UUID?)
                 ratesViewModel.insert(rate)
                 Unit
             }
