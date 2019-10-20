@@ -8,6 +8,11 @@ class NewFillActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_fill)
+
+        setSupportActionBar(findViewById(R.id.new_fill_toolbar))
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp) // set drawable icon
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        window.statusBarColor = getColor(R.color.colorPrimaryDark) // Why is this needed??
     }
 
     companion object {

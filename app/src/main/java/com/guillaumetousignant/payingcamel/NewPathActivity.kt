@@ -8,6 +8,11 @@ class NewPathActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_path)
+
+        setSupportActionBar(findViewById(R.id.new_path_toolbar))
+        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp) // set drawable icon
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        window.statusBarColor = getColor(R.color.colorPrimaryDark) // Why is this needed??
     }
 
     companion object {
