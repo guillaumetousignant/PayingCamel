@@ -1,25 +1,158 @@
 package com.guillaumetousignant.payingcamel
 
+import android.app.Activity
+import android.content.Intent
+import android.icu.text.NumberFormat
+import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.EditText
+import android.widget.TextView
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import com.google.android.material.snackbar.Snackbar
+import com.guillaumetousignant.payingcamel.ui.expenses.NewExpenseViewModel
+import com.guillaumetousignant.payingcamel.ui.expenses.NewExpenseViewModelFactory
+import com.guillaumetousignant.payingcamel.ui.pickers.DatePickerFragment
+import com.guillaumetousignant.payingcamel.ui.pickers.TimePickerFragment
+import java.text.DateFormat
 
 class NewExpenseActivity : AppCompatActivity() {
+
+    private lateinit var newExpenseViewModel: NewExpenseViewModel // Added
+    private lateinit var editNameView: EditText
+    private lateinit var startTimeText: TextView
+    private lateinit var startDateText: TextView
+    private lateinit var editNoteView : EditText
+    private lateinit var editAmountView : EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_expense)
 
+        editNameView = findViewById(R.id.expense_edit_name)
+        startTimeText = findViewById(R.id.expense_start_time)
+        startDateText = findViewById(R.id.expense_start_date)
+        editNoteView = findViewById(R.id.expense_edit_note)
+        editAmountView = findViewById(R.id.expense_amount)
+
+        val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR) as Calendar
+
+        val factory = NewExpenseViewModelFactory(application, initCalendar)
+        newExpenseViewModel =
+            ViewModelProviders.of(this, factory).get(NewExpenseViewModel::class.java) // Added
+
         setSupportActionBar(findViewById(R.id.new_expense_toolbar))
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp) // set drawable icon
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         window.statusBarColor = getColor(R.color.colorPrimaryDark) // Why is this needed??
+
+        val startObserver = Observer<Calendar> { calendar ->
+            // Update the UI, in this case, a TextView.
+            val timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT) // CHECK add locale
+            val dateFormat = DateFormat.getDateInstance(DateFormat.LONG) // CHECK add locale
+            //getTimeInstance
+
+            startTimeText.text = timeFormat.format(calendar.time)
+            startDateText.text = dateFormat.format(calendar.time)
+        }
+
+        newExpenseViewModel.startCalendar.observe(this, startObserver)
+
+        editAmountView.addTextChangedListener(object : TextWatcher {
+            var current = ""
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(s.toString() != current){
+                    editAmountView.removeTextChangedListener(this)
+
+                    val replaceable =
+                        String.format("[%s,.]", NumberFormat.getCurrencyInstance().currency.symbol)
+                    val cleanString = s.toString().replace(replaceable.toRegex(), "").replace("\\s".toRegex(), "")
+                    val parsed = cleanString.toDouble()
+                    val formatted = NumberFormat.getCurrencyInstance().format((parsed/100))
+
+                    current = formatted
+                    editAmountView.setText(formatted)
+                    editAmountView.setSelection(formatted.length)
+
+                    editAmountView.addTextChangedListener(this)
+                }
+            }
+        })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return when (item.itemId) {
+            android.R.id.home -> {
+                val replyIntent = Intent()
+                setResult(Activity.RESULT_CANCELED, replyIntent)
+                finish()
+                true
+            }
+            R.id.new_word_save_button -> {
+                if (TextUtils.isEmpty((editAmountView.text))) {
+                    val view = findViewById<View>(android.R.id.content)
+
+                    Snackbar.make(view, R.string.empty_amount, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
+                else {
+                    val replyIntent = Intent()
+
+                    val name = if (TextUtils.isEmpty(editNameView.text)) {
+                        null
+                    } else {
+                        editNameView.text.toString()
+                    }
+                    val note = if (TextUtils.isEmpty(editNoteView.text)) {
+                        null
+                    } else {
+                        editNoteView.text.toString()
+                    }
+                    val replaceable =
+                        String.format("[%s,.]", NumberFormat.getCurrencyInstance().currency.symbol)
+                    val cleanString = editAmountView.text.toString().replace(replaceable.toRegex(), "").replace("\\s".toRegex(), "")
+
+                    replyIntent.putExtra(EXTRA_NAME, name)
+                    replyIntent.putExtra(EXTRA_START, newExpenseViewModel.startCalendar.value)
+                    replyIntent.putExtra(EXTRA_AMOUNT, cleanString.toInt())
+                    replyIntent.putExtra(EXTRA_NOTE, note)
+
+                    setResult(Activity.RESULT_OK, replyIntent)
+                    finish()
+                }
+
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.new_word_menu, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    fun showStartTimePickerDialog(v: View) {
+        TimePickerFragment(newExpenseViewModel.startCalendar).show(supportFragmentManager, "StartTimePicker")
+    }
+
+    fun showStartDatePickerDialog(v: View) {
+        DatePickerFragment(newExpenseViewModel.startCalendar).show(supportFragmentManager, "StartDatePicker")
     }
 
     companion object {
