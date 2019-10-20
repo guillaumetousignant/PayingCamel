@@ -33,7 +33,7 @@ class ExpenseListAdapter internal constructor(
 
     override fun onBindViewHolder(holder: ExpenseViewHolder, position: Int) {
         val current = expenses[position]
-        holder.expenseItemView.text = current.name?:"Default expense name"
+        holder.expenseItemView.text = current.name?:"(...)"
     }
 
     internal fun setExpenses(expenses: List<Expense>) {

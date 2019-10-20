@@ -25,13 +25,13 @@
     <string name="button_save">Save</string>
     <string name="empty_not_saved">Word not saved because it is empty.</string>
     <string name="new_course_dialog_title">New course</string>
-    <string name="skater_hint">Add skater</string>
+    <string name="hint_skater">Add skater</string>
     <string name="cancelled">Cancelled</string>
     <string name="unknown_result_code">Unknown result code</string>
     <string name="end_before_start">End time should be after start time</string>
     <string name="paid">Paid</string>
     <string name="paid_tooltip">Has the course been paid?</string>
-    <string name="rate_hint">Add hourly rate</string>
+    <string name="hint_rate">Add hourly rate</string>
     <string name="hint_amount">Enter amount</string>
     <string name="new_skater_dialog_title">New skater</string>
     <string name="hint_first_name">Enter first Name</string>
@@ -53,4 +53,7 @@
     <string name="hint_from">Add origin</string>
     <string name="hint_distance">Enter distance</string>
     <string name="empty_distance">Empty distance</string>
+    <string name="hint_path">Add path</string>
+    <string name="hint_course">Add a course</string>
+    <string name="distance_unit">km</string>
 </resources>

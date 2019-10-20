@@ -72,13 +72,11 @@ class NewCourseActivity : AppCompatActivity() {
         amountView = findViewById(R.id.amount_number)
 
         val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR) as Calendar
-
         val factory = NewCourseViewModelFactory(application, initCalendar)
         newCourseViewModel =
             ViewModelProviders.of(this, factory).get(NewCourseViewModel::class.java) // Added
 
         setSupportActionBar(findViewById(R.id.new_course_toolbar))
-
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp) // set drawable icon
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         window.statusBarColor = getColor(R.color.colorPrimaryDark) // Why is this needed??

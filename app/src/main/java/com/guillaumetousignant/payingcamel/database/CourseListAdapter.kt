@@ -14,6 +14,7 @@ import com.guillaumetousignant.payingcamel.R
 class CourseListAdapter internal constructor(
     //context: Context
     //inflater_in: LayoutInflater
+    val listener: (Course) -> Unit
 ) : RecyclerView.Adapter<CourseListAdapter.CourseViewHolder>() {
 
     //private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -34,6 +35,10 @@ class CourseListAdapter internal constructor(
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
         val current = courses[position]
         holder.courseItemView.text = current.name?:"(...)"
+
+        holder.courseItemView.setOnClickListener {
+            listener(current)
+        }
     }
 
     internal fun setCourses(courses: List<Course>) {

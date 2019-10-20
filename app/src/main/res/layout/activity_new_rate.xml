@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="false"
-        android:hint="@string/skater_hint"
+        android:hint="@string/hint_skater"
         android:onClick="showSkaterPickerDialog"
         android:padding="@dimen/big_padding" />
 

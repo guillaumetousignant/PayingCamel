@@ -21,4 +21,104 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
     </com.google.android.material.appbar.AppBarLayout>
 
+    <EditText
+        android:id="@+id/trip_edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:hint="@string/hint_title"
+        android:inputType="textAutoComplete"
+        android:padding="@dimen/big_padding"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/big_padding">
+
+        <TextView
+            android:id="@+id/trip_start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:ems="10"
+            android:focusable="false"
+            android:onClick="showStartDatePickerDialog" />
+
+        <TextView
+            android:id="@+id/trip_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:clickable="true"
+            android:ems="4"
+            android:focusable="false"
+            android:gravity="center_vertical|end"
+            android:onClick="showStartTimePickerDialog" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/trip_path_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="false"
+        android:hint="@string/hint_path"
+        android:onClick="showPathPickerDialog"
+        android:padding="@dimen/big_padding" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/trip_edit_distance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/hint_distance"
+            android:inputType="numberDecimal"
+            android:padding="@dimen/big_padding" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="4"
+            android:text="@string/distance_unit" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/trip_skater_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="false"
+        android:hint="@string/hint_skater"
+        android:onClick="showSkaterPickerDialog"
+        android:padding="@dimen/big_padding" />
+
+    <TextView
+        android:id="@+id/trip_course_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="false"
+        android:hint="@string/hint_course"
+        android:onClick="showCoursePickerDialog"
+        android:padding="@dimen/big_padding" />
+
+
+    <EditText
+        android:id="@+id/trip_edit_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_note"
+        android:inputType="textLongMessage|textAutoComplete|textImeMultiLine"
+        android:padding="@dimen/big_padding" />
+
 </LinearLayout>

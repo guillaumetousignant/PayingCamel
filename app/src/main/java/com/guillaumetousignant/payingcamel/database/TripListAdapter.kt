@@ -33,7 +33,7 @@ class TripListAdapter internal constructor(
 
     override fun onBindViewHolder(holder: TripViewHolder, position: Int) {
         val current = trips[position]
-        holder.tripItemView.text = current.name?:"Default trip name"
+        holder.tripItemView.text = current.name?:"(...)"
     }
 
     internal fun setTrips(trips: List<Trip>) {

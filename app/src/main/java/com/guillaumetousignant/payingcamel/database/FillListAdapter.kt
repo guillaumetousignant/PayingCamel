@@ -33,7 +33,7 @@ class FillListAdapter internal constructor(
 
     override fun onBindViewHolder(holder: FillViewHolder, position: Int) {
         val current = fills[position]
-        holder.fillItemView.text = current.name?:"Default fill name"
+        holder.fillItemView.text = current.name?:"(...)"
     }
 
     internal fun setFills(fills: List<Fill>) {

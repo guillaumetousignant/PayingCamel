@@ -42,7 +42,7 @@ class OverviewFragment : Fragment() {
 
         val recyclerView: RecyclerView = root.findViewById(R.id.overview_recyclerview)
         //val adapter = CourseListAdapter(this)
-        val adapter = CourseListAdapter()
+        val adapter = CourseListAdapter{}
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 

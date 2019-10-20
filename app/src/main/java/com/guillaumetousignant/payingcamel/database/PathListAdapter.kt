@@ -14,6 +14,7 @@ import com.guillaumetousignant.payingcamel.R
 class PathListAdapter internal constructor(
     //context: Context
     //inflater_in: LayoutInflater
+    val listener: (Path) -> Unit
 ) : RecyclerView.Adapter<PathListAdapter.PathViewHolder>() {
 
     //private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -33,7 +34,11 @@ class PathListAdapter internal constructor(
 
     override fun onBindViewHolder(holder: PathViewHolder, position: Int) {
         val current = paths[position]
-        holder.pathItemView.text = current.name?:"Default path name"
+        holder.pathItemView.text = current.name?:"(...)"
+
+        holder.pathItemView.setOnClickListener {
+            listener(current)
+        }
     }
 
     internal fun setPaths(paths: List<Path>) {

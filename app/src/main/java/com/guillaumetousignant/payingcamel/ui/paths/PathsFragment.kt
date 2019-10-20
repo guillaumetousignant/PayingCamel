@@ -36,7 +36,7 @@ class PathsFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_paths, container, false)
         val recyclerView: RecyclerView = root.findViewById(R.id.paths_recyclerview)
         //val adapter = CourseListAdapter(this)
-        val adapter = PathListAdapter()
+        val adapter = PathListAdapter{}
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 

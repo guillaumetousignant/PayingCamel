@@ -25,13 +25,13 @@
     <string name="button_save">Enregistrer</string>
     <string name="empty_not_saved">Mot non sauvegardé parce que vide.</string>
     <string name="new_course_dialog_title">Nouveau cours</string>
-    <string name="skater_hint">Ajouter patineuse</string>
+    <string name="hint_skater">Ajouter patineuse</string>
     <string name="cancelled">Annulé</string>
     <string name="unknown_result_code">Code résultat inconnu</string>
     <string name="end_before_start">Le moment de fin doit être après le moment de départ</string>
     <string name="paid">Payé</string>
     <string name="paid_tooltip">Le cours a-t-il été payé?</string>
-    <string name="rate_hint">Ajouter taux horaire</string>
+    <string name="hint_rate">Ajouter taux horaire</string>
     <string name="hint_amount">Entrer montant</string>
     <string name="new_skater_dialog_title">Nouvelle patineuse</string>
     <string name="hint_first_name">Entrer prénom</string>
@@ -53,4 +53,7 @@
     <string name="hint_from">Ajouter point de départ</string>
     <string name="hint_distance">Entrer distance</string>
     <string name="empty_distance">Distance vide</string>
+    <string name="hint_path">Ajouter trajet</string>
+    <string name="hint_course">Ajouter un cours</string>
+    <string name="distance_unit">km</string>
 </resources>
