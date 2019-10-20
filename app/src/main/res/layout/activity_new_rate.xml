@@ -40,6 +40,16 @@
         android:inputType="numberDecimal"
         android:padding="@dimen/big_padding" />
 
+    <TextView
+        android:id="@+id/rate_skater_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="false"
+        android:hint="@string/skater_hint"
+        android:onClick="showSkaterPickerDialog"
+        android:padding="@dimen/big_padding" />
+
     <EditText
         android:id="@+id/edit_rate_note"
         android:layout_width="match_parent"

@@ -12,16 +12,21 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
+import com.guillaumetousignant.payingcamel.database.Skater
+import com.guillaumetousignant.payingcamel.ui.pickers.SkaterPickerFragment
 import com.guillaumetousignant.payingcamel.ui.rates.NewRateViewModel
 
 class NewRateActivity : AppCompatActivity() {
 
     private lateinit var newRateViewModel: NewRateViewModel // Added
     private lateinit var editNameView : EditText
-    private lateinit var editNoteView : EditText
     private lateinit var editAmountView : EditText
+    private lateinit var skaterNameText: TextView
+    private lateinit var editNoteView : EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +35,7 @@ class NewRateActivity : AppCompatActivity() {
         editNameView = findViewById(R.id.edit_rate_name)
         editNoteView = findViewById(R.id.edit_rate_note)
         editAmountView = findViewById(R.id.rate_amount)
+        skaterNameText = findViewById(R.id.rate_skater_name)
 
         newRateViewModel =
             ViewModelProviders.of(this).get(NewRateViewModel::class.java)
@@ -38,6 +44,15 @@ class NewRateActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp) // set drawable icon
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         window.statusBarColor = getColor(R.color.colorPrimaryDark) // Why is this needed??
+
+        val skaterObserver = Observer<Skater?> { skater ->
+            // Update the UI, in this case, a TextView.
+            skater?.let{
+                skaterNameText.text = "%s %s".format(it.first_name, it.last_name)
+            }
+        }
+
+        newRateViewModel.skater.observe(this, skaterObserver)
 
         editAmountView.addTextChangedListener(object : TextWatcher {
             var current = ""
@@ -118,6 +133,10 @@ class NewRateActivity : AppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.new_word_menu, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    fun showSkaterPickerDialog(v: View) {
+        SkaterPickerFragment(newRateViewModel.skater, newRateViewModel.allSkaters).show(supportFragmentManager, "RateSkaterPicker")
     }
 
     companion object {
