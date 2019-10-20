@@ -38,10 +38,6 @@ import com.guillaumetousignant.payingcamel.ui.new_course.NewCourseViewModelFacto
 import java.util.Collections.replaceAll
 import androidx.core.app.ComponentActivity.ExtraData
 import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-
-
 
 /**
  * Activity for entering a word.
@@ -95,6 +91,16 @@ class NewCourseActivity : AppCompatActivity() {
 
             startTimeText.text = timeFormat.format(calendar.time)
             startDateText.text = dateFormat.format(calendar.time)
+
+            if (!newCourseViewModel.manualAmount) {
+                newCourseViewModel.rate.value?.let {
+                    val startCalendar =
+                        newCourseViewModel.startCalendar.value ?: Calendar.getInstance()
+                    val endCalendar = newCourseViewModel.endCalendar.value ?: Calendar.getInstance()
+                    newCourseViewModel.amount.postValue(((endCalendar.timeInMillis - startCalendar.timeInMillis).toDouble() / 3600000 * it.amount).toInt())
+
+                }
+            }
         }
 
         val endObserver = Observer<Calendar> { calendar ->
@@ -105,6 +111,14 @@ class NewCourseActivity : AppCompatActivity() {
 
             endTimeText.text = timeFormat.format(calendar.time)
             endDateText.text = dateFormat.format(calendar.time)
+
+            if (!newCourseViewModel.manualAmount) {
+                newCourseViewModel.rate.value?.let {
+                    val startCalendar = newCourseViewModel.startCalendar.value?: Calendar.getInstance()
+                    val endCalendar = newCourseViewModel.endCalendar.value?: Calendar.getInstance()
+                    newCourseViewModel.amount.postValue(((endCalendar.timeInMillis - startCalendar.timeInMillis).toDouble() / 3600000 * it.amount).toInt())
+                }
+            }
         }
 
         val skaterObserver = Observer<Skater?> { skater ->
@@ -119,6 +133,17 @@ class NewCourseActivity : AppCompatActivity() {
             rate?.let{
                 rateNameText.text = it.name
                 newCourseViewModel.manualAmount = false
+                val startCalendar = newCourseViewModel.startCalendar.value?:Calendar.getInstance()
+                val endCalendar = newCourseViewModel.endCalendar.value?:Calendar.getInstance()
+                newCourseViewModel.amount.postValue(((endCalendar.timeInMillis - startCalendar.timeInMillis).toDouble()/3600000 * rate.amount).toInt())
+            }
+        }
+
+        val amountObserver = Observer<Int> { amount ->
+            // Update the UI, in this case, a TextView.
+            amount?.let{
+                amountView.setText(NumberFormat.getCurrencyInstance().format(it/100))
+                //newCourseViewModel.manualAmount = true
             }
         }
 
@@ -126,7 +151,11 @@ class NewCourseActivity : AppCompatActivity() {
         newCourseViewModel.endCalendar.observe(this, endObserver)
         newCourseViewModel.skater.observe(this, skaterObserver)
         newCourseViewModel.rate.observe(this, rateObserver)
+        newCourseViewModel.amount.observe(this, amountObserver)
 
+        amountView.setOnClickListener {
+            newCourseViewModel.manualAmount = true
+        }
         amountView.addTextChangedListener(object : TextWatcher {
             var current = ""
             override fun afterTextChanged(p0: Editable?) {
@@ -141,11 +170,7 @@ class NewCourseActivity : AppCompatActivity() {
 
                     val replaceable =
                         String.format("[%s,.]", NumberFormat.getCurrencyInstance().currency.symbol)
-                    var cleanString = s.toString().replace(replaceable.toRegex(), "")
-                    cleanString = cleanString.replace("\\s".toRegex(), "")
-                    //val cleanString = s.toString().replace("[$,.]", "")
-
-                    //val parsed = Double.parseDouble(cleanString)
+                    val cleanString = s.toString().replace(replaceable.toRegex(), "").replace("\\s".toRegex(), "")
                     val parsed = cleanString.toDouble()
                     val formatted = NumberFormat.getCurrencyInstance().format((parsed/100))
 
@@ -154,6 +179,8 @@ class NewCourseActivity : AppCompatActivity() {
                     amountView.setSelection(formatted.length)
 
                     amountView.addTextChangedListener(this)
+
+                    newCourseViewModel.amount.postValue(parsed.toInt())
                 }
             }
         })
