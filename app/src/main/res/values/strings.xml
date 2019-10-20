@@ -53,4 +53,5 @@
     <string name="hint_from">Add origin</string>
     <string name="hint_to">Add destination</string>
     <string name="hint_distance">Enter distance</string>
+    <string name="empty_distance">Empty distance</string>
 </resources>
