@@ -34,9 +34,9 @@
     <string name="rate_hint">Ajouter taux horaire</string>
     <string name="hint_amount">Entrer montant</string>
     <string name="new_skater_dialog_title">Nouvelle patineuse</string>
-    <string name="hint_first_name">Prénom</string>
-    <string name="hint_last_name">Nom</string>
-    <string name="hint_email">Courriel</string>
+    <string name="hint_first_name">Entrer prénom</string>
+    <string name="hint_last_name">Entrer nom</string>
+    <string name="hint_email">Ajouter un courriel</string>
     <string name="active">Active</string>
     <string name="active_tooltip">La patineuse est-elle active?</string>
     <string name="missing_first_name">Prénom manquant</string>
@@ -49,4 +49,7 @@
     <string name="hint_title">Ajouter un titre</string>
     <string name="hint_note">Ajouter une note</string>
     <string name="empty_amount">Montant vide</string>
+    <string name="hint_to">Ajouter destination</string>
+    <string name="hint_from">Ajouter point de départ</string>
+    <string name="hint_distance">Entrer distance</string>
 </resources>

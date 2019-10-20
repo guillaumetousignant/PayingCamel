@@ -34,9 +34,9 @@
     <string name="rate_hint">Add hourly rate</string>
     <string name="hint_amount">Enter amount</string>
     <string name="new_skater_dialog_title">New skater</string>
-    <string name="hint_first_name">First Name</string>
-    <string name="hint_last_name">Last Name</string>
-    <string name="hint_email">Email</string>
+    <string name="hint_first_name">Enter first Name</string>
+    <string name="hint_last_name">Enter last Name</string>
+    <string name="hint_email">Add an email</string>
     <string name="active">Active</string>
     <string name="active_tooltip">Is the skater active?</string>
     <string name="missing_first_name">First name missing</string>
@@ -49,4 +49,7 @@
     <string name="hint_title">Add a title</string>
     <string name="hint_note">Add a note</string>
     <string name="empty_amount">Empty amount</string>
+    <string name="hint_to">Add destination</string>
+    <string name="hint_from">Add origin</string>
+    <string name="hint_distance">Enter distance</string>
 </resources>
