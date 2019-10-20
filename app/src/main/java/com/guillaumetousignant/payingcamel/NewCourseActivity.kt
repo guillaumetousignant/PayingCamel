@@ -59,6 +59,7 @@ class NewCourseActivity : AppCompatActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_new_course)
+
         editCourseView = findViewById(R.id.edit_course)
         startTimeText = findViewById(R.id.start_time)
         startDateText = findViewById(R.id.start_date)
@@ -73,7 +74,6 @@ class NewCourseActivity : AppCompatActivity() {
         val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR) as Calendar
 
         val factory = NewCourseViewModelFactory(application, initCalendar)
-
         newCourseViewModel =
             ViewModelProviders.of(this, factory).get(NewCourseViewModel::class.java) // Added
 
