@@ -89,15 +89,7 @@ class NewTripActivity : AppCompatActivity() {
             // Update the UI, in this case, a TextView.
             path?.let{
                 pathNameText.text = it.name?:"(...)"
-                newTripViewModel.distance.postValue(path.distance)
-            }
-        }
-
-        val distanceObserver = Observer<Double> { amount ->
-            // Update the UI, in this case, a TextView.
-            amount?.let{
-                //distanceView.setText(NumberFormat.getCurrencyInstance().format(it/100))
-                distanceView.setText(it.toString())
+                distanceView.setText(path.distance.toString())
             }
         }
 
@@ -105,52 +97,6 @@ class NewTripActivity : AppCompatActivity() {
         newTripViewModel.skater.observe(this, skaterObserver)
         newTripViewModel.course.observe(this, courseObserver)
         newTripViewModel.path.observe(this, pathObserver)
-        newTripViewModel.distance.observe(this, distanceObserver)
-
-        distanceView.addTextChangedListener(object : TextWatcher {
-            var current = ""
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(s.toString() != current){
-                    current = s.toString()
-                    newTripViewModel.distance.value = current.toDouble()
-                }
-            }
-        })
-
-        /*distanceView.addTextChangedListener(object : TextWatcher {
-            var current = ""
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if(s.toString() != current){
-                    distanceView.removeTextChangedListener(this)
-
-                    val replaceable =
-                        String.format("[%s,.]", NumberFormat.getCurrencyInstance().currency.symbol)
-                    val cleanString = s.toString().replace(replaceable.toRegex(), "").replace("\\s".toRegex(), "")
-                    val parsed = cleanString.toDouble()
-                    val formatted = NumberFormat.getCurrencyInstance().format((parsed/100))
-
-                    current = formatted
-                    distanceView.setText(formatted)
-                    distanceView.setSelection(formatted.length)
-
-                    distanceView.addTextChangedListener(this)
-
-                    newTripViewModel.distance.postValue(parsed)
-                }
-            }
-        })*/
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -163,13 +109,13 @@ class NewTripActivity : AppCompatActivity() {
                 true
             }
             R.id.new_word_save_button -> {
-                /*if (newTripViewModel.startCalendar.value?.compareTo(newTripViewModel.endCalendar.value)?:0 > 0) {
+                if (TextUtils.isEmpty(distanceView.text)) {
                     val view = findViewById<View>(android.R.id.content)
 
-                    Snackbar.make(view, R.string.end_before_start, Snackbar.LENGTH_LONG)
+                    Snackbar.make(view, R.string.empty_distance, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show()
                 }
-                else {*/
+                else {
                     val replyIntent = Intent()
                     val name = if (TextUtils.isEmpty(editNameView.text)) {
                         null
@@ -181,12 +127,13 @@ class NewTripActivity : AppCompatActivity() {
                     } else {
                         editNoteView.text.toString()
                     }
+                    val distanceValue = distanceView.text.toString().toDouble()
 
                     replyIntent.putExtra(EXTRA_NAME, name)
                     replyIntent.putExtra(EXTRA_PATH, newTripViewModel.path.value?.name)
                     replyIntent.putExtra(EXTRA_FROM, newTripViewModel.path.value?.from)
                     replyIntent.putExtra(EXTRA_TO, newTripViewModel.path.value?.to)
-                    replyIntent.putExtra(EXTRA_DISTANCE, newTripViewModel.distance.value)
+                    replyIntent.putExtra(EXTRA_DISTANCE, distanceValue)
                     replyIntent.putExtra(EXTRA_COURSE, newTripViewModel.course.value?.uuid)
                     replyIntent.putExtra(EXTRA_SKATER, newTripViewModel.skater.value?.uuid)
                     replyIntent.putExtra(EXTRA_START, newTripViewModel.startCalendar.value)
@@ -194,7 +141,7 @@ class NewTripActivity : AppCompatActivity() {
 
                     setResult(Activity.RESULT_OK, replyIntent)
                     finish()
-                //}
+                }
 
                 true
             }

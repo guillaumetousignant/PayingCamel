@@ -34,7 +34,6 @@ class NewTripViewModel(application: Application, initCalendar: Calendar) : Andro
     val skater: MutableLiveData<Skater?>
     val path: MutableLiveData<Path?>
     val course: MutableLiveData<Course?>
-    val distance: MutableLiveData<Double>
 
     init {
         val skaterDao = CoachRoomDatabase.getDatabase(application, scope).skaterDao()
@@ -54,7 +53,6 @@ class NewTripViewModel(application: Application, initCalendar: Calendar) : Andro
         skater = MutableLiveData(null)
         path = MutableLiveData(null)
         course = MutableLiveData(null)
-        distance = MutableLiveData(0.0)
     }
 
     override fun onCleared() {
