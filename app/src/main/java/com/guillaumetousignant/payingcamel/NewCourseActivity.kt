@@ -214,8 +214,7 @@ class NewCourseActivity : AppCompatActivity() {
                     replyIntent.putExtra(EXTRA_START, newCourseViewModel.startCalendar.value)
                     replyIntent.putExtra(EXTRA_END, newCourseViewModel.endCalendar.value)
                     replyIntent.putExtra(EXTRA_RATE, newCourseViewModel.rate.value?.amount)
-                    val amount = 1000
-                    replyIntent.putExtra(EXTRA_AMOUNT, amount)
+                    replyIntent.putExtra(EXTRA_AMOUNT, newCourseViewModel.amount.value)
                     val note = if (TextUtils.isEmpty(editNoteView.text)) {
                         null
                     } else {

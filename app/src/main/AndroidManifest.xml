@@ -10,10 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".NewSkaterActivity"
+            android:label="@string/new_skater_dialog_title"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".NewCourseActivity"
             android:label="@string/new_course_dialog_title"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
