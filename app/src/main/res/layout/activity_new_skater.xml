@@ -77,7 +77,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_note"
-        android:inputType="textLongMessage|textAutoComplete|textImeMultiLine"
+        android:inputType="textLongMessage|textCapSentences|textAutoComplete|textImeMultiLine"
         android:padding="@dimen/big_padding" />
 
 </LinearLayout>

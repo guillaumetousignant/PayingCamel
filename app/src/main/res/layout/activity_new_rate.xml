@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
         android:hint="@string/hint_title"
-        android:inputType="textAutoComplete"
+        android:inputType="textCapSentences|textAutoComplete"
         android:padding="@dimen/big_padding"
         android:textSize="18sp" />
 
@@ -55,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_note"
-        android:inputType="textLongMessage|textAutoComplete|textImeMultiLine"
+        android:inputType="textLongMessage|textCapSentences|textAutoComplete|textImeMultiLine"
         android:padding="@dimen/big_padding" />
 
 </LinearLayout>
