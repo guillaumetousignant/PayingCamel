@@ -1,5 +1,8 @@
 package com.guillaumetousignant.payingcamel.ui.gas
 
+import android.app.Activity
+import android.content.Intent
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +17,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.guillaumetousignant.payingcamel.database.Fill
 import com.guillaumetousignant.payingcamel.database.FillListAdapter
+import java.util.*
 
 class GasFragment : Fragment() {
 
+    private val newFillActivityRequestCode = 5
     private lateinit var gasViewModel: GasViewModel
 
     override fun onCreateView(
@@ -41,10 +47,49 @@ class GasFragment : Fragment() {
 
         val fabGas: FloatingActionButton = root.findViewById(R.id.fab_gas)
         fabGas.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()*/
+
+            val intent = Intent(activity, NewFillActivity::class.java)
+            intent.putExtra(NewFillActivity.EXTRA_CALENDAR, Calendar.getInstance())
+            startActivityForResult(intent, newFillActivityRequestCode)
         }
 
         return root
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intentData)
+
+        if (requestCode == newFillActivityRequestCode && resultCode == Activity.RESULT_OK) {
+            intentData?.let { data ->
+                val fill = Fill(
+                    UUID.randomUUID(),
+                    data.getIntExtra(NewFillActivity.EXTRA_AMOUNT, 0),
+                    data.getSerializableExtra(NewFillActivity.EXTRA_START) as Calendar,
+                    data.getStringExtra(NewFillActivity.EXTRA_NAME),
+                    data.getStringExtra(NewFillActivity.EXTRA_NOTE))
+                gasViewModel.insert(fill)
+                Unit
+            }
+        }
+        else if (requestCode == newFillActivityRequestCode && resultCode == Activity.RESULT_CANCELED) {
+            /* view?.let{
+                 Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
+                     .setAction("Action", null).show()
+             }*/
+
+            /*Toast.makeText(
+                context,
+                R.string.cancelled,
+                Toast.LENGTH_LONG
+            ).show()*/
+        }
+        else {
+            view?.let{
+                Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+            }
+        }
     }
 }

@@ -1,5 +1,8 @@
 package com.guillaumetousignant.payingcamel.ui.expenses
 
+import android.app.Activity
+import android.content.Intent
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,10 +17,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.guillaumetousignant.payingcamel.database.Expense
 import com.guillaumetousignant.payingcamel.database.ExpenseListAdapter
+import java.util.*
 
 class ExpensesFragment : Fragment() {
 
+    private val newExpenseActivityRequestCode = 4
     private lateinit var expensesViewModel: ExpensesViewModel
 
     override fun onCreateView(
@@ -41,10 +47,51 @@ class ExpensesFragment : Fragment() {
 
         val fabExpenses: FloatingActionButton = root.findViewById(R.id.fab_expenses)
         fabExpenses.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()*/
+
+            val intent = Intent(activity, NewExpenseActivity::class.java)
+            intent.putExtra(NewExpenseActivity.EXTRA_CALENDAR, Calendar.getInstance())
+            startActivityForResult(intent, newExpenseActivityRequestCode)
         }
 
         return root
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intentData)
+
+        if (requestCode == newExpenseActivityRequestCode && resultCode == Activity.RESULT_OK) {
+            intentData?.let { data ->
+                val expense = Expense(
+                    UUID.randomUUID(),
+                    data.getIntExtra(NewExpenseActivity.EXTRA_AMOUNT, 0),
+                    data.getSerializableExtra(NewExpenseActivity.EXTRA_START) as Calendar,
+                    data.getSerializableExtra(NewExpenseActivity.EXTRA_COURSE) as UUID?,
+                    data.getSerializableExtra(NewExpenseActivity.EXTRA_SKATER) as UUID?,
+                    data.getStringExtra(NewExpenseActivity.EXTRA_NAME),
+                    data.getStringExtra(NewExpenseActivity.EXTRA_NOTE))
+                expensesViewModel.insert(expense)
+                Unit
+            }
+        }
+        else if (requestCode == newExpenseActivityRequestCode && resultCode == Activity.RESULT_CANCELED) {
+            /* view?.let{
+                 Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
+                     .setAction("Action", null).show()
+             }*/
+
+            /*Toast.makeText(
+                context,
+                R.string.cancelled,
+                Toast.LENGTH_LONG
+            ).show()*/
+        }
+        else {
+            view?.let{
+                Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+            }
+        }
     }
 }
