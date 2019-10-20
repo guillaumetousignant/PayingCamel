@@ -2,6 +2,7 @@ package com.guillaumetousignant.payingcamel
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 
 class NewExpenseActivity : AppCompatActivity() {
 
@@ -13,6 +14,12 @@ class NewExpenseActivity : AppCompatActivity() {
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp) // set drawable icon
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         window.statusBarColor = getColor(R.color.colorPrimaryDark) // Why is this needed??
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.new_word_menu, menu)
+        return super.onCreateOptionsMenu(menu)
     }
 
     companion object {
