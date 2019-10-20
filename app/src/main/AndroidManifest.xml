@@ -10,13 +10,33 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".NewTripActivity"
+            android:label="@string/new_trip_dialog_title"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".NewFillActivity"
+            android:label="@string/new_fill_dialog_title"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".NewPathActivity"
+            android:label="@string/new_path_dialog_title"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".NewExpenseActivity"
+            android:label="@string/new_expense_dialog_title"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".NewRateActivity"
+            android:label="@string/new_rate_dialog_title"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".NewSkaterActivity"
             android:label="@string/new_skater_dialog_title"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".NewCourseActivity"
             android:label="@string/new_course_dialog_title"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

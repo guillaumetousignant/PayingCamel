@@ -44,4 +44,9 @@
     <string name="active_tooltip">Is the skater active?</string>
     <string name="missing_first_name">First name missing</string>
     <string name="missing_last_name">Last name missing</string>
+    <string name="new_rate_dialog_title">New hourly rate</string>
+    <string name="new_expense_dialog_title">New expense</string>
+    <string name="new_path_dialog_title">New path</string>
+    <string name="new_fill_dialog_title">New fill</string>
+    <string name="new_trip_dialog_title">New trip</string>
 </resources>

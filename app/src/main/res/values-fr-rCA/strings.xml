@@ -43,4 +43,9 @@
     <string name="active_tooltip">La patineuse est-elle active?</string>
     <string name="missing_first_name">Prénom manquant</string>
     <string name="missing_last_name">Nom manquant</string>
+    <string name="new_trip_dialog_title">Nouveau déplacement</string>
+    <string name="new_rate_dialog_title">Nouveau taux horaire</string>
+    <string name="new_path_dialog_title">Nouveau trajet</string>
+    <string name="new_fill_dialog_title">Nouveau remplissage</string>
+    <string name="new_expense_dialog_title">Nouvelle dépense</string>
 </resources>
