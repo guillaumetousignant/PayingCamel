@@ -21,4 +21,31 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" />
     </com.google.android.material.appbar.AppBarLayout>
 
+    <EditText
+        android:id="@+id/edit_rate_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:hint="@string/hint_title"
+        android:inputType="textAutoComplete"
+        android:padding="@dimen/big_padding"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/rate_amount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/hint_amount"
+        android:inputType="numberDecimal"
+        android:padding="@dimen/big_padding" />
+
+    <EditText
+        android:id="@+id/edit_rate_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_note"
+        android:inputType="textLongMessage|textAutoComplete|textImeMultiLine"
+        android:padding="@dimen/big_padding" />
+
 </LinearLayout>

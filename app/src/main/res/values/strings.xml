@@ -24,7 +24,6 @@
     <string name="skater_name_default">%s %s</string>
     <string name="calendar_toast">Selected date is: %d-%d-%d</string>
     <string name="button_save">Save</string>
-    <string name="hint_course">Add a title</string>
     <string name="empty_not_saved">Word not saved because it is empty.</string>
     <string name="new_course_dialog_title">New course</string>
     <string name="skater_hint">Add skater</string>
@@ -33,9 +32,8 @@
     <string name="end_before_start">End time should be after start time</string>
     <string name="paid">Paid</string>
     <string name="paid_tooltip">Has the course been paid?</string>
-    <string name="note_hint">Add a note</string>
     <string name="rate_hint">Add hourly rate</string>
-    <string name="amount_hint">Enter amount</string>
+    <string name="hint_amount">Enter amount</string>
     <string name="new_skater_dialog_title">New skater</string>
     <string name="hint_first_name">First name</string>
     <string name="hint_last_name">Last name</string>
@@ -49,4 +47,7 @@
     <string name="new_path_dialog_title">New path</string>
     <string name="new_fill_dialog_title">New fill</string>
     <string name="new_trip_dialog_title">New trip</string>
+    <string name="hint_title">Add a title</string>
+    <string name="hint_note">Add a note</string>
+    <string name="empty_amount">Empty amount</string>
 </resources>
