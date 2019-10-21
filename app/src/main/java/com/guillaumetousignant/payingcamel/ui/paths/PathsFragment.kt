@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.NewPathActivity
-import com.guillaumetousignant.payingcamel.database.Path.Path
-import com.guillaumetousignant.payingcamel.database.Path.PathListAdapter
+import com.guillaumetousignant.payingcamel.database.path.Path
+import com.guillaumetousignant.payingcamel.database.path.PathListAdapter
 import java.util.*
 
 class PathsFragment : Fragment() {

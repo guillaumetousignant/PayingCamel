@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import android.app.Application
 import android.icu.util.Calendar
 import androidx.lifecycle.AndroidViewModel
-import com.guillaumetousignant.payingcamel.database.Skater.SkaterRepository
-import com.guillaumetousignant.payingcamel.database.Skater.Skater
-import com.guillaumetousignant.payingcamel.database.Rate.RateRepository
-import com.guillaumetousignant.payingcamel.database.Rate.Rate
+import com.guillaumetousignant.payingcamel.database.skater.SkaterRepository
+import com.guillaumetousignant.payingcamel.database.skater.Skater
+import com.guillaumetousignant.payingcamel.database.rate.RateRepository
+import com.guillaumetousignant.payingcamel.database.rate.Rate
 import com.guillaumetousignant.payingcamel.database.CoachRoomDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

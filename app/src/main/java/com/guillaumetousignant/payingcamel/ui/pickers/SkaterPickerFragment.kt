@@ -11,8 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.guillaumetousignant.payingcamel.R
-import com.guillaumetousignant.payingcamel.database.Skater.Skater
-import com.guillaumetousignant.payingcamel.database.Skater.SkaterListAdapter
+import com.guillaumetousignant.payingcamel.database.skater.Skater
+import com.guillaumetousignant.payingcamel.database.skater.SkaterListAdapter
 
 class SkaterPickerFragment(val skater: MutableLiveData<Skater?>, private val allSkaters: LiveData<List<Skater>>) : DialogFragment() {
 

@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.AndroidViewModel
 import android.app.Application
 
-import com.guillaumetousignant.payingcamel.database.Expense.ExpenseRepository
-import com.guillaumetousignant.payingcamel.database.Expense.Expense
+import com.guillaumetousignant.payingcamel.database.expense.ExpenseRepository
+import com.guillaumetousignant.payingcamel.database.expense.Expense
 import com.guillaumetousignant.payingcamel.database.CoachRoomDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

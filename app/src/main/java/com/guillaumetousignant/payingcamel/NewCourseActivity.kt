@@ -27,8 +27,8 @@ import com.guillaumetousignant.payingcamel.ui.pickers.SkaterPickerFragment
 import com.guillaumetousignant.payingcamel.ui.pickers.TimePickerFragment
 import java.text.DateFormat
 import com.google.android.material.snackbar.Snackbar
-import com.guillaumetousignant.payingcamel.database.Rate.Rate
-import com.guillaumetousignant.payingcamel.database.Skater.Skater
+import com.guillaumetousignant.payingcamel.database.rate.Rate
+import com.guillaumetousignant.payingcamel.database.skater.Skater
 import com.guillaumetousignant.payingcamel.ui.pickers.RatePickerFragment
 //import androidx.core.app.ComponentActivity.ExtraData
 //import androidx.core.content.ContextCompat.getSystemService

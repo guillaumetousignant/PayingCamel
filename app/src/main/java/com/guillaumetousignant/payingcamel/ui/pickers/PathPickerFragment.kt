@@ -11,8 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.guillaumetousignant.payingcamel.R
-import com.guillaumetousignant.payingcamel.database.Path.Path
-import com.guillaumetousignant.payingcamel.database.Path.PathListAdapter
+import com.guillaumetousignant.payingcamel.database.path.Path
+import com.guillaumetousignant.payingcamel.database.path.PathListAdapter
 
 class PathPickerFragment(val path: MutableLiveData<Path?>, private val allPaths: LiveData<List<Path>>) : DialogFragment() {
 

@@ -13,7 +13,7 @@ import com.guillaumetousignant.payingcamel.R
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.guillaumetousignant.payingcamel.database.Course.CourseListAdapter
+import com.guillaumetousignant.payingcamel.database.course.CourseListAdapter
 
 import com.google.android.material.snackbar.Snackbar
 //import kotlinx.android.synthetic.main.fragment_overview.fab_overview
@@ -22,7 +22,7 @@ import android.app.Activity
 import android.icu.util.Calendar
 //import android.widget.Toast
 import com.guillaumetousignant.payingcamel.NewCourseActivity
-import com.guillaumetousignant.payingcamel.database.Course.Course
+import com.guillaumetousignant.payingcamel.database.course.Course
 import java.util.*
 
 class OverviewFragment : Fragment() {

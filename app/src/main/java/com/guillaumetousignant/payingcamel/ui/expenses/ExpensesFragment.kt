@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.NewExpenseActivity
-import com.guillaumetousignant.payingcamel.database.Expense.Expense
-import com.guillaumetousignant.payingcamel.database.Expense.ExpenseListAdapter
+import com.guillaumetousignant.payingcamel.database.expense.Expense
+import com.guillaumetousignant.payingcamel.database.expense.ExpenseListAdapter
 import java.util.*
 
 class ExpensesFragment : Fragment() {

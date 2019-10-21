@@ -13,20 +13,20 @@ import kotlinx.coroutines.launch
 
 import java.util.UUID // REMOVE
 import android.icu.util.Calendar // REMOVE
-import com.guillaumetousignant.payingcamel.database.Course.Course
-import com.guillaumetousignant.payingcamel.database.Course.CourseDao
-import com.guillaumetousignant.payingcamel.database.Expense.Expense
-import com.guillaumetousignant.payingcamel.database.Expense.ExpenseDao
-import com.guillaumetousignant.payingcamel.database.Fill.Fill
-import com.guillaumetousignant.payingcamel.database.Fill.FillDao
-import com.guillaumetousignant.payingcamel.database.Path.Path
-import com.guillaumetousignant.payingcamel.database.Path.PathDao
-import com.guillaumetousignant.payingcamel.database.Rate.Rate
-import com.guillaumetousignant.payingcamel.database.Rate.RateDao
-import com.guillaumetousignant.payingcamel.database.Skater.Skater
-import com.guillaumetousignant.payingcamel.database.Skater.SkaterDao
-import com.guillaumetousignant.payingcamel.database.Trip.Trip
-import com.guillaumetousignant.payingcamel.database.Trip.TripDao
+import com.guillaumetousignant.payingcamel.database.course.Course
+import com.guillaumetousignant.payingcamel.database.course.CourseDao
+import com.guillaumetousignant.payingcamel.database.expense.Expense
+import com.guillaumetousignant.payingcamel.database.expense.ExpenseDao
+import com.guillaumetousignant.payingcamel.database.fill.Fill
+import com.guillaumetousignant.payingcamel.database.fill.FillDao
+import com.guillaumetousignant.payingcamel.database.path.Path
+import com.guillaumetousignant.payingcamel.database.path.PathDao
+import com.guillaumetousignant.payingcamel.database.rate.Rate
+import com.guillaumetousignant.payingcamel.database.rate.RateDao
+import com.guillaumetousignant.payingcamel.database.skater.Skater
+import com.guillaumetousignant.payingcamel.database.skater.SkaterDao
+import com.guillaumetousignant.payingcamel.database.trip.Trip
+import com.guillaumetousignant.payingcamel.database.trip.TripDao
 
 // Annotates class to be a Room Database with a table (entity) of the Word class
 @Database(entities = [Course::class, Expense::class, Fill::class, Path::class, Rate::class, Skater::class, Trip::class],

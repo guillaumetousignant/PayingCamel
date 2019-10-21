@@ -11,8 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.guillaumetousignant.payingcamel.R
-import com.guillaumetousignant.payingcamel.database.Rate.Rate
-import com.guillaumetousignant.payingcamel.database.Rate.RateListAdapter
+import com.guillaumetousignant.payingcamel.database.rate.Rate
+import com.guillaumetousignant.payingcamel.database.rate.RateListAdapter
 
 class RatePickerFragment(val rate: MutableLiveData<Rate?>, private val allRates: LiveData<List<Rate>>) : DialogFragment() {
 

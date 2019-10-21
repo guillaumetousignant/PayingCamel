@@ -14,9 +14,9 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
-import com.guillaumetousignant.payingcamel.database.Course.Course
-import com.guillaumetousignant.payingcamel.database.Path.Path
-import com.guillaumetousignant.payingcamel.database.Skater.Skater
+import com.guillaumetousignant.payingcamel.database.course.Course
+import com.guillaumetousignant.payingcamel.database.path.Path
+import com.guillaumetousignant.payingcamel.database.skater.Skater
 import com.guillaumetousignant.payingcamel.ui.pickers.*
 import com.guillaumetousignant.payingcamel.ui.trips.NewTripViewModel
 import com.guillaumetousignant.payingcamel.ui.trips.NewTripViewModelFactory

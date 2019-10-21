@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.NewRateActivity
-import com.guillaumetousignant.payingcamel.database.Rate.Rate
-import com.guillaumetousignant.payingcamel.database.Rate.RateListAdapter
+import com.guillaumetousignant.payingcamel.database.rate.Rate
+import com.guillaumetousignant.payingcamel.database.rate.RateListAdapter
 import java.util.*
 
 class RatesFragment : Fragment() {

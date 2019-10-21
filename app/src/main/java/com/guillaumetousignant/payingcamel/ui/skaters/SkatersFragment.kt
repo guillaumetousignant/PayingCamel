@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.NewSkaterActivity
-import com.guillaumetousignant.payingcamel.database.Skater.Skater
-import com.guillaumetousignant.payingcamel.database.Skater.SkaterListAdapter
+import com.guillaumetousignant.payingcamel.database.skater.Skater
+import com.guillaumetousignant.payingcamel.database.skater.SkaterListAdapter
 import java.util.*
 
 class SkatersFragment : Fragment() {
