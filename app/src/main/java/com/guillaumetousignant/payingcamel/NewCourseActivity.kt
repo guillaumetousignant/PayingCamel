@@ -212,7 +212,7 @@ class NewCourseActivity : AppCompatActivity() {
                     Snackbar.make(view, R.string.end_before_start, Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show()
                 }
-                else if (TextUtils.isEmpty(editNoteView.text)) {
+                else if (TextUtils.isEmpty(amountView.text)) {
                     val view = findViewById<View>(android.R.id.content)
 
                     Snackbar.make(view, R.string.empty_amount, Snackbar.LENGTH_LONG)
