@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.AndroidViewModel
 import android.app.Application
 
-import com.guillaumetousignant.payingcamel.database.SkaterRepository
-import com.guillaumetousignant.payingcamel.database.Skater
+import com.guillaumetousignant.payingcamel.database.Skater.SkaterRepository
+import com.guillaumetousignant.payingcamel.database.Skater.Skater
 import com.guillaumetousignant.payingcamel.database.CoachRoomDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

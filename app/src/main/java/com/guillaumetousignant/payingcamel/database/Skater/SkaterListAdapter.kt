@@ -1,4 +1,4 @@
-package com.guillaumetousignant.payingcamel.database
+package com.guillaumetousignant.payingcamel.database.Skater
 
 //import android.content.Context
 import android.view.LayoutInflater

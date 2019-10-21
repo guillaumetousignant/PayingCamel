@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.NewExpenseActivity
-import com.guillaumetousignant.payingcamel.database.Expense
-import com.guillaumetousignant.payingcamel.database.ExpenseListAdapter
+import com.guillaumetousignant.payingcamel.database.Expense.Expense
+import com.guillaumetousignant.payingcamel.database.Expense.ExpenseListAdapter
 import java.util.*
 
 class ExpensesFragment : Fragment() {
@@ -71,7 +71,8 @@ class ExpensesFragment : Fragment() {
                     data.getSerializableExtra(NewExpenseActivity.EXTRA_COURSE) as UUID?,
                     data.getSerializableExtra(NewExpenseActivity.EXTRA_SKATER) as UUID?,
                     data.getStringExtra(NewExpenseActivity.EXTRA_NAME),
-                    data.getStringExtra(NewExpenseActivity.EXTRA_NOTE))
+                    data.getStringExtra(NewExpenseActivity.EXTRA_NOTE)
+                )
                 expensesViewModel.insert(expense)
                 Unit
             }

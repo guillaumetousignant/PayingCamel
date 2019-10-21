@@ -1,4 +1,4 @@
-package com.guillaumetousignant.payingcamel.database
+package com.guillaumetousignant.payingcamel.database.Skater
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -7,19 +7,22 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-interface RateDao {
+interface SkaterDao {
 
     // LiveData is a data holder class that can be observed within a given lifecycle.
     // Always holds/caches latest version of data. Notifies its active observers when the
     // data has changed. Since we are getting all the contents of the database,
     // we are notified whenever any of the database contents have changed.
-    @Query("SELECT * from rate_table ORDER BY name ASC")
-    fun getAscRates(): LiveData<List<Rate>>
+    @Query("SELECT * from skater_table ORDER BY first_name ASC")
+    fun getAscFirstNameSkater(): LiveData<List<Skater>>
+
+    @Query("SELECT * from skater_table ORDER BY last_name ASC")
+    fun getAscLastNameSkater(): LiveData<List<Skater>>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
-    fun insert(rate: Rate)
+    fun insert(skater: Skater)
 
 
-    @Query("DELETE FROM rate_table")
+    @Query("DELETE FROM skater_table")
     fun deleteAll()
 }

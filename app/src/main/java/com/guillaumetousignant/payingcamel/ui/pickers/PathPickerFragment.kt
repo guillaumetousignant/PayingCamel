@@ -11,8 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.guillaumetousignant.payingcamel.R
-import com.guillaumetousignant.payingcamel.database.Path
-import com.guillaumetousignant.payingcamel.database.PathListAdapter
+import com.guillaumetousignant.payingcamel.database.Path.Path
+import com.guillaumetousignant.payingcamel.database.Path.PathListAdapter
 
 class PathPickerFragment(val path: MutableLiveData<Path?>, private val allPaths: LiveData<List<Path>>) : DialogFragment() {
 
@@ -26,7 +26,7 @@ class PathPickerFragment(val path: MutableLiveData<Path?>, private val allPaths:
 
         val recyclerView: RecyclerView = view.findViewById(R.id.path_picker_dialog_recyclerview)
         //val adapter = CourseListAdapter(this)
-        val adapter = PathListAdapter{
+        val adapter = PathListAdapter {
             path.postValue(it)
             dismiss()
         }

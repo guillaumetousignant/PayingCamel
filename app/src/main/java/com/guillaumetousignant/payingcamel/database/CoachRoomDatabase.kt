@@ -13,6 +13,20 @@ import kotlinx.coroutines.launch
 
 import java.util.UUID // REMOVE
 import android.icu.util.Calendar // REMOVE
+import com.guillaumetousignant.payingcamel.database.Course.Course
+import com.guillaumetousignant.payingcamel.database.Course.CourseDao
+import com.guillaumetousignant.payingcamel.database.Expense.Expense
+import com.guillaumetousignant.payingcamel.database.Expense.ExpenseDao
+import com.guillaumetousignant.payingcamel.database.Fill.Fill
+import com.guillaumetousignant.payingcamel.database.Fill.FillDao
+import com.guillaumetousignant.payingcamel.database.Path.Path
+import com.guillaumetousignant.payingcamel.database.Path.PathDao
+import com.guillaumetousignant.payingcamel.database.Rate.Rate
+import com.guillaumetousignant.payingcamel.database.Rate.RateDao
+import com.guillaumetousignant.payingcamel.database.Skater.Skater
+import com.guillaumetousignant.payingcamel.database.Skater.SkaterDao
+import com.guillaumetousignant.payingcamel.database.Trip.Trip
+import com.guillaumetousignant.payingcamel.database.Trip.TripDao
 
 // Annotates class to be a Room Database with a table (entity) of the Word class
 @Database(entities = [Course::class, Expense::class, Fill::class, Path::class, Rate::class, Skater::class, Trip::class],
@@ -20,13 +34,13 @@ import android.icu.util.Calendar // REMOVE
 @TypeConverters(Converters::class)
 abstract class CoachRoomDatabase : RoomDatabase() {
 
-    abstract fun courseDao():  CourseDao
+    abstract fun courseDao(): CourseDao
     abstract fun expenseDao(): ExpenseDao
-    abstract fun fillDao():    FillDao
-    abstract fun pathDao():    PathDao
-    abstract fun rateDao():    RateDao
-    abstract fun skaterDao():  SkaterDao
-    abstract fun tripDao():    TripDao
+    abstract fun fillDao(): FillDao
+    abstract fun pathDao(): PathDao
+    abstract fun rateDao(): RateDao
+    abstract fun skaterDao(): SkaterDao
+    abstract fun tripDao(): TripDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the
@@ -89,7 +103,8 @@ abstract class CoachRoomDatabase : RoomDatabase() {
                                  pathDao: PathDao,
                                  rateDao: RateDao,
                                  skaterDao: SkaterDao,
-                                 tripDao: TripDao) {
+                                 tripDao: TripDao
+            ) {
                 // Start the app with a clean database every time.
                 // Not needed if you only populate on creation.
                 courseDao.deleteAll()
@@ -100,79 +115,150 @@ abstract class CoachRoomDatabase : RoomDatabase() {
                 skaterDao.deleteAll()
                 tripDao.deleteAll()
 
-                var course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
-                    2000, 1000, "first course", "First course note", true)
+                var course = Course(
+                    UUID.randomUUID(),
+                    UUID.randomUUID(),
+                    Calendar.getInstance(),
+                    Calendar.getInstance(),
+                    2000,
+                    1000,
+                    "first course",
+                    "First course note",
+                    true
+                )
                 courseDao.insert(course)
 
-                course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
-                    2000, 2000, "second course", "Second course note", false)
+                course = Course(
+                    UUID.randomUUID(),
+                    UUID.randomUUID(),
+                    Calendar.getInstance(),
+                    Calendar.getInstance(),
+                    2000,
+                    2000,
+                    "second course",
+                    "Second course note",
+                    false
+                )
                 courseDao.insert(course)
 
-                course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
-                    2000, 2000, "third course", "Third course note", false)
+                course = Course(
+                    UUID.randomUUID(),
+                    UUID.randomUUID(),
+                    Calendar.getInstance(),
+                    Calendar.getInstance(),
+                    2000,
+                    2000,
+                    "third course",
+                    "Third course note",
+                    false
+                )
                 courseDao.insert(course)
 
-                course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
-                    2000, 2000, "fourth course", "Fourth course note", false)
+                course = Course(
+                    UUID.randomUUID(),
+                    UUID.randomUUID(),
+                    Calendar.getInstance(),
+                    Calendar.getInstance(),
+                    2000,
+                    2000,
+                    "fourth course",
+                    "Fourth course note",
+                    false
+                )
                 courseDao.insert(course)
 
-                course = Course(UUID.randomUUID(), UUID.randomUUID(), Calendar.getInstance(), Calendar.getInstance(),
-                    2000, 2000, "fifth course", "Fifth course note", false)
+                course = Course(
+                    UUID.randomUUID(),
+                    UUID.randomUUID(),
+                    Calendar.getInstance(),
+                    Calendar.getInstance(),
+                    2000,
+                    2000,
+                    "fifth course",
+                    "Fifth course note",
+                    false
+                )
                 courseDao.insert(course)
 
-                var expense = Expense(UUID.randomUUID(), 1000, Calendar.getInstance(),
-                    null, null, "Beignes", "Beignes pour manger miam miam")
+                var expense = Expense(
+                    UUID.randomUUID(), 1000, Calendar.getInstance(),
+                    null, null, "Beignes", "Beignes pour manger miam miam"
+                )
                 expenseDao.insert(expense)
 
-                expense = Expense(UUID.randomUUID(), 2000, Calendar.getInstance(),
-                    null, null, "Beignes 2", "2e achat de beignes miam miam")
+                expense = Expense(
+                    UUID.randomUUID(), 2000, Calendar.getInstance(),
+                    null, null, "Beignes 2", "2e achat de beignes miam miam"
+                )
                 expenseDao.insert(expense)
 
-                var fill = Fill(UUID.randomUUID(), 4300, Calendar.getInstance(), "Plein",
-                    null)
+                var fill = Fill(
+                    UUID.randomUUID(), 4300, Calendar.getInstance(), "Plein",
+                    null
+                )
                 fillDao.insert(fill)
 
-                fill = Fill(UUID.randomUUID(), 1300, Calendar.getInstance(), "Plein",
-                    "Plus d'essence")
+                fill = Fill(
+                    UUID.randomUUID(), 1300, Calendar.getInstance(), "Plein",
+                    "Plus d'essence"
+                )
                 fillDao.insert(fill)
 
-                var path = Path(UUID.randomUUID(), 10.5, "maison", "aréna",
-                    "Maison-Cholette", null)
+                var path = Path(
+                    UUID.randomUUID(), 10.5, "maison", "aréna",
+                    "Maison-Cholette", null
+                )
                 pathDao.insert(path)
 
-                path = Path(UUID.randomUUID(), 30.5, "maison", "Baribeauy",
-                    "Maison-Baribeau", "Sans traffic")
+                path = Path(
+                    UUID.randomUUID(), 30.5, "maison", "Baribeauy",
+                    "Maison-Baribeau", "Sans traffic"
+                )
                 pathDao.insert(path)
 
-                var rate = Rate(UUID.randomUUID(), 2100, "Privé", "Augmentation 2019",
-                    null)
+                var rate = Rate(
+                    UUID.randomUUID(), 2100, "Privé", "Augmentation 2019",
+                    null
+                )
                 rateDao.insert(rate)
 
-                rate = Rate(UUID.randomUUID(), 2450, "Club", "Augmentation 2019",
-                    null)
+                rate = Rate(
+                    UUID.randomUUID(), 2450, "Club", "Augmentation 2019",
+                    null
+                )
                 rateDao.insert(rate)
 
-                var skater = Skater(UUID.randomUUID(), "Guillaume", "Tousignant",
-                    "Niveau 0 lol", "moi_guillaume@hotmail.com", true)
+                var skater = Skater(
+                    UUID.randomUUID(), "Guillaume", "Tousignant",
+                    "Niveau 0 lol", "moi_guillaume@hotmail.com", true
+                )
                 skaterDao.insert(skater)
 
-                skater = Skater(UUID.randomUUID(), "Ariane", "Laurier",
-                    "Amour d'amour ❤❤❤", null, true)
+                skater = Skater(
+                    UUID.randomUUID(), "Ariane", "Laurier",
+                    "Amour d'amour ❤❤❤", null, true
+                )
                 skaterDao.insert(skater)
 
-                var trip = Trip(UUID.randomUUID(), "Maison-Cholette", "maison",
+                var trip = Trip(
+                    UUID.randomUUID(), "Maison-Cholette", "maison",
                     "Cholette", 10.5, Calendar.getInstance(), null, null,
-                    "Mardi soir", "J'ai vu un chevreuil")
+                    "Mardi soir", "J'ai vu un chevreuil"
+                )
                 tripDao.insert(trip)
 
-                trip = Trip(UUID.randomUUID(), "Maison-Baribeau", "maison",
+                trip = Trip(
+                    UUID.randomUUID(), "Maison-Baribeau", "maison",
                     "Baribeau", 30.5, Calendar.getInstance(), null, null,
-                    "Mardi pm", null)
+                    "Mardi pm", null
+                )
                 tripDao.insert(trip)
 
-                trip = Trip(UUID.randomUUID(), "Maison-Cholette", "maison",
+                trip = Trip(
+                    UUID.randomUUID(), "Maison-Cholette", "maison",
                     "Cholette", 10.5, Calendar.getInstance(), null, null,
-                    "Jeudi soir", null)
+                    "Jeudi soir", null
+                )
                 tripDao.insert(trip)
             }
         }

@@ -5,8 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.guillaumetousignant.payingcamel.database.CoachRoomDatabase
-import com.guillaumetousignant.payingcamel.database.Skater
-import com.guillaumetousignant.payingcamel.database.SkaterRepository
+import com.guillaumetousignant.payingcamel.database.Skater.Skater
+import com.guillaumetousignant.payingcamel.database.Skater.SkaterRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -31,7 +31,8 @@ class NewRateViewModel(application: Application) : AndroidViewModel(application)
 
     init {
         val skaterDao = CoachRoomDatabase.getDatabase(application, scope).skaterDao()
-        skaterRepository = SkaterRepository(skaterDao)
+        skaterRepository =
+            SkaterRepository(skaterDao)
         allSkaters = skaterRepository.allSkaters
 
         skater = MutableLiveData(null)

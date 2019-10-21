@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.AndroidViewModel
 import android.app.Application
 
-import com.guillaumetousignant.payingcamel.database.TripRepository
-import com.guillaumetousignant.payingcamel.database.Trip
+import com.guillaumetousignant.payingcamel.database.Trip.TripRepository
+import com.guillaumetousignant.payingcamel.database.Trip.Trip
 import com.guillaumetousignant.payingcamel.database.CoachRoomDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

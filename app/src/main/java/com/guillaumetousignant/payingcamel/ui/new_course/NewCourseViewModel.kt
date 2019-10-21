@@ -6,10 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import android.app.Application
 import android.icu.util.Calendar
 import androidx.lifecycle.AndroidViewModel
-import com.guillaumetousignant.payingcamel.database.SkaterRepository
-import com.guillaumetousignant.payingcamel.database.Skater
-import com.guillaumetousignant.payingcamel.database.RateRepository
-import com.guillaumetousignant.payingcamel.database.Rate
+import com.guillaumetousignant.payingcamel.database.Skater.SkaterRepository
+import com.guillaumetousignant.payingcamel.database.Skater.Skater
+import com.guillaumetousignant.payingcamel.database.Rate.RateRepository
+import com.guillaumetousignant.payingcamel.database.Rate.Rate
 import com.guillaumetousignant.payingcamel.database.CoachRoomDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,7 +43,8 @@ class NewCourseViewModel(application: Application, initCalendar: Calendar) : And
 
     init {
         val skaterDao = CoachRoomDatabase.getDatabase(application, scope).skaterDao()
-        skaterRepository = SkaterRepository(skaterDao)
+        skaterRepository =
+            SkaterRepository(skaterDao)
         allSkaters = skaterRepository.allSkaters
 
         val rateDao = CoachRoomDatabase.getDatabase(application, scope).rateDao()

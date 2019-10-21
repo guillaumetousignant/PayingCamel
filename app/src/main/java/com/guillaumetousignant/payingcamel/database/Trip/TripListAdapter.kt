@@ -1,4 +1,4 @@
-package com.guillaumetousignant.payingcamel.database
+package com.guillaumetousignant.payingcamel.database.Trip
 
 //import android.content.Context
 import android.view.LayoutInflater

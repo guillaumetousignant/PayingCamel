@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.NewRateActivity
-import com.guillaumetousignant.payingcamel.database.Rate
-import com.guillaumetousignant.payingcamel.database.RateListAdapter
+import com.guillaumetousignant.payingcamel.database.Rate.Rate
+import com.guillaumetousignant.payingcamel.database.Rate.RateListAdapter
 import java.util.*
 
 class RatesFragment : Fragment() {
@@ -36,7 +36,7 @@ class RatesFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_rates, container, false)
         val recyclerView: RecyclerView = root.findViewById(R.id.rates_recyclerview)
         //val adapter = CourseListAdapter(this)
-        val adapter = RateListAdapter{}
+        val adapter = RateListAdapter {}
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
@@ -67,7 +67,8 @@ class RatesFragment : Fragment() {
                     data.getIntExtra(NewRateActivity.EXTRA_AMOUNT, 0),
                     data.getStringExtra(NewRateActivity.EXTRA_NAME),
                     data.getStringExtra(NewRateActivity.EXTRA_NOTE),
-                    data.getSerializableExtra(NewRateActivity.EXTRA_SKATER) as UUID?)
+                    data.getSerializableExtra(NewRateActivity.EXTRA_SKATER) as UUID?
+                )
                 ratesViewModel.insert(rate)
                 Unit
             }

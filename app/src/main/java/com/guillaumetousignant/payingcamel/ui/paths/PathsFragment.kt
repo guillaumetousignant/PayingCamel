@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.NewPathActivity
-import com.guillaumetousignant.payingcamel.database.Path
-import com.guillaumetousignant.payingcamel.database.PathListAdapter
+import com.guillaumetousignant.payingcamel.database.Path.Path
+import com.guillaumetousignant.payingcamel.database.Path.PathListAdapter
 import java.util.*
 
 class PathsFragment : Fragment() {
@@ -36,7 +36,7 @@ class PathsFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_paths, container, false)
         val recyclerView: RecyclerView = root.findViewById(R.id.paths_recyclerview)
         //val adapter = CourseListAdapter(this)
-        val adapter = PathListAdapter{}
+        val adapter = PathListAdapter {}
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
@@ -68,7 +68,8 @@ class PathsFragment : Fragment() {
                     data.getStringExtra(NewPathActivity.EXTRA_FROM),
                     data.getStringExtra(NewPathActivity.EXTRA_TO),
                     data.getStringExtra(NewPathActivity.EXTRA_NAME),
-                    data.getStringExtra(NewPathActivity.EXTRA_NOTE))
+                    data.getStringExtra(NewPathActivity.EXTRA_NOTE)
+                )
                 pathsViewModel.insert(path)
                 Unit
             }

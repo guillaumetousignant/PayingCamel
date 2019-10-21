@@ -1,4 +1,4 @@
-package com.guillaumetousignant.payingcamel.database
+package com.guillaumetousignant.payingcamel.database.Course
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

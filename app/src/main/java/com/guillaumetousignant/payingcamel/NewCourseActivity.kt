@@ -2,7 +2,6 @@ package com.guillaumetousignant.payingcamel
 
 import android.app.Activity
 import android.content.Intent
-import android.icu.text.DecimalFormat
 import android.icu.text.NumberFormat
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -22,22 +21,18 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import com.guillaumetousignant.payingcamel.ui.pickers.DatePickerFragment
 import com.guillaumetousignant.payingcamel.ui.pickers.SkaterPickerFragment
 import com.guillaumetousignant.payingcamel.ui.pickers.TimePickerFragment
 import java.text.DateFormat
 import com.google.android.material.snackbar.Snackbar
-import com.guillaumetousignant.payingcamel.database.Rate
-import com.guillaumetousignant.payingcamel.database.Skater
+import com.guillaumetousignant.payingcamel.database.Rate.Rate
+import com.guillaumetousignant.payingcamel.database.Skater.Skater
 import com.guillaumetousignant.payingcamel.ui.pickers.RatePickerFragment
 //import androidx.core.app.ComponentActivity.ExtraData
 //import androidx.core.content.ContextCompat.getSystemService
 import com.guillaumetousignant.payingcamel.ui.new_course.NewCourseViewModelFactory
-import java.util.Collections.replaceAll
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
 
 /**
  * Activity for entering a word.

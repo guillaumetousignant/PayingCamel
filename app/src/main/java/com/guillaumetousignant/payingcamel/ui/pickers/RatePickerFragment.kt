@@ -11,8 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.guillaumetousignant.payingcamel.R
-import com.guillaumetousignant.payingcamel.database.Rate
-import com.guillaumetousignant.payingcamel.database.RateListAdapter
+import com.guillaumetousignant.payingcamel.database.Rate.Rate
+import com.guillaumetousignant.payingcamel.database.Rate.RateListAdapter
 
 class RatePickerFragment(val rate: MutableLiveData<Rate?>, private val allRates: LiveData<List<Rate>>) : DialogFragment() {
 
@@ -26,7 +26,7 @@ class RatePickerFragment(val rate: MutableLiveData<Rate?>, private val allRates:
 
         val recyclerView: RecyclerView = view.findViewById(R.id.rate_picker_dialog_recyclerview)
         //val adapter = CourseListAdapter(this)
-        val adapter = RateListAdapter{
+        val adapter = RateListAdapter {
             rate.postValue(it)
             dismiss()
         }

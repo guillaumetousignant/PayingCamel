@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.NewFillActivity
-import com.guillaumetousignant.payingcamel.database.Fill
-import com.guillaumetousignant.payingcamel.database.FillListAdapter
+import com.guillaumetousignant.payingcamel.database.Fill.Fill
+import com.guillaumetousignant.payingcamel.database.Fill.FillListAdapter
 import java.util.*
 
 class GasFragment : Fragment() {
@@ -69,7 +69,8 @@ class GasFragment : Fragment() {
                     data.getIntExtra(NewFillActivity.EXTRA_AMOUNT, 0),
                     data.getSerializableExtra(NewFillActivity.EXTRA_START) as Calendar,
                     data.getStringExtra(NewFillActivity.EXTRA_NAME),
-                    data.getStringExtra(NewFillActivity.EXTRA_NOTE))
+                    data.getStringExtra(NewFillActivity.EXTRA_NOTE)
+                )
                 gasViewModel.insert(fill)
                 Unit
             }

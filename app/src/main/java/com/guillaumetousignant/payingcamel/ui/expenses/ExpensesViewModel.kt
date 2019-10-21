@@ -6,8 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.AndroidViewModel
 import android.app.Application
 
-import com.guillaumetousignant.payingcamel.database.ExpenseRepository
-import com.guillaumetousignant.payingcamel.database.Expense
+import com.guillaumetousignant.payingcamel.database.Expense.ExpenseRepository
+import com.guillaumetousignant.payingcamel.database.Expense.Expense
 import com.guillaumetousignant.payingcamel.database.CoachRoomDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +32,8 @@ class ExpensesViewModel(application: Application) : AndroidViewModel(application
 
     init {
         val expenseDao = CoachRoomDatabase.getDatabase(application, scope).expenseDao()
-        repository = ExpenseRepository(expenseDao)
+        repository =
+            ExpenseRepository(expenseDao)
         allExpenses = repository.allExpenses
     }
 

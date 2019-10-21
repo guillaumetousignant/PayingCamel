@@ -2,13 +2,10 @@ package com.guillaumetousignant.payingcamel
 
 import android.app.Activity
 import android.content.Intent
-import android.icu.text.NumberFormat
 import android.icu.util.Calendar
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -17,9 +14,9 @@ import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.snackbar.Snackbar
-import com.guillaumetousignant.payingcamel.database.Course
-import com.guillaumetousignant.payingcamel.database.Path
-import com.guillaumetousignant.payingcamel.database.Skater
+import com.guillaumetousignant.payingcamel.database.Course.Course
+import com.guillaumetousignant.payingcamel.database.Path.Path
+import com.guillaumetousignant.payingcamel.database.Skater.Skater
 import com.guillaumetousignant.payingcamel.ui.pickers.*
 import com.guillaumetousignant.payingcamel.ui.trips.NewTripViewModel
 import com.guillaumetousignant.payingcamel.ui.trips.NewTripViewModelFactory

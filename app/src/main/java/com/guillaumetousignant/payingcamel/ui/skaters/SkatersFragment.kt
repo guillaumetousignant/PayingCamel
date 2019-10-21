@@ -2,7 +2,6 @@ package com.guillaumetousignant.payingcamel.ui.skaters
 
 import android.app.Activity
 import android.content.Intent
-import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.NewSkaterActivity
-import com.guillaumetousignant.payingcamel.database.Skater
-import com.guillaumetousignant.payingcamel.database.SkaterListAdapter
+import com.guillaumetousignant.payingcamel.database.Skater.Skater
+import com.guillaumetousignant.payingcamel.database.Skater.SkaterListAdapter
 import java.util.*
 
 class SkatersFragment : Fragment() {
@@ -37,7 +36,7 @@ class SkatersFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_skaters, container, false)
         val recyclerView: RecyclerView = root.findViewById(R.id.skaters_recyclerview)
         //val adapter = CourseListAdapter(this)
-        val adapter = SkaterListAdapter{}
+        val adapter = SkaterListAdapter {}
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
@@ -65,11 +64,12 @@ class SkatersFragment : Fragment() {
             intentData?.let { data ->
                 val skater = Skater(
                     UUID.randomUUID(),
-                    data.getStringExtra(NewSkaterActivity.EXTRA_FIRST_NAME)?:"",
-                    data.getStringExtra(NewSkaterActivity.EXTRA_LAST_NAME)?:"",
+                    data.getStringExtra(NewSkaterActivity.EXTRA_FIRST_NAME) ?: "",
+                    data.getStringExtra(NewSkaterActivity.EXTRA_LAST_NAME) ?: "",
                     data.getStringExtra(NewSkaterActivity.EXTRA_NOTE),
                     data.getStringExtra(NewSkaterActivity.EXTRA_EMAIL),
-                    data.getBooleanExtra(NewSkaterActivity.EXTRA_ACTIVE, true))
+                    data.getBooleanExtra(NewSkaterActivity.EXTRA_ACTIVE, true)
+                )
                 skatersViewModel.insert(skater)
                 Unit
             }

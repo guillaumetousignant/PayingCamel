@@ -6,6 +6,12 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.guillaumetousignant.payingcamel.database.*
+import com.guillaumetousignant.payingcamel.database.Course.Course
+import com.guillaumetousignant.payingcamel.database.Course.CourseRepository
+import com.guillaumetousignant.payingcamel.database.Path.Path
+import com.guillaumetousignant.payingcamel.database.Path.PathRepository
+import com.guillaumetousignant.payingcamel.database.Skater.Skater
+import com.guillaumetousignant.payingcamel.database.Skater.SkaterRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -37,7 +43,8 @@ class NewTripViewModel(application: Application, initCalendar: Calendar) : Andro
 
     init {
         val skaterDao = CoachRoomDatabase.getDatabase(application, scope).skaterDao()
-        skaterRepository = SkaterRepository(skaterDao)
+        skaterRepository =
+            SkaterRepository(skaterDao)
         allSkaters = skaterRepository.allSkaters
 
         val pathDao = CoachRoomDatabase.getDatabase(application, scope).pathDao()
@@ -45,7 +52,8 @@ class NewTripViewModel(application: Application, initCalendar: Calendar) : Andro
         allPaths = pathRepository.allPaths
 
         val courseDao = CoachRoomDatabase.getDatabase(application, scope).courseDao()
-        courseRepository = CourseRepository(courseDao)
+        courseRepository =
+            CourseRepository(courseDao)
         allCourses = courseRepository.allCourses
 
         startCalendar = MutableLiveData(initCalendar)

@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.NewTripActivity
-import com.guillaumetousignant.payingcamel.database.Trip
-import com.guillaumetousignant.payingcamel.database.TripListAdapter
+import com.guillaumetousignant.payingcamel.database.Trip.Trip
+import com.guillaumetousignant.payingcamel.database.Trip.TripListAdapter
 import java.util.*
 
 class TripsFragment : Fragment() {
@@ -74,7 +74,8 @@ class TripsFragment : Fragment() {
                     data.getSerializableExtra(NewTripActivity.EXTRA_COURSE) as UUID?,
                     data.getSerializableExtra(NewTripActivity.EXTRA_SKATER) as UUID?,
                     data.getStringExtra(NewTripActivity.EXTRA_NAME),
-                    data.getStringExtra(NewTripActivity.EXTRA_NOTE))
+                    data.getStringExtra(NewTripActivity.EXTRA_NOTE)
+                )
                 tripsViewModel.insert(trip)
                 Unit
             }

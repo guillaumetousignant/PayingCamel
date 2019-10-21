@@ -11,8 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.guillaumetousignant.payingcamel.R
-import com.guillaumetousignant.payingcamel.database.Course
-import com.guillaumetousignant.payingcamel.database.CourseListAdapter
+import com.guillaumetousignant.payingcamel.database.Course.Course
+import com.guillaumetousignant.payingcamel.database.Course.CourseListAdapter
 
 class CoursePickerFragment(val course: MutableLiveData<Course?>, private val allCourses: LiveData<List<Course>>) : DialogFragment() {
 
@@ -26,7 +26,7 @@ class CoursePickerFragment(val course: MutableLiveData<Course?>, private val all
 
         val recyclerView: RecyclerView = view.findViewById(R.id.course_picker_dialog_recyclerview)
         //val adapter = CourseListAdapter(this)
-        val adapter = CourseListAdapter{
+        val adapter = CourseListAdapter {
             course.postValue(it)
             dismiss()
         }

@@ -13,7 +13,7 @@ import com.guillaumetousignant.payingcamel.R
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.guillaumetousignant.payingcamel.database.CourseListAdapter
+import com.guillaumetousignant.payingcamel.database.Course.CourseListAdapter
 
 import com.google.android.material.snackbar.Snackbar
 //import kotlinx.android.synthetic.main.fragment_overview.fab_overview
@@ -22,8 +22,7 @@ import android.app.Activity
 import android.icu.util.Calendar
 //import android.widget.Toast
 import com.guillaumetousignant.payingcamel.NewCourseActivity
-import com.guillaumetousignant.payingcamel.database.Course
-import com.guillaumetousignant.payingcamel.ui.new_course.NewCourseDialog
+import com.guillaumetousignant.payingcamel.database.Course.Course
 import java.util.*
 
 class OverviewFragment : Fragment() {
@@ -42,7 +41,7 @@ class OverviewFragment : Fragment() {
 
         val recyclerView: RecyclerView = root.findViewById(R.id.overview_recyclerview)
         //val adapter = CourseListAdapter(this)
-        val adapter = CourseListAdapter{}
+        val adapter = CourseListAdapter {}
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
@@ -75,7 +74,8 @@ class OverviewFragment : Fragment() {
 
         if (requestCode == newCourseActivityRequestCode && resultCode == Activity.RESULT_OK) {
             intentData?.let { data ->
-                val course = Course(UUID.randomUUID(),
+                val course = Course(
+                    UUID.randomUUID(),
                     data.getSerializableExtra(NewCourseActivity.EXTRA_SKATER) as UUID?,
                     data.getSerializableExtra(NewCourseActivity.EXTRA_START) as Calendar,
                     data.getSerializableExtra(NewCourseActivity.EXTRA_END) as Calendar,
@@ -83,7 +83,8 @@ class OverviewFragment : Fragment() {
                     data.getIntExtra(NewCourseActivity.EXTRA_AMOUNT, 0),
                     data.getStringExtra(NewCourseActivity.EXTRA_NAME),
                     data.getStringExtra(NewCourseActivity.EXTRA_NOTE),
-                    data.getBooleanExtra(NewCourseActivity.EXTRA_PAID, false))
+                    data.getBooleanExtra(NewCourseActivity.EXTRA_PAID, false)
+                )
                 overviewViewModel.insert(course)
                 Unit
             }
