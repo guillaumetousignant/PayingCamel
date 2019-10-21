@@ -232,7 +232,7 @@ class NewCourseActivity : AppCompatActivity() {
                     }
                     val replaceable =
                         String.format("[%s,.]", NumberFormat.getCurrencyInstance().currency.symbol)
-                    val cleanString = editNoteView.text.toString().replace(replaceable.toRegex(), "").replace("\\s".toRegex(), "")
+                    val cleanString = amountView.text.toString().replace(replaceable.toRegex(), "").replace("\\s".toRegex(), "")
 
                     replyIntent.putExtra(EXTRA_NAME, name)
                     replyIntent.putExtra(EXTRA_SKATER, newCourseViewModel.skater.value?.uuid)
