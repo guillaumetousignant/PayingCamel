@@ -6,15 +6,18 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_calendar"
-            android:icon="@drawable/ic_test_calendar_grey_24dp"
+            android:icon="@drawable/ic_svg_event_24px"
+            android:iconTint="@color/menuNavIconColor"
             android:title="@string/menu_calendar" />
         <item
             android:id="@+id/nav_skaters"
-            android:icon="@drawable/ic_test_skater_grey_24dp"
+            android:icon="@drawable/ic_svg_face_24px"
+            android:iconTint="@color/menuNavIconColor"
             android:title="@string/menu_skaters" />
         <item
             android:id="@+id/nav_overview"
-            android:icon="@drawable/ic_test_overview_grey_24dp"
+            android:icon="@drawable/ic_svg_work_24px"
+            android:iconTint="@color/menuNavIconColor"
             android:title="@string/menu_overview" />
     </group>
 
@@ -22,15 +25,18 @@
         <menu>
             <item
                 android:id="@+id/nav_trips"
-                android:icon="@drawable/ic_test_trips_grey_24dp"
+                android:icon="@drawable/ic_svg_car_24px"
+                android:iconTint="@color/menuNavIconColor"
                 android:title="@string/menu_trips" />
             <item
                 android:id="@+id/nav_expenses"
-                android:icon="@drawable/ic_test_expense_grey_24dp"
+                android:icon="@drawable/ic_svg_shopping_cart_24px"
+                android:iconTint="@color/menuNavIconColor"
                 android:title="@string/menu_expenses" />
             <item
                 android:id="@+id/nav_gas"
-                android:icon="@drawable/ic_test_gas_grey_24dp"
+                android:icon="@drawable/ic_svg_car_24px"
+                android:iconTint="@color/menuNavIconColor"
                 android:title="@string/menu_gas" />
         </menu>
     </item>
@@ -38,11 +44,13 @@
         <menu>
             <item
                 android:id="@+id/nav_paths"
-                android:icon="@drawable/ic_test_path_grey_24dp"
+                android:icon="@drawable/ic_svg_timeline_24px"
+                android:iconTint="@color/menuNavIconColor"
                 android:title="@string/menu_paths" />
             <item
                 android:id="@+id/nav_rates"
-                android:icon="@drawable/ic_test_rates_grey_24dp"
+                android:icon="@drawable/ic_svg_money_circle_24px"
+                android:iconTint="@color/menuNavIconColor"
                 android:title="@string/menu_rates" />
             <item
                 android:id="@+id/nav_settings"

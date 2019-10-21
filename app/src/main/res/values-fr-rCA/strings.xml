@@ -3,7 +3,7 @@
     <string name="app_name">Paying Camel</string>
     <string name="action_settings">Paramètres</string>
     <string name="menu_skaters">Patineuses</string>
-    <string name="menu_gas">Essence</string>
+    <string name="menu_gas">Pleins</string>
     <string name="menu_expenses">Dépenses</string>
     <string name="menu_paths">Trajets</string>
     <string name="navigation_drawer_close">Fermer panneau de navigation</string>
@@ -44,7 +44,7 @@
     <string name="new_trip_dialog_title">Nouveau déplacement</string>
     <string name="new_rate_dialog_title">Nouveau taux horaire</string>
     <string name="new_path_dialog_title">Nouveau trajet</string>
-    <string name="new_fill_dialog_title">Nouveau remplissage</string>
+    <string name="new_fill_dialog_title">Nouveau plein</string>
     <string name="new_expense_dialog_title">Nouvelle dépense</string>
     <string name="hint_title">Ajouter un titre</string>
     <string name="hint_note">Ajouter une note</string>
@@ -56,4 +56,8 @@
     <string name="hint_path">Ajouter trajet</string>
     <string name="hint_course">Ajouter un cours</string>
     <string name="distance_unit">km</string>
+    <string name="label_course">Cours</string>
+    <string name="label_expense">Dépense</string>
+    <string name="label_fill">Plein</string>
+    <string name="label_trip">Déplacement</string>
 </resources>

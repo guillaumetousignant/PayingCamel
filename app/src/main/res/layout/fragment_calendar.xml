@@ -56,8 +56,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:sdMainFabClosedBackgroundColor="@color/colorBackground"
-        app:sdMainFabClosedSrc="@drawable/ic_add_accent_24dp"
+        app:sdMainFabClosedIconColor="@color/colorAccent"
+        app:sdMainFabClosedSrc="@drawable/ic_svg_add_24px"
         app:sdMainFabOpenedBackgroundColor="@color/colorAccent"
-        app:sdMainFabOpenedSrc="@drawable/ic_test_calendar_white_24dp"
+        app:sdMainFabOpenedIconColor="@color/colorBackground"
+        app:sdMainFabOpenedSrc="@drawable/ic_svg_event_24px"
         app:sdOverlayLayout="@id/overlay" />
 </androidx.constraintlayout.widget.ConstraintLayout>
