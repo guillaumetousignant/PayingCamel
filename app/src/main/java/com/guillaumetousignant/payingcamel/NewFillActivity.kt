@@ -43,7 +43,9 @@ class NewFillActivity : AppCompatActivity() {
         editAmountView = findViewById(R.id.fill_amount)
 
         val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR) as Calendar
-
+        initCalendar.set(Calendar.MILLISECOND, 0)
+        initCalendar.set(Calendar.SECOND, 0)
+        initCalendar.set(Calendar.MINUTE, 0)
         val factory = NewFillViewModelFactory(application, initCalendar)
         newFillViewModel =
             ViewModelProviders.of(this, factory).get(NewFillViewModel::class.java) // Added

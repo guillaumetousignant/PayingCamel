@@ -43,7 +43,9 @@ class NewExpenseActivity : AppCompatActivity() {
         editAmountView = findViewById(R.id.expense_amount)
 
         val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR) as Calendar
-
+        initCalendar.set(Calendar.MILLISECOND, 0)
+        initCalendar.set(Calendar.SECOND, 0)
+        initCalendar.set(Calendar.MINUTE, 0)
         val factory = NewExpenseViewModelFactory(application, initCalendar)
         newExpenseViewModel =
             ViewModelProviders.of(this, factory).get(NewExpenseViewModel::class.java) // Added

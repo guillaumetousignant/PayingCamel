@@ -72,6 +72,9 @@ class NewCourseActivity : AppCompatActivity() {
         amountView = findViewById(R.id.amount_number)
 
         val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR) as Calendar
+        initCalendar.set(Calendar.MILLISECOND, 0)
+        initCalendar.set(Calendar.SECOND, 0)
+        initCalendar.set(Calendar.MINUTE, 0)
         val factory = NewCourseViewModelFactory(application, initCalendar)
         newCourseViewModel =
             ViewModelProviders.of(this, factory).get(NewCourseViewModel::class.java) // Added
@@ -96,8 +99,11 @@ class NewCourseActivity : AppCompatActivity() {
                         newCourseViewModel.startCalendar.value ?: Calendar.getInstance()
                     val endCalendar = newCourseViewModel.endCalendar.value ?: Calendar.getInstance()
                     //newCourseViewModel.amount.postValue(((endCalendar.timeInMillis - startCalendar.timeInMillis).toDouble() / 3600000 * it.amount).toInt())
-                    val amountValue = ((endCalendar.timeInMillis - startCalendar.timeInMillis).toDouble()/3600000 * it.amount).toInt()
-                    amountView.setText(NumberFormat.getCurrencyInstance().format(amountValue/100))
+                    var timeDifference = endCalendar.timeInMillis - startCalendar.timeInMillis
+                    val hours = timeDifference/3600000
+                    timeDifference -= hours * 3600000
+                    val amountValue = hours * it.amount + ((timeDifference.toDouble()/3600000.0) * it.amount.toDouble()).toInt()
+                    amountView.setText(NumberFormat.getCurrencyInstance().format(amountValue.toDouble()/100))
                 }
             }
         }
@@ -116,8 +122,11 @@ class NewCourseActivity : AppCompatActivity() {
                     val startCalendar = newCourseViewModel.startCalendar.value?: Calendar.getInstance()
                     val endCalendar = newCourseViewModel.endCalendar.value?: Calendar.getInstance()
                     //newCourseViewModel.amount.postValue(((endCalendar.timeInMillis - startCalendar.timeInMillis).toDouble() / 3600000 * it.amount).toInt())
-                    val amountValue = ((endCalendar.timeInMillis - startCalendar.timeInMillis).toDouble()/3600000 * it.amount).toInt()
-                    amountView.setText(NumberFormat.getCurrencyInstance().format(amountValue/100))
+                    var timeDifference = endCalendar.timeInMillis - startCalendar.timeInMillis
+                    val hours = timeDifference/3600000
+                    timeDifference -= hours * 3600000
+                    val amountValue = hours * it.amount + ((timeDifference.toDouble()/3600000.0) * it.amount.toDouble()).toInt()
+                    amountView.setText(NumberFormat.getCurrencyInstance().format(amountValue.toDouble()/100))
                 }
             }
         }
@@ -137,8 +146,11 @@ class NewCourseActivity : AppCompatActivity() {
                 val startCalendar = newCourseViewModel.startCalendar.value?:Calendar.getInstance()
                 val endCalendar = newCourseViewModel.endCalendar.value?:Calendar.getInstance()
                 //newCourseViewModel.amount.postValue(((endCalendar.timeInMillis - startCalendar.timeInMillis).toDouble()/3600000 * rate.amount).toInt())
-                val amountValue = ((endCalendar.timeInMillis - startCalendar.timeInMillis).toDouble()/3600000 * rate.amount).toInt()
-                amountView.setText(NumberFormat.getCurrencyInstance().format(amountValue/100))
+                var timeDifference = endCalendar.timeInMillis - startCalendar.timeInMillis
+                val hours = timeDifference/3600000
+                timeDifference -= hours * 3600000
+                val amountValue = hours * it.amount + ((timeDifference.toDouble()/3600000.0) * it.amount.toDouble()).toInt()
+                amountView.setText(NumberFormat.getCurrencyInstance().format(amountValue.toDouble()/100))
             }
         }
 

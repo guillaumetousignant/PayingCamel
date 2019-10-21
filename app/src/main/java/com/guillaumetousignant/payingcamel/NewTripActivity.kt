@@ -51,7 +51,9 @@ class NewTripActivity : AppCompatActivity() {
         distanceView = findViewById(R.id.trip_edit_distance)
 
         val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR) as Calendar
-
+        initCalendar.set(Calendar.MILLISECOND, 0)
+        initCalendar.set(Calendar.SECOND, 0)
+        initCalendar.set(Calendar.MINUTE, 0)
         val factory = NewTripViewModelFactory(application, initCalendar)
         newTripViewModel =
             ViewModelProviders.of(this, factory).get(NewTripViewModel::class.java) // Added
