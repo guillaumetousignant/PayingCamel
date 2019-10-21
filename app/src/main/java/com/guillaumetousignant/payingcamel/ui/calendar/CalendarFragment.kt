@@ -14,6 +14,8 @@ import android.widget.CalendarView
 import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.leinardi.android.speeddial.SpeedDialActionItem
+import com.leinardi.android.speeddial.SpeedDialView
 
 class CalendarFragment : Fragment() {
 
@@ -46,6 +48,12 @@ class CalendarFragment : Fragment() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }*/
+
+        val speedDialView = root.findViewById<SpeedDialView>(R.id.speedDial)
+        speedDialView.addActionItem(
+            SpeedDialActionItem.Builder(R.id.fab_calendar_trip, R.drawable.ic_test_trips_white_24dp)
+                .create())
+
         return root
     }
 }
