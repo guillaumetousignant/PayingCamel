@@ -32,7 +32,8 @@
         app:layout_constraintTop_toTopOf="parent" />
     -->
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_calendar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,5 +41,23 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@drawable/ic_add_white_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"/>-->
+
+    <com.leinardi.android.speeddial.SpeedDialOverlayLayout
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.leinardi.android.speeddial.SpeedDialView
+        android:id="@+id/speedDial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:sdMainFabClosedBackgroundColor="@color/colorBackground"
+        app:sdMainFabClosedSrc="@drawable/ic_add_accent_24dp"
+        app:sdMainFabOpenedBackgroundColor="@color/colorAccent"
+        app:sdMainFabOpenedSrc="@drawable/ic_test_calendar_white_24dp"
+        app:sdOverlayLayout="@id/overlay" />
 </androidx.constraintlayout.widget.ConstraintLayout>

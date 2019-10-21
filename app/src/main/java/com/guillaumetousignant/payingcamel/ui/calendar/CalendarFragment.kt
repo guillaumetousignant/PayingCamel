@@ -41,11 +41,11 @@ class CalendarFragment : Fragment() {
             textView.text = it
         })*/
 
-        val fabCalendar: FloatingActionButton = root.findViewById(R.id.fab_calendar)
+        /*val fabCalendar: FloatingActionButton = root.findViewById(R.id.fab_calendar)
         fabCalendar.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
-        }
+        }*/
         return root
     }
 }
