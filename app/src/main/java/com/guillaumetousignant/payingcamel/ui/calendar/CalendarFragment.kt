@@ -94,6 +94,23 @@ class CalendarFragment : Fragment() {
                 .setLabelBackgroundColor(Color.TRANSPARENT)
                 .create())
 
+        speedDialView.setOnChangeListener(object : SpeedDialView.OnChangeListener {
+            override fun onMainActionSelected(): Boolean {
+                val intent = Intent(activity, NewCourseActivity::class.java)
+                val intentCalendar = Calendar.getInstance()
+                intentCalendar.set(Calendar.DAY_OF_MONTH, calendarViewModel.day)
+                intentCalendar.set(Calendar.MONTH, calendarViewModel.month)
+                intentCalendar.set(Calendar.YEAR, calendarViewModel.year)
+                intent.putExtra(NewCourseActivity.EXTRA_CALENDAR, intentCalendar)
+                startActivityForResult(intent, newCourseActivityRequestCode)
+
+                return false // True to keep the Speed Dial open
+            }
+
+            override fun onToggleChanged(isOpen: Boolean) {
+            }
+        })
+
         speedDialView.setOnActionSelectedListener(SpeedDialView.OnActionSelectedListener { actionItem ->
             when (actionItem.id) {
                 R.id.fab_calendar_trip -> {
