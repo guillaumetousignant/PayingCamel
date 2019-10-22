@@ -71,6 +71,24 @@ class CalendarFragment : Fragment() {
                 .setAction("Action", null).show()
         }*/
 
+        // REMOVE  if removed, first thing added from the main view will fail if nothing from the database is used (no rate etc)
+        calendarViewModel.allCourses.observe(this, Observer { courses ->
+            // Update the cached copy of the words in the adapter.
+            //courses?.let { adapter.setCourses(it) }
+        })
+        calendarViewModel.allTrips.observe(this, Observer { trips ->
+            // Update the cached copy of the words in the adapter.
+            //trips?.let { adapter.setTrips(it) }
+        })
+        calendarViewModel.allExpenses.observe(this, Observer { expenses ->
+            // Update the cached copy of the words in the adapter.
+            //expenses?.let { adapter.setExpenses(it) }
+        })
+        calendarViewModel.allFills.observe(this, Observer { fills ->
+            // Update the cached copy of the words in the adapter.
+            //fills?.let { adapter.setFills(it) }
+        })
+
         val speedDialView = root.findViewById<SpeedDialView>(R.id.speedDial)
         speedDialView.addActionItem(
             SpeedDialActionItem.Builder(R.id.fab_calendar_trip, R.drawable.ic_svg_car_24px)

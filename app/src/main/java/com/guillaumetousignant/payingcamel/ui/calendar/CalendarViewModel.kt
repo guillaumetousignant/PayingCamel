@@ -3,6 +3,7 @@ package com.guillaumetousignant.payingcamel.ui.calendar
 import android.app.Application
 import android.icu.util.Calendar
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import com.guillaumetousignant.payingcamel.database.CoachRoomDatabase
 import com.guillaumetousignant.payingcamel.database.course.Course
 import com.guillaumetousignant.payingcamel.database.course.CourseRepository
@@ -31,17 +32,26 @@ class CalendarViewModel(application: Application) : AndroidViewModel(application
     private val expenseRepository: ExpenseRepository
     private val fillRepository: FillRepository
 
+    val allCourses: LiveData<List<Course>>
+    val allTrips: LiveData<List<Trip>>
+    val allExpenses: LiveData<List<Expense>>
+    val allFills: LiveData<List<Fill>>
+
     val calendar: Calendar = Calendar.getInstance()
 
     init {
         val courseDao = CoachRoomDatabase.getDatabase(application, scope).courseDao()
         courseRepository = CourseRepository(courseDao)
+        allCourses = courseRepository.allCourses
         val tripDao = CoachRoomDatabase.getDatabase(application, scope).tripDao()
         tripRepository = TripRepository(tripDao)
+        allTrips = tripRepository.allTrips
         val expenseDao = CoachRoomDatabase.getDatabase(application, scope).expenseDao()
         expenseRepository = ExpenseRepository(expenseDao)
+        allExpenses = expenseRepository.allExpenses
         val fillDao = CoachRoomDatabase.getDatabase(application, scope).fillDao()
         fillRepository = FillRepository(fillDao)
+        allFills = fillRepository.allFills
     }
 
     fun insert(course: Course) = scope.launch(Dispatchers.IO) {
