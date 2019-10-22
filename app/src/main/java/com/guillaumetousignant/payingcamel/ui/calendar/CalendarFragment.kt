@@ -32,7 +32,7 @@ import com.leinardi.android.speeddial.SpeedDialActionItem
 import com.leinardi.android.speeddial.SpeedDialView
 import java.util.*
 
-class CalendarFragment : Fragment() {
+class CalendarFragment : Fragment(R.layout.fragment_calendar) {
 
     private val newCourseActivityRequestCode = 1
     private val newTripActivityRequestCode = 3
@@ -40,17 +40,14 @@ class CalendarFragment : Fragment() {
     private val newFillActivityRequestCode = 5
     private lateinit var calendarViewModel: CalendarViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         calendarViewModel =
             ViewModelProviders.of(this).get(CalendarViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_calendar, container, false)
 
-        val calendarView = root.findViewById<CalendarView>(R.id.calendar_view)
-        calendarView?.setOnDateChangeListener { view, year, month, dayOfMonth ->
+        val calendarView = view.findViewById<CalendarView>(R.id.calendar_view)
+        calendarView?.setOnDateChangeListener { _, year, month, dayOfMonth ->
             // Note that months are indexed from 0. So, 0 means January, 1 means february, 2 means march etc.
             //val msg = "Selected date is %d-%d-%d" + dayOfMonth + "/" + (month + 1) + "/" + year
             /*val msg = getString(R.string.calendar_toast, year, (month+1), dayOfMonth)
@@ -60,36 +57,25 @@ class CalendarFragment : Fragment() {
             calendarViewModel.calendar.set(Calendar.YEAR, year)
         }
 
-        /*val textView: TextView = root.findViewById(R.id.text_calendar)
-        calendarViewModel.text.observe(this, Observer {
-            textView.text = it
-        })*/
-
-        /*val fabCalendar: FloatingActionButton = root.findViewById(R.id.fab_calendar)
-        fabCalendar.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }*/
-
         // REMOVE  if removed, first thing added from the main view will fail if nothing from the database is used (no rate etc)
-        calendarViewModel.allCourses.observe(this, Observer { courses ->
+        calendarViewModel.allCourses.observe(this, Observer { /*courses ->*/
             // Update the cached copy of the words in the adapter.
             //courses?.let { adapter.setCourses(it) }
         })
-        calendarViewModel.allTrips.observe(this, Observer { trips ->
+        calendarViewModel.allTrips.observe(this, Observer { /*trips ->*/
             // Update the cached copy of the words in the adapter.
             //trips?.let { adapter.setTrips(it) }
         })
-        calendarViewModel.allExpenses.observe(this, Observer { expenses ->
+        calendarViewModel.allExpenses.observe(this, Observer { /*expenses ->*/
             // Update the cached copy of the words in the adapter.
             //expenses?.let { adapter.setExpenses(it) }
         })
-        calendarViewModel.allFills.observe(this, Observer { fills ->
+        calendarViewModel.allFills.observe(this, Observer { /*fills ->*/
             // Update the cached copy of the words in the adapter.
             //fills?.let { adapter.setFills(it) }
         })
 
-        val speedDialView = root.findViewById<SpeedDialView>(R.id.speedDial)
+        val speedDialView = view.findViewById<SpeedDialView>(R.id.speedDial)
         speedDialView.addActionItem(
             SpeedDialActionItem.Builder(R.id.fab_calendar_trip, R.drawable.ic_svg_car_24px)
                 .setFabBackgroundColor(ResourcesCompat.getColor(resources, R.color.colorBackground, activity?.theme))
@@ -112,7 +98,7 @@ class CalendarFragment : Fragment() {
                 .setLabelBackgroundColor(Color.TRANSPARENT)
                 .create())
 
-        val courseText = root.findViewById<TextView>(R.id.calendar_course_text)
+        val courseText = view.findViewById<TextView>(R.id.calendar_course_text)
         courseText.setOnClickListener {
             val intent = Intent(activity, NewCourseActivity::class.java)
             intent.putExtra(NewCourseActivity.EXTRA_CALENDAR, calendarViewModel.calendar)
@@ -166,8 +152,6 @@ class CalendarFragment : Fragment() {
             }
             false
         })
-
-        return root
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
