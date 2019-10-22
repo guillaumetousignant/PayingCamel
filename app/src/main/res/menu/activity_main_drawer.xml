@@ -35,7 +35,7 @@
                 android:title="@string/menu_expenses" />
             <item
                 android:id="@+id/nav_gas"
-                android:icon="@drawable/ic_svg_car_24px"
+                android:icon="@drawable/ic_svg_gas_station_24px"
                 android:iconTint="@color/menuNavIconColor"
                 android:title="@string/menu_gas" />
         </menu>
