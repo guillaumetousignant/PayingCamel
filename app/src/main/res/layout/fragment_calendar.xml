@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -61,5 +62,23 @@
         app:sdMainFabOpenedBackgroundColor="@color/colorAccent"
         app:sdMainFabOpenedIconColor="@color/colorBackground"
         app:sdMainFabOpenedSrc="@drawable/ic_svg_event_24px"
-        app:sdOverlayLayout="@id/overlay" />
+        app:sdOverlayLayout="@id/overlay" >
+
+    </com.leinardi.android.speeddial.SpeedDialView>
+
+    <TextView
+        android:id="@+id/calendar_course_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="100dp"
+        android:layout_marginBottom="36dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/label_course"
+        android:textColor="#000000"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="invisible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

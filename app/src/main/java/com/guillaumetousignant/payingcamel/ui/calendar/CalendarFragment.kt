@@ -94,6 +94,16 @@ class CalendarFragment : Fragment() {
                 .setLabelBackgroundColor(Color.TRANSPARENT)
                 .create())
 
+        val courseText = root.findViewById<TextView>(R.id.calendar_course_text)
+        courseText.setOnClickListener {
+            val intent = Intent(activity, NewCourseActivity::class.java)
+            val intentCalendar = Calendar.getInstance()
+            intentCalendar.set(Calendar.DAY_OF_MONTH, calendarViewModel.day)
+            intentCalendar.set(Calendar.MONTH, calendarViewModel.month)
+            intentCalendar.set(Calendar.YEAR, calendarViewModel.year)
+            intent.putExtra(NewCourseActivity.EXTRA_CALENDAR, intentCalendar)
+            startActivityForResult(intent, newCourseActivityRequestCode)
+        }
         speedDialView.setOnChangeListener(object : SpeedDialView.OnChangeListener {
             override fun onMainActionSelected(): Boolean {
                 val intent = Intent(activity, NewCourseActivity::class.java)
@@ -108,6 +118,12 @@ class CalendarFragment : Fragment() {
             }
 
             override fun onToggleChanged(isOpen: Boolean) {
+                if (isOpen){
+                    courseText.visibility = View.VISIBLE
+                }
+                else {
+                    courseText.visibility = View.INVISIBLE
+                }
             }
         })
 
