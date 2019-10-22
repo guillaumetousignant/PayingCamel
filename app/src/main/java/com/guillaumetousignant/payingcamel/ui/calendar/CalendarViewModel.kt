@@ -1,6 +1,7 @@
 package com.guillaumetousignant.payingcamel.ui.calendar
 
 import android.app.Application
+import android.icu.util.Calendar
 import androidx.lifecycle.AndroidViewModel
 import com.guillaumetousignant.payingcamel.database.CoachRoomDatabase
 import com.guillaumetousignant.payingcamel.database.course.Course
@@ -30,9 +31,7 @@ class CalendarViewModel(application: Application) : AndroidViewModel(application
     private val expenseRepository: ExpenseRepository
     private val fillRepository: FillRepository
 
-    var year = 0
-    var month = 0
-    var day = 0
+    val calendar: Calendar = Calendar.getInstance()
 
     init {
         val courseDao = CoachRoomDatabase.getDatabase(application, scope).courseDao()

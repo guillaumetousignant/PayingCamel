@@ -55,9 +55,9 @@ class CalendarFragment : Fragment() {
             //val msg = "Selected date is %d-%d-%d" + dayOfMonth + "/" + (month + 1) + "/" + year
             /*val msg = getString(R.string.calendar_toast, year, (month+1), dayOfMonth)
             Toast.makeText(this.context, msg, Toast.LENGTH_SHORT).show()*/
-            calendarViewModel.year = year
-            calendarViewModel.month = month
-            calendarViewModel.day = dayOfMonth
+            calendarViewModel.calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            calendarViewModel.calendar.set(Calendar.MONTH, month)
+            calendarViewModel.calendar.set(Calendar.YEAR, year)
         }
 
         /*val textView: TextView = root.findViewById(R.id.text_calendar)
@@ -97,21 +97,13 @@ class CalendarFragment : Fragment() {
         val courseText = root.findViewById<TextView>(R.id.calendar_course_text)
         courseText.setOnClickListener {
             val intent = Intent(activity, NewCourseActivity::class.java)
-            val intentCalendar = Calendar.getInstance()
-            intentCalendar.set(Calendar.DAY_OF_MONTH, calendarViewModel.day)
-            intentCalendar.set(Calendar.MONTH, calendarViewModel.month)
-            intentCalendar.set(Calendar.YEAR, calendarViewModel.year)
-            intent.putExtra(NewCourseActivity.EXTRA_CALENDAR, intentCalendar)
+            intent.putExtra(NewCourseActivity.EXTRA_CALENDAR, calendarViewModel.calendar)
             startActivityForResult(intent, newCourseActivityRequestCode)
         }
         speedDialView.setOnChangeListener(object : SpeedDialView.OnChangeListener {
             override fun onMainActionSelected(): Boolean {
                 val intent = Intent(activity, NewCourseActivity::class.java)
-                val intentCalendar = Calendar.getInstance()
-                intentCalendar.set(Calendar.DAY_OF_MONTH, calendarViewModel.day)
-                intentCalendar.set(Calendar.MONTH, calendarViewModel.month)
-                intentCalendar.set(Calendar.YEAR, calendarViewModel.year)
-                intent.putExtra(NewCourseActivity.EXTRA_CALENDAR, intentCalendar)
+                intent.putExtra(NewCourseActivity.EXTRA_CALENDAR, calendarViewModel.calendar)
                 startActivityForResult(intent, newCourseActivityRequestCode)
 
                 return false // True to keep the Speed Dial open
@@ -131,11 +123,7 @@ class CalendarFragment : Fragment() {
             when (actionItem.id) {
                 R.id.fab_calendar_trip -> {
                     val intent = Intent(activity, NewTripActivity::class.java)
-                    val intentCalendar = Calendar.getInstance()
-                    intentCalendar.set(Calendar.DAY_OF_MONTH, calendarViewModel.day)
-                    intentCalendar.set(Calendar.MONTH, calendarViewModel.month)
-                    intentCalendar.set(Calendar.YEAR, calendarViewModel.year)
-                    intent.putExtra(NewTripActivity.EXTRA_CALENDAR, intentCalendar)
+                    intent.putExtra(NewTripActivity.EXTRA_CALENDAR, calendarViewModel.calendar)
                     startActivityForResult(intent, newTripActivityRequestCode)
 
                     speedDialView.close() // To close the Speed Dial with animation
@@ -143,11 +131,7 @@ class CalendarFragment : Fragment() {
                 }
                 R.id.fab_calendar_expense -> {
                     val intent = Intent(activity, NewExpenseActivity::class.java)
-                    val intentCalendar = Calendar.getInstance()
-                    intentCalendar.set(Calendar.DAY_OF_MONTH, calendarViewModel.day)
-                    intentCalendar.set(Calendar.MONTH, calendarViewModel.month)
-                    intentCalendar.set(Calendar.YEAR, calendarViewModel.year)
-                    intent.putExtra(NewExpenseActivity.EXTRA_CALENDAR, intentCalendar)
+                    intent.putExtra(NewExpenseActivity.EXTRA_CALENDAR, calendarViewModel.calendar)
                     startActivityForResult(intent, newExpenseActivityRequestCode)
 
                     speedDialView.close() // To close the Speed Dial with animation
@@ -155,11 +139,7 @@ class CalendarFragment : Fragment() {
                 }
                 R.id.fab_calendar_fill -> {
                     val intent = Intent(activity, NewFillActivity::class.java)
-                    val intentCalendar = Calendar.getInstance()
-                    intentCalendar.set(Calendar.DAY_OF_MONTH, calendarViewModel.day)
-                    intentCalendar.set(Calendar.MONTH, calendarViewModel.month)
-                    intentCalendar.set(Calendar.YEAR, calendarViewModel.year)
-                    intent.putExtra(NewFillActivity.EXTRA_CALENDAR, intentCalendar)
+                    intent.putExtra(NewFillActivity.EXTRA_CALENDAR, calendarViewModel.calendar)
                     startActivityForResult(intent, newFillActivityRequestCode)
 
                     speedDialView.close() // To close the Speed Dial with animation
