@@ -5,9 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -15,9 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.guillaumetousignant.payingcamel.R
 
 import android.widget.CalendarView
-import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
 import com.guillaumetousignant.payingcamel.NewCourseActivity
@@ -179,12 +175,6 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                  Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
                      .setAction("Action", null).show()
              }*/
-
-            /*Toast.makeText(
-                context,
-                R.string.cancelled,
-                Toast.LENGTH_LONG
-            ).show()*/
         }
         else if (requestCode == newTripActivityRequestCode && resultCode == Activity.RESULT_OK) {
             intentData?.let { data ->
@@ -209,12 +199,6 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                  Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
                      .setAction("Action", null).show()
              }*/
-
-            /*Toast.makeText(
-                context,
-                R.string.cancelled,
-                Toast.LENGTH_LONG
-            ).show()*/
         }
         else if (requestCode == newExpenseActivityRequestCode && resultCode == Activity.RESULT_OK) {
             intentData?.let { data ->
@@ -236,12 +220,6 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                  Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
                      .setAction("Action", null).show()
              }*/
-
-            /*Toast.makeText(
-                context,
-                R.string.cancelled,
-                Toast.LENGTH_LONG
-            ).show()*/
         }
         else if (requestCode == newFillActivityRequestCode && resultCode == Activity.RESULT_OK) {
             intentData?.let { data ->
@@ -261,12 +239,6 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                  Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
                      .setAction("Action", null).show()
              }*/
-
-            /*Toast.makeText(
-                context,
-                R.string.cancelled,
-                Toast.LENGTH_LONG
-            ).show()*/
         }
         else {
             view?.let{

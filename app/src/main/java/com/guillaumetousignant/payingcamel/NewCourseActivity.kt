@@ -13,9 +13,6 @@ import android.text.Editable
 import android.text.TextWatcher
 import androidx.lifecycle.ViewModelProviders
 import com.guillaumetousignant.payingcamel.ui.new_course.NewCourseViewModel
-//import androidx.core.app.ComponentActivity.ExtraData
-//import androidx.core.content.ContextCompat.getSystemService
-//import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -30,14 +27,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.database.rate.Rate
 import com.guillaumetousignant.payingcamel.database.skater.Skater
 import com.guillaumetousignant.payingcamel.ui.pickers.RatePickerFragment
-//import androidx.core.app.ComponentActivity.ExtraData
-//import androidx.core.content.ContextCompat.getSystemService
 import com.guillaumetousignant.payingcamel.ui.new_course.NewCourseViewModelFactory
 
 /**
  * Activity for entering a word.
  */
-class NewCourseActivity : AppCompatActivity() {
+class NewCourseActivity : AppCompatActivity(R.layout.activity_new_course) {
 
     private lateinit var newCourseViewModel: NewCourseViewModel // Added
     private lateinit var editCourseView: EditText
@@ -53,7 +48,6 @@ class NewCourseActivity : AppCompatActivity() {
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_course)
 
         editCourseView = findViewById(R.id.edit_course)
         startTimeText = findViewById(R.id.start_time)
@@ -149,19 +143,10 @@ class NewCourseActivity : AppCompatActivity() {
             }
         }
 
-        val amountObserver = Observer<Int> { amount ->
-            // Update the UI, in this case, a TextView.
-            amount?.let{
-                amountView.setText(NumberFormat.getCurrencyInstance().format(it/100))
-                //newCourseViewModel.manualAmount = true
-            }
-        }
-
         newCourseViewModel.startCalendar.observe(this, startObserver)
         newCourseViewModel.endCalendar.observe(this, endObserver)
         newCourseViewModel.skater.observe(this, skaterObserver)
         newCourseViewModel.rate.observe(this, rateObserver)
-        //newCourseViewModel.amount.observe(this, amountObserver)
 
         amountView.setOnClickListener {
             newCourseViewModel.manualAmount = true
@@ -189,8 +174,6 @@ class NewCourseActivity : AppCompatActivity() {
                     amountView.setSelection(formatted.length)
 
                     amountView.addTextChangedListener(this)
-
-                    //newCourseViewModel.amount.postValue(parsed.toInt())
                 }
             }
         })

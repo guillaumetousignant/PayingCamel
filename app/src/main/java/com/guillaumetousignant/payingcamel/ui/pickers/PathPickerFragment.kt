@@ -22,10 +22,13 @@ class PathPickerFragment(val path: MutableLiveData<Path?>, private val allPaths:
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        val view = inflater.inflate(R.layout.path_picker_dialog, container, false)
+        return inflater.inflate(R.layout.path_picker_dialog, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.path_picker_dialog_recyclerview)
-        //val adapter = CourseListAdapter(this)
         val adapter = PathListAdapter {
             path.postValue(it)
             dismiss()
@@ -37,9 +40,5 @@ class PathPickerFragment(val path: MutableLiveData<Path?>, private val allPaths:
             // Update the cached copy of the words in the adapter.
             paths?.let { adapter.setPaths(it) }
         })
-
-        //val listener :RecyclerView.set
-
-        return view
     }
 }

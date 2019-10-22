@@ -22,10 +22,13 @@ class SkaterPickerFragment(val skater: MutableLiveData<Skater?>, private val all
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        val view = inflater.inflate(R.layout.skater_picker_dialog, container, false)
+        return inflater.inflate(R.layout.skater_picker_dialog, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.skater_picker_dialog_recyclerview)
-        //val adapter = CourseListAdapter(this)
         val adapter = SkaterListAdapter {
             skater.postValue(it)
             dismiss()
@@ -37,9 +40,5 @@ class SkaterPickerFragment(val skater: MutableLiveData<Skater?>, private val all
             // Update the cached copy of the words in the adapter.
             skaters?.let { adapter.setSkaters(it) }
         })
-
-        //val listener :RecyclerView.set
-
-        return view
     }
 }

@@ -3,10 +3,7 @@ package com.guillaumetousignant.payingcamel.ui.paths
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-//import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -21,20 +18,17 @@ import com.guillaumetousignant.payingcamel.database.path.Path
 import com.guillaumetousignant.payingcamel.database.path.PathListAdapter
 import java.util.*
 
-class PathsFragment : Fragment() {
+class PathsFragment : Fragment(R.layout.fragment_paths) {
 
     private val newPathActivityRequestCode = 6
     private lateinit var pathsViewModel: PathsViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         pathsViewModel =
             ViewModelProviders.of(this).get(PathsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_paths, container, false)
-        val recyclerView: RecyclerView = root.findViewById(R.id.paths_recyclerview)
+        val recyclerView: RecyclerView = view.findViewById(R.id.paths_recyclerview)
         //val adapter = CourseListAdapter(this)
         val adapter = PathListAdapter {}
         recyclerView.adapter = adapter
@@ -45,16 +39,14 @@ class PathsFragment : Fragment() {
             paths?.let { adapter.setPaths(it) }
         })
 
-        val fabPaths: FloatingActionButton = root.findViewById(R.id.fab_paths)
-        fabPaths.setOnClickListener { view ->
+        val fabPaths: FloatingActionButton = view.findViewById(R.id.fab_paths)
+        fabPaths.setOnClickListener { /*fabView ->*/
             /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()*/
 
             val intent = Intent(activity, NewPathActivity::class.java)
             startActivityForResult(intent, newPathActivityRequestCode)
         }
-
-        return root
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
@@ -79,12 +71,6 @@ class PathsFragment : Fragment() {
                  Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
                      .setAction("Action", null).show()
              }*/
-
-            /*Toast.makeText(
-                context,
-                R.string.cancelled,
-                Toast.LENGTH_LONG
-            ).show()*/
         }
         else {
             view?.let{

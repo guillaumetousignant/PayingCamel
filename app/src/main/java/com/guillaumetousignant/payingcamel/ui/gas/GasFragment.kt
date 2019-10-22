@@ -4,10 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-//import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -22,20 +19,17 @@ import com.guillaumetousignant.payingcamel.database.fill.Fill
 import com.guillaumetousignant.payingcamel.database.fill.FillListAdapter
 import java.util.*
 
-class GasFragment : Fragment() {
+class GasFragment : Fragment(R.layout.fragment_gas) {
 
     private val newFillActivityRequestCode = 5
     private lateinit var gasViewModel: GasViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         gasViewModel =
             ViewModelProviders.of(this).get(GasViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_gas, container, false)
-        val recyclerView: RecyclerView = root.findViewById(R.id.gas_recyclerview)
+        val recyclerView: RecyclerView = view.findViewById(R.id.gas_recyclerview)
         //val adapter = CourseListAdapter(this)
         val adapter = FillListAdapter()
         recyclerView.adapter = adapter
@@ -46,8 +40,8 @@ class GasFragment : Fragment() {
             fills?.let { adapter.setFills(it) }
         })
 
-        val fabGas: FloatingActionButton = root.findViewById(R.id.fab_gas)
-        fabGas.setOnClickListener { view ->
+        val fabGas: FloatingActionButton = view.findViewById(R.id.fab_gas)
+        fabGas.setOnClickListener { /*fabView ->*/
             /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()*/
 
@@ -55,8 +49,6 @@ class GasFragment : Fragment() {
             intent.putExtra(NewFillActivity.EXTRA_CALENDAR, Calendar.getInstance())
             startActivityForResult(intent, newFillActivityRequestCode)
         }
-
-        return root
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
@@ -80,12 +72,6 @@ class GasFragment : Fragment() {
                  Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
                      .setAction("Action", null).show()
              }*/
-
-            /*Toast.makeText(
-                context,
-                R.string.cancelled,
-                Toast.LENGTH_LONG
-            ).show()*/
         }
         else {
             view?.let{

@@ -1,10 +1,7 @@
 package com.guillaumetousignant.payingcamel.ui.overview
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-//import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -16,31 +13,25 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.guillaumetousignant.payingcamel.database.course.CourseListAdapter
 
 import com.google.android.material.snackbar.Snackbar
-//import kotlinx.android.synthetic.main.fragment_overview.fab_overview
 import android.content.Intent
 import android.app.Activity
 import android.icu.util.Calendar
-//import android.widget.Toast
 import com.guillaumetousignant.payingcamel.NewCourseActivity
 import com.guillaumetousignant.payingcamel.database.course.Course
 import java.util.*
 
-class OverviewFragment : Fragment() {
+class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
     private val newCourseActivityRequestCode = 1
     private lateinit var overviewViewModel: OverviewViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         overviewViewModel =
             ViewModelProviders.of(this).get(OverviewViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_overview, container, false)
 
-        val recyclerView: RecyclerView = root.findViewById(R.id.overview_recyclerview)
-        //val adapter = CourseListAdapter(this)
+        val recyclerView: RecyclerView = view.findViewById(R.id.overview_recyclerview)
         val adapter = CourseListAdapter {}
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
@@ -50,24 +41,15 @@ class OverviewFragment : Fragment() {
             courses?.let { adapter.setCourses(it) }
         })
 
-        val fabOverview: FloatingActionButton = root.findViewById(R.id.fab_overview)
+        val fabOverview: FloatingActionButton = view.findViewById(R.id.fab_overview)
         fabOverview.setOnClickListener {
-            //openDialog()
             /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()*/
             val intent = Intent(activity, NewCourseActivity::class.java)
             intent.putExtra(NewCourseActivity.EXTRA_CALENDAR, Calendar.getInstance())
             startActivityForResult(intent, newCourseActivityRequestCode)
         }
-
-        return root
     }
-
-    /*private fun openDialog() {
-        fragmentManager?.let {
-            NewCourseDialog.display(it)
-        }
-    }*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
@@ -94,12 +76,6 @@ class OverviewFragment : Fragment() {
                 Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
             }*/
-
-            /*Toast.makeText(
-                context,
-                R.string.cancelled,
-                Toast.LENGTH_LONG
-            ).show()*/
         }
         else {
             view?.let{

@@ -23,7 +23,7 @@ import com.guillaumetousignant.payingcamel.ui.pickers.DatePickerFragment
 import com.guillaumetousignant.payingcamel.ui.pickers.TimePickerFragment
 import java.text.DateFormat
 
-class NewFillActivity : AppCompatActivity() {
+class NewFillActivity : AppCompatActivity(R.layout.activity_new_fill) {
 
     private lateinit var newFillViewModel: NewFillViewModel // Added
     private lateinit var editNameView: EditText
@@ -34,7 +34,6 @@ class NewFillActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_fill)
 
         editNameView = findViewById(R.id.fill_edit_name)
         startTimeText = findViewById(R.id.fill_start_time)

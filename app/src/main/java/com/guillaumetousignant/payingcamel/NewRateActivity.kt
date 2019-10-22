@@ -20,7 +20,7 @@ import com.guillaumetousignant.payingcamel.database.skater.Skater
 import com.guillaumetousignant.payingcamel.ui.pickers.SkaterPickerFragment
 import com.guillaumetousignant.payingcamel.ui.rates.NewRateViewModel
 
-class NewRateActivity : AppCompatActivity() {
+class NewRateActivity : AppCompatActivity(R.layout.activity_new_rate) {
 
     private lateinit var newRateViewModel: NewRateViewModel // Added
     private lateinit var editNameView : EditText
@@ -30,7 +30,6 @@ class NewRateActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_rate)
 
         editNameView = findViewById(R.id.edit_rate_name)
         editNoteView = findViewById(R.id.edit_rate_note)

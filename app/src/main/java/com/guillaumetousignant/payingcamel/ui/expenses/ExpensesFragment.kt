@@ -4,10 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-//import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -22,20 +19,18 @@ import com.guillaumetousignant.payingcamel.database.expense.Expense
 import com.guillaumetousignant.payingcamel.database.expense.ExpenseListAdapter
 import java.util.*
 
-class ExpensesFragment : Fragment() {
+class ExpensesFragment : Fragment(R.layout.fragment_expenses) {
 
     private val newExpenseActivityRequestCode = 4
     private lateinit var expensesViewModel: ExpensesViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         expensesViewModel =
             ViewModelProviders.of(this).get(ExpensesViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_expenses, container, false)
-        val recyclerView: RecyclerView = root.findViewById(R.id.expenses_recyclerview)
+
+        val recyclerView: RecyclerView = view.findViewById(R.id.expenses_recyclerview)
         //val adapter = CourseListAdapter(this)
         val adapter = ExpenseListAdapter()
         recyclerView.adapter = adapter
@@ -46,8 +41,8 @@ class ExpensesFragment : Fragment() {
             expenses?.let { adapter.setExpenses(it) }
         })
 
-        val fabExpenses: FloatingActionButton = root.findViewById(R.id.fab_expenses)
-        fabExpenses.setOnClickListener { view ->
+        val fabExpenses: FloatingActionButton = view.findViewById(R.id.fab_expenses)
+        fabExpenses.setOnClickListener { /*fabView ->*/
             /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()*/
 
@@ -55,8 +50,6 @@ class ExpensesFragment : Fragment() {
             intent.putExtra(NewExpenseActivity.EXTRA_CALENDAR, Calendar.getInstance())
             startActivityForResult(intent, newExpenseActivityRequestCode)
         }
-
-        return root
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
@@ -82,12 +75,6 @@ class ExpensesFragment : Fragment() {
                  Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
                      .setAction("Action", null).show()
              }*/
-
-            /*Toast.makeText(
-                context,
-                R.string.cancelled,
-                Toast.LENGTH_LONG
-            ).show()*/
         }
         else {
             view?.let{

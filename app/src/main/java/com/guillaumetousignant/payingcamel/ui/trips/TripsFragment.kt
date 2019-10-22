@@ -4,10 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-//import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -22,20 +19,17 @@ import com.guillaumetousignant.payingcamel.database.trip.Trip
 import com.guillaumetousignant.payingcamel.database.trip.TripListAdapter
 import java.util.*
 
-class TripsFragment : Fragment() {
+class TripsFragment : Fragment(R.layout.fragment_trips) {
 
     private val newTripActivityRequestCode = 3
     private lateinit var tripsViewModel: TripsViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         tripsViewModel =
             ViewModelProviders.of(this).get(TripsViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_trips, container, false)
-        val recyclerView: RecyclerView = root.findViewById(R.id.trips_recyclerview)
+        val recyclerView: RecyclerView = view.findViewById(R.id.trips_recyclerview)
         //val adapter = CourseListAdapter(this)
         val adapter = TripListAdapter()
         recyclerView.adapter = adapter
@@ -46,8 +40,8 @@ class TripsFragment : Fragment() {
             expenses?.let { adapter.setTrips(it) }
         })
 
-        val fabTrips: FloatingActionButton = root.findViewById(R.id.fab_trips)
-        fabTrips.setOnClickListener { view ->
+        val fabTrips: FloatingActionButton = view.findViewById(R.id.fab_trips)
+        fabTrips.setOnClickListener { /*fabView ->*/
             /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()*/
 
@@ -55,8 +49,6 @@ class TripsFragment : Fragment() {
             intent.putExtra(NewTripActivity.EXTRA_CALENDAR, Calendar.getInstance())
             startActivityForResult(intent, newTripActivityRequestCode)
         }
-
-        return root
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
@@ -85,12 +77,6 @@ class TripsFragment : Fragment() {
                  Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
                      .setAction("Action", null).show()
              }*/
-
-            /*Toast.makeText(
-                context,
-                R.string.cancelled,
-                Toast.LENGTH_LONG
-            ).show()*/
         }
         else {
             view?.let{

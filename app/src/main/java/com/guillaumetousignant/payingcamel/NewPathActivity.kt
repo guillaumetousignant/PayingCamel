@@ -11,7 +11,7 @@ import android.view.View
 import android.widget.EditText
 import com.google.android.material.snackbar.Snackbar
 
-class NewPathActivity : AppCompatActivity() {
+class NewPathActivity : AppCompatActivity(R.layout.activity_new_path) {
 
     private lateinit var editNameView: EditText
     private lateinit var editDistanceView: EditText
@@ -21,7 +21,6 @@ class NewPathActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_path)
 
         editNameView = findViewById(R.id.path_edit_name)
         editDistanceView = findViewById(R.id.path_edit_distance)

@@ -22,7 +22,7 @@ import com.guillaumetousignant.payingcamel.ui.trips.NewTripViewModel
 import com.guillaumetousignant.payingcamel.ui.trips.NewTripViewModelFactory
 import java.text.DateFormat
 
-class NewTripActivity : AppCompatActivity() {
+class NewTripActivity : AppCompatActivity(R.layout.activity_new_trip) {
 
     private lateinit var newTripViewModel: NewTripViewModel // Added
     private lateinit var editNameView: EditText
@@ -36,7 +36,6 @@ class NewTripActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_trip)
 
         editNameView = findViewById(R.id.trip_edit_name)
         startTimeText = findViewById(R.id.trip_start_time)

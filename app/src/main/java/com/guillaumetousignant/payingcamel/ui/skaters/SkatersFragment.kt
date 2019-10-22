@@ -3,10 +3,7 @@ package com.guillaumetousignant.payingcamel.ui.skaters
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-//import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -21,20 +18,17 @@ import com.guillaumetousignant.payingcamel.database.skater.Skater
 import com.guillaumetousignant.payingcamel.database.skater.SkaterListAdapter
 import java.util.*
 
-class SkatersFragment : Fragment() {
+class SkatersFragment : Fragment(R.layout.fragment_skaters) {
 
     private val newSkaterActivityRequestCode = 2
     private lateinit var skatersViewModel: SkatersViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         skatersViewModel =
             ViewModelProviders.of(this).get(SkatersViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_skaters, container, false)
-        val recyclerView: RecyclerView = root.findViewById(R.id.skaters_recyclerview)
+        val recyclerView: RecyclerView = view.findViewById(R.id.skaters_recyclerview)
         //val adapter = CourseListAdapter(this)
         val adapter = SkaterListAdapter {}
         recyclerView.adapter = adapter
@@ -45,16 +39,14 @@ class SkatersFragment : Fragment() {
             skaters?.let { adapter.setSkaters(it) }
         })
 
-        val fabSkaters: FloatingActionButton = root.findViewById(R.id.fab_skaters)
-        fabSkaters.setOnClickListener { view ->
+        val fabSkaters: FloatingActionButton = view.findViewById(R.id.fab_skaters)
+        fabSkaters.setOnClickListener { /*fabView ->*/
             /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()*/
 
             val intent = Intent(activity, NewSkaterActivity::class.java)
             startActivityForResult(intent, newSkaterActivityRequestCode)
         }
-
-        return root
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
@@ -79,12 +71,6 @@ class SkatersFragment : Fragment() {
                  Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
                      .setAction("Action", null).show()
              }*/
-
-            /*Toast.makeText(
-                context,
-                R.string.cancelled,
-                Toast.LENGTH_LONG
-            ).show()*/
         }
         else {
             view?.let{

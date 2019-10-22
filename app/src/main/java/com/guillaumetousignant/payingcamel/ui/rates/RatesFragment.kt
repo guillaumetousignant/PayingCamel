@@ -3,10 +3,7 @@ package com.guillaumetousignant.payingcamel.ui.rates
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-//import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -21,21 +18,17 @@ import com.guillaumetousignant.payingcamel.database.rate.Rate
 import com.guillaumetousignant.payingcamel.database.rate.RateListAdapter
 import java.util.*
 
-class RatesFragment : Fragment() {
+class RatesFragment : Fragment(R.layout.fragment_rates) {
 
     private val newRateActivityRequestCode = 7
     private lateinit var ratesViewModel: RatesViewModel
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         ratesViewModel =
             ViewModelProviders.of(this).get(RatesViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_rates, container, false)
-        val recyclerView: RecyclerView = root.findViewById(R.id.rates_recyclerview)
-        //val adapter = CourseListAdapter(this)
+        val recyclerView: RecyclerView = view.findViewById(R.id.rates_recyclerview)
         val adapter = RateListAdapter {}
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
@@ -45,16 +38,14 @@ class RatesFragment : Fragment() {
             rates?.let { adapter.setRates(it) }
         })
 
-        val fabRates: FloatingActionButton = root.findViewById(R.id.fab_rates)
-        fabRates.setOnClickListener { view ->
+        val fabRates: FloatingActionButton = view.findViewById(R.id.fab_rates)
+        fabRates.setOnClickListener { /*fabView ->*/
             /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()*/
 
             val intent = Intent(activity, NewRateActivity::class.java)
             startActivityForResult(intent, newRateActivityRequestCode)
         }
-
-        return root
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
@@ -78,12 +69,6 @@ class RatesFragment : Fragment() {
                  Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
                      .setAction("Action", null).show()
              }*/
-
-            /*Toast.makeText(
-                context,
-                R.string.cancelled,
-                Toast.LENGTH_LONG
-            ).show()*/
         }
         else {
             view?.let{

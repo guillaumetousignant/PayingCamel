@@ -12,7 +12,7 @@ import android.widget.CheckBox
 import android.widget.EditText
 import com.google.android.material.snackbar.Snackbar
 
-class NewSkaterActivity : AppCompatActivity() {
+class NewSkaterActivity : AppCompatActivity(R.layout.activity_new_skater) {
 
     private lateinit var firstNameView: EditText
     private lateinit var lastNameView: EditText
@@ -22,7 +22,6 @@ class NewSkaterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_skater)
 
         firstNameView = findViewById(R.id.edit_first_name)
         lastNameView = findViewById(R.id.edit_last_name)
