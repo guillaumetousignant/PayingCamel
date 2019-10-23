@@ -114,7 +114,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                     courseText.visibility = View.VISIBLE
                 }
                 else {
-                    courseText.visibility = View.INVISIBLE
+                    courseText.visibility = View.GONE
                 }
             }
         })
