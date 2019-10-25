@@ -24,8 +24,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         android:padding="@dimen/list_padding">
+
+        <RelativeLayout
+            android:id="@+id/first_letter_circle"
+            android:layout_width="@dimen/fab_size_mini"
+            android:layout_height="@dimen/fab_size_mini"
+            android:layout_gravity="start"
+            android:background="@drawable/circle_shape">
+            <!--android:layout_margin="3dp"-->
+
+            <TextView
+                android:id="@+id/first_letter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/colorBackground"
+                android:textSize="20sp" />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/textView"
