@@ -32,7 +32,7 @@
             android:layout_width="@dimen/fab_size_mini"
             android:layout_height="@dimen/fab_size_mini"
             android:layout_gravity="start"
-            android:background="@drawable/circle_shape">
+            android:background="@drawable/circle_selector">
             <!--android:layout_margin="3dp"-->
 
             <TextView
@@ -40,9 +40,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:textStyle="bold"
                 android:textColor="@color/colorBackground"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+
+
         </RelativeLayout>
 
         <TextView
