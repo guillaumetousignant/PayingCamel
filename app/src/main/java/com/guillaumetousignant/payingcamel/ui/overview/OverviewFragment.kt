@@ -15,6 +15,7 @@ import com.guillaumetousignant.payingcamel.database.course.CourseListAdapter
 import com.google.android.material.snackbar.Snackbar
 import android.content.Intent
 import android.app.Activity
+import android.graphics.Color
 import android.icu.util.Calendar
 import com.guillaumetousignant.payingcamel.NewCourseActivity
 import com.guillaumetousignant.payingcamel.database.course.Course
@@ -65,7 +66,8 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
                     data.getIntExtra(NewCourseActivity.EXTRA_AMOUNT, 0),
                     data.getStringExtra(NewCourseActivity.EXTRA_NAME),
                     data.getStringExtra(NewCourseActivity.EXTRA_NOTE),
-                    data.getBooleanExtra(NewCourseActivity.EXTRA_PAID, false)
+                    data.getBooleanExtra(NewCourseActivity.EXTRA_PAID, false),
+                    getRandomMaterialColor(getString(R.string.icon_color_type))
                 )
                 overviewViewModel.insert(course)
                 Unit
@@ -83,5 +85,18 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
                     .setAction("Action", null).show()
             }
         }
+    }
+
+    private fun getRandomMaterialColor(typeColor: String): Int {
+        var returnColor = Color.GRAY
+        val arrayId = resources.getIdentifier("mdcolor_$typeColor", "array", activity?.packageName)
+
+        if (arrayId != 0) {
+            val colors = resources.obtainTypedArray(arrayId)
+            val index = (Math.random() * colors.length()).toInt()
+            returnColor = colors.getColor(index, Color.GRAY)
+            colors.recycle()
+        }
+        return returnColor
     }
 }

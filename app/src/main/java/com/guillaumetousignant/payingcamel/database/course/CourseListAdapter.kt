@@ -1,17 +1,19 @@
 package com.guillaumetousignant.payingcamel.database.course
 
-import android.graphics.Color
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.guillaumetousignant.payingcamel.R
-import java.util.*
+import com.guillaumetousignant.payingcamel.ui.helpers.FlipAnimator
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.guillaumetousignant.payingcamel.ui.helpers.CircleTransform
+import com.bumptech.glide.Glide
+import android.text.TextUtils
+import java.util.Locale
 
 class CourseListAdapter internal constructor(
     //context: Context
@@ -60,6 +62,65 @@ class CourseListAdapter internal constructor(
     }
 
     override fun getItemCount() = courses.size
+
+
+    // CHECK added
+    private fun applyProfilePicture(holder: CourseViewHolder /*, message: Message*/) {
+        /*if (!TextUtils.isEmpty(message.getPicture())) {
+            Glide.with(mContext).load(message.getPicture())
+                .thumbnail(0.5f)
+                .crossFade()
+                .transform(CircleTransform(mContext))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(holder.imgProfile)
+            holder.imgProfile.setColorFilter(null)
+            holder.iconText.setVisibility(View.GONE)
+        } else {*/
+            holder.imgProfile.setImageResource(R.drawable.bg_circle)
+            holder.imgProfile.setColorFilter(message.getColor())
+            holder.iconText.setVisibility(View.VISIBLE)
+        }
+    }
+
+    private fun applyIconAnimation(holder: MyViewHolder, position: Int) {
+        if (selectedItems.get(position, false)) {
+            holder.iconFront.setVisibility(View.GONE)
+            resetIconYAxis(holder.iconBack)
+            holder.iconBack.setVisibility(View.VISIBLE)
+            holder.iconBack.setAlpha(1)
+            if (currentSelectedIndex === position) {
+                FlipAnimator.flipView(mContext, holder.iconBack, holder.iconFront, true)
+                resetCurrentIndex()
+            }
+        } else {
+            holder.iconBack.setVisibility(View.GONE)
+            resetIconYAxis(holder.iconFront)
+            holder.iconFront.setVisibility(View.VISIBLE)
+            holder.iconFront.setAlpha(1)
+            if (reverseAllAnimations && animationItemsIndex.get(
+                    position,
+                    false
+                ) || currentSelectedIndex === position
+            ) {
+                FlipAnimator.flipView(mContext, holder.iconBack, holder.iconFront, false)
+                resetCurrentIndex()
+            }
+        }
+    }
+
+
+    // As the views will be reused, sometimes the icon appears as
+    // flipped because older view is reused. Reset the Y-axis to 0
+    private fun resetIconYAxis(view: View) {
+        if (view.rotationY != 0f) {
+            view.rotationY = 0f
+        }
+    }
+
+    fun resetAnimationIndex() {
+        reverseAllAnimations = false
+        animationItemsIndex.clear()
+    }
 
     //override fun getItemId(position: Int): Long = position.toLong()
 }

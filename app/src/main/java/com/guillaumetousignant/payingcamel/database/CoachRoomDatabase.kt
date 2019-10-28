@@ -124,7 +124,8 @@ abstract class CoachRoomDatabase : RoomDatabase() {
                     1000,
                     "first course",
                     "First course note",
-                    true
+                    true,
+                    10537
                 )
                 courseDao.insert(course)
 
@@ -137,7 +138,8 @@ abstract class CoachRoomDatabase : RoomDatabase() {
                     2000,
                     "second course",
                     "Second course note",
-                    false
+                    false,
+                    10538
                 )
                 courseDao.insert(course)
 
@@ -150,7 +152,8 @@ abstract class CoachRoomDatabase : RoomDatabase() {
                     2000,
                     "third course",
                     "Third course note",
-                    false
+                    false,
+                    10539
                 )
                 courseDao.insert(course)
 
@@ -163,7 +166,8 @@ abstract class CoachRoomDatabase : RoomDatabase() {
                     2000,
                     "fourth course",
                     "Fourth course note",
-                    false
+                    false,
+                    10540
                 )
                 courseDao.insert(course)
 
@@ -176,7 +180,8 @@ abstract class CoachRoomDatabase : RoomDatabase() {
                     2000,
                     "fifth course",
                     "Fifth course note",
-                    false
+                    false,
+                    10541
                 )
                 courseDao.insert(course)
 

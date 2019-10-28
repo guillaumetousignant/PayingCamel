@@ -16,4 +16,5 @@ class Course(@PrimaryKey @ColumnInfo(name = "uuid") val uuid: UUID,
              @ColumnInfo(name = "amount") val amount: Int,
              @ColumnInfo(name = "name") val name: String?,
              @ColumnInfo(name = "note") val note: String?,
-             @ColumnInfo(name = "paid") val paid: Boolean)
+             @ColumnInfo(name = "paid") val paid: Boolean,
+             @ColumnInfo(name = "color") val color: Int)

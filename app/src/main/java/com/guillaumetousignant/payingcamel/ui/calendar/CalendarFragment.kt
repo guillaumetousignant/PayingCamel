@@ -164,7 +164,8 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                     data.getIntExtra(NewCourseActivity.EXTRA_AMOUNT, 0),
                     data.getStringExtra(NewCourseActivity.EXTRA_NAME),
                     data.getStringExtra(NewCourseActivity.EXTRA_NOTE),
-                    data.getBooleanExtra(NewCourseActivity.EXTRA_PAID, false)
+                    data.getBooleanExtra(NewCourseActivity.EXTRA_PAID, false),
+                    getRandomMaterialColor(getString(R.string.icon_color_type))
                 )
                 calendarViewModel.insert(course)
                 Unit
@@ -246,6 +247,19 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                     .setAction("Action", null).show()
             }
         }
+    }
+
+    private fun getRandomMaterialColor(typeColor: String): Int {
+        var returnColor = Color.GRAY
+        val arrayId = resources.getIdentifier("mdcolor_$typeColor", "array", activity?.packageName)
+
+        if (arrayId != 0) {
+            val colors = resources.obtainTypedArray(arrayId)
+            val index = (Math.random() * colors.length()).toInt()
+            returnColor = colors.getColor(index, Color.GRAY)
+            colors.recycle()
+        }
+        return returnColor
     }
 
     /*override fun onBackPressed() {
