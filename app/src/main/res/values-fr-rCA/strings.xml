@@ -60,4 +60,5 @@
     <string name="label_expense">Dépense</string>
     <string name="label_fill">Plein</string>
     <string name="label_trip">Déplacement</string>
+    <string name="action_delete">Supprimer</string>
 </resources>

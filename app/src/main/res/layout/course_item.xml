@@ -1,25 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!--
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <TextView
-        android:id="@+id/textView"
-        style="@style/course_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorBackground" />
-</LinearLayout>
--->
-
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/list_margin_bottom"
-    app:cardCornerRadius="@dimen/list_corner_radius">
+    app:cardCornerRadius="@dimen/list_corner_radius"
+    android:background="@drawable/bg_list_row">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,13 +14,13 @@
         android:orientation="horizontal"
         android:padding="@dimen/list_padding">
 
+        <!--
         <RelativeLayout
             android:id="@+id/first_letter_circle"
             android:layout_width="@dimen/fab_size_mini"
             android:layout_height="@dimen/fab_size_mini"
             android:layout_gravity="start"
             android:background="@drawable/circle_selector">
-            <!--android:layout_margin="3dp"-->
 
             <TextView
                 android:id="@+id/first_letter"
@@ -45,11 +32,57 @@
                 android:textStyle="bold"
                 android:visibility="visible" />
         </RelativeLayout>
+        -->
+
+        <RelativeLayout
+            android:id="@+id/icon_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/icon_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="@dimen/fab_size_mini"
+                    android:layout_height="@dimen/fab_size_mini"
+                    android:src="@drawable/circle_shape_grey" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_svg_done_24px"
+                    android:tint="@color/colorBackground"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/icon_front"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/icon_profile"
+                    android:layout_width="@dimen/fab_size_mini"
+                    android:layout_height="@dimen/fab_size_mini" />
+
+                <TextView
+                    android:id="@+id/icon_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/icon_text" />
+            </RelativeLayout>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="start|center_vertical" />
 
         <!--
     <TextView

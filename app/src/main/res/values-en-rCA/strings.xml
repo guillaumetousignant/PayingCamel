@@ -60,4 +60,5 @@
     <string name="label_expense">Expense</string>
     <string name="label_fill">Fill</string>
     <string name="label_trip">Trip</string>
+    <string name="action_delete">Delete</string>
 </resources>

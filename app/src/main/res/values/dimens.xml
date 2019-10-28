@@ -18,5 +18,6 @@
     <dimen name="small_padding">6dp</dimen>
     <dimen name="big_padding">16dp</dimen>
     <dimen name="date_button_height">40dp</dimen>
+    <dimen name="icon_text">22dp</dimen>
 
 </resources>
