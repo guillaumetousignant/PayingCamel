@@ -6,4 +6,6 @@
     <color name="colorBackground">#FFFFFF</color>
     <color name="colorRecyclerBackground">#EEEEEE</color>
     <color name="menuNavIconColor">#444444</color>
+    <color name="row_activated">#e0e0e0</color>
+    <color name="bg_action_mode">#757575</color>
 </resources>
