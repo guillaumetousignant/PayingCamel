@@ -1,11 +1,13 @@
 package com.guillaumetousignant.payingcamel.database.course
 
 import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.guillaumetousignant.payingcamel.R
@@ -45,7 +47,6 @@ class CourseListAdapter internal constructor(
         val current = courses[position]
         holder.courseItemView.text = current.name?:"(...)"
         holder.firstLetterView.text = current.name?.substring(0,1)?.toUpperCase(Locale.getDefault())?:"-"
-        //holder.firstLetterCircle.setBackgroundColor(Color.GREEN)
         holder.uuid = current.uuid.toString()
 
         holder.courseItemView.setOnClickListener {
