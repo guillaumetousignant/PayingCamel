@@ -13,6 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.guillaumetousignant.payingcamel.ui.helpers.CircleTransform
 import com.bumptech.glide.Glide
 import android.text.TextUtils
+import android.widget.ImageView
 import java.util.Locale
 
 class CourseListAdapter internal constructor(
@@ -27,8 +28,12 @@ class CourseListAdapter internal constructor(
 
     inner class CourseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val courseItemView: TextView = itemView.findViewById(R.id.textView)
-        val firstLetterView: TextView = itemView.findViewById(R.id.first_letter)
-        val firstLetterCircle: RelativeLayout = itemView.findViewById(R.id.first_letter_circle)
+
+        //val firstLetterView: TextView = itemView.findViewById(R.id.first_letter)
+        //val firstLetterCircle: RelativeLayout = itemView.findViewById(R.id.first_letter_circle)
+
+        val iconText: TextView = itemView.findViewById(R.id.icon_text)
+        val imgProfile: ImageView = itemView.findViewById(R.id.icon_profile)
         lateinit var uuid: String
 
         fun getItemDetails(): ItemDetailsLookup.ItemDetails<String> =
@@ -65,7 +70,7 @@ class CourseListAdapter internal constructor(
 
 
     // CHECK added
-    private fun applyProfilePicture(holder: CourseViewHolder /*, message: Message*/) {
+    private fun applyProfilePicture(holder: CourseViewHolder, course: Course) {
         /*if (!TextUtils.isEmpty(message.getPicture())) {
             Glide.with(mContext).load(message.getPicture())
                 .thumbnail(0.5f)
@@ -76,13 +81,13 @@ class CourseListAdapter internal constructor(
             holder.imgProfile.setColorFilter(null)
             holder.iconText.setVisibility(View.GONE)
         } else {*/
-            holder.imgProfile.setImageResource(R.drawable.bg_circle)
-            holder.imgProfile.setColorFilter(message.getColor())
-            holder.iconText.setVisibility(View.VISIBLE)
-        }
+            holder.imgProfile.setImageResource(R.drawable.circle_shape_grey)
+            holder.imgProfile.setColorFilter(course.color)
+            holder.iconText.visibility  = View.VISIBLE
+        //}
     }
 
-    private fun applyIconAnimation(holder: MyViewHolder, position: Int) {
+    private fun applyIconAnimation(holder: CourseViewHolder, position: Int) {
         if (selectedItems.get(position, false)) {
             holder.iconFront.setVisibility(View.GONE)
             resetIconYAxis(holder.iconBack)

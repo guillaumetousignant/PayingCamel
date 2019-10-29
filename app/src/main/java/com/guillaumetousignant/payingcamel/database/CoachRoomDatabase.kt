@@ -30,7 +30,7 @@ import com.guillaumetousignant.payingcamel.database.trip.TripDao
 
 // Annotates class to be a Room Database with a table (entity) of the Word class
 @Database(entities = [Course::class, Expense::class, Fill::class, Path::class, Rate::class, Skater::class, Trip::class],
-          version = 3)
+          version = 4)
 @TypeConverters(Converters::class)
 abstract class CoachRoomDatabase : RoomDatabase() {
 
