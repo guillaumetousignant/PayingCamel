@@ -39,12 +39,13 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
         val recyclerView: RecyclerView = view.findViewById(R.id.overview_recyclerview)
         val adapter = CourseListAdapter {}
+        val keyProvider = CourseItemKeyProvider()
         val tracker = SelectionTracker.Builder<String>(
             "courseSelection",
             recyclerView,
-            CourseItemKeyProvider(recyclerView),
+            keyProvider,
             CourseItemDetailsLookup(recyclerView),
-            StorageStrategy.createLongStorage()
+            StorageStrategy.createStringStorage()
         ).withSelectionPredicate(
             SelectionPredicates.createSelectAnything()
         ).build()
@@ -54,7 +55,8 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
         overviewViewModel.allCourses.observe(this, Observer { courses ->
             // Update the cached copy of the words in the adapter.
-            courses?.let { adapter.setCourses(it) }
+            courses?.let { adapter.setCourses(it)
+                            keyProvider.setCourses(it)}
         })
 
         val fabOverview: FloatingActionButton = view.findViewById(R.id.fab_overview)
