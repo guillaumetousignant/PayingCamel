@@ -39,6 +39,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
         val recyclerView: RecyclerView = view.findViewById(R.id.overview_recyclerview)
         val adapter = CourseListAdapter {}
+        recyclerView.adapter = adapter
         val keyProvider = CourseItemKeyProvider()
         val tracker = SelectionTracker.Builder<String>(
             "courseSelection",
@@ -50,7 +51,6 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
             SelectionPredicates.createSelectAnything()
         ).build()
         adapter.tracker = tracker
-        recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
         overviewViewModel.allCourses.observe(this, Observer { courses ->
