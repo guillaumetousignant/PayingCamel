@@ -36,7 +36,7 @@ class CourseListAdapter internal constructor(
 
         val iconText: TextView = itemView.findViewById(R.id.icon_text)
         val imgProfile: ImageView = itemView.findViewById(R.id.icon_profile)
-        lateinit var uuid: String
+        var uuid: String? = null
 
         fun getItemDetails(): ItemDetailsLookup.ItemDetails<String> =
             object : ItemDetailsLookup.ItemDetails<String>() {
@@ -62,9 +62,8 @@ class CourseListAdapter internal constructor(
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
         val current = courses[position]
 
-        tracker?.let {
-            holder.bind(current, it.isSelected(holder.uuid))
-        }
+        val selected = tracker?.isSelected(holder.uuid)?:false
+        holder.bind(current, selected)
 
         holder.courseItemView.setOnClickListener {
             listener(current)
