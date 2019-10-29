@@ -17,6 +17,7 @@ import android.content.Intent
 import android.app.Activity
 import android.graphics.Color
 import android.icu.util.Calendar
+import android.util.Log
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
@@ -30,6 +31,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
     private val newCourseActivityRequestCode = 1
     private lateinit var overviewViewModel: OverviewViewModel
+    private lateinit var selectionTracker: SelectionTracker<String>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,7 +43,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         val adapter = CourseListAdapter {}
         recyclerView.adapter = adapter
         val keyProvider = CourseItemKeyProvider()
-        val tracker = SelectionTracker.Builder<String>(
+        selectionTracker = SelectionTracker.Builder<String>(
             "courseSelection",
             recyclerView,
             keyProvider,
@@ -50,7 +52,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         ).withSelectionPredicate(
             SelectionPredicates.createSelectAnything()
         ).build()
-        adapter.tracker = tracker
+        adapter.tracker = selectionTracker
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
         overviewViewModel.allCourses.observe(this, Observer { courses ->
@@ -115,5 +117,15 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
             colors.recycle()
         }
         return returnColor
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        selectionTracker.onRestoreInstanceState(savedInstanceState)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        selectionTracker.onSaveInstanceState(outState)
+        super.onSaveInstanceState(outState)
     }
 }
