@@ -14,6 +14,7 @@ import com.guillaumetousignant.payingcamel.ui.helpers.CircleTransform
 import com.bumptech.glide.Glide
 import android.text.TextUtils
 import android.widget.ImageView
+import androidx.recyclerview.selection.SelectionTracker
 import java.util.Locale
 
 class CourseListAdapter internal constructor(
@@ -25,6 +26,7 @@ class CourseListAdapter internal constructor(
     //private val inflater: LayoutInflater = LayoutInflater.from(context)
     //private val inflater = inflater_in
     private var courses = emptyList<Course>() // Cached copy of words
+    var tracker: SelectionTracker<String>? = null
 
     inner class CourseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val courseItemView: TextView = itemView.findViewById(R.id.textView)
@@ -41,6 +43,13 @@ class CourseListAdapter internal constructor(
                 override fun getPosition(): Int = adapterPosition
                 override fun getSelectionKey(): String? = uuid
             }
+
+        fun bind(course: Course, isActivated: Boolean = false) {
+            courseItemView.text = course.name?:"(...)"
+            itemView.isActivated = isActivated
+            iconText.text = course.name?.substring(0,1)?.toUpperCase(Locale.getDefault())?:"-"
+            uuid = course.uuid.toString()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
@@ -52,9 +61,10 @@ class CourseListAdapter internal constructor(
 
     override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
         val current = courses[position]
-        holder.courseItemView.text = current.name?:"(...)"
-        holder.firstLetterView.text = current.name?.substring(0,1)?.toUpperCase(Locale.getDefault())?:"-"
-        holder.uuid = current.uuid.toString()
+
+        tracker?.let {
+            holder.bind(current, it.isSelected(holder.uuid))
+        }
 
         holder.courseItemView.setOnClickListener {
             listener(current)
@@ -87,7 +97,7 @@ class CourseListAdapter internal constructor(
         //}
     }
 
-    private fun applyIconAnimation(holder: CourseViewHolder, position: Int) {
+    /*private fun applyIconAnimation(holder: CourseViewHolder, position: Int) {
         if (selectedItems.get(position, false)) {
             holder.iconFront.setVisibility(View.GONE)
             resetIconYAxis(holder.iconBack)
@@ -111,7 +121,7 @@ class CourseListAdapter internal constructor(
                 resetCurrentIndex()
             }
         }
-    }
+    }*/
 
 
     // As the views will be reused, sometimes the icon appears as
@@ -122,10 +132,10 @@ class CourseListAdapter internal constructor(
         }
     }
 
-    fun resetAnimationIndex() {
+    /*fun resetAnimationIndex() {
         reverseAllAnimations = false
         animationItemsIndex.clear()
-    }
+    }*/
 
     //override fun getItemId(position: Int): Long = position.toLong()
 }
