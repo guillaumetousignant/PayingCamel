@@ -1,6 +1,7 @@
 package com.guillaumetousignant.payingcamel.database.course
 
 import androidx.recyclerview.selection.ItemKeyProvider
+import androidx.recyclerview.widget.RecyclerView
 
 class CourseItemKeyProvider internal constructor() :
     ItemKeyProvider<String>(SCOPE_CACHED) {
@@ -13,7 +14,7 @@ class CourseItemKeyProvider internal constructor() :
     }
 
     override fun getPosition(s: String): Int {
-        return mKeyToPosition[s]?:0 // CHECK this is sketchy
+        return mKeyToPosition[s]?: RecyclerView.NO_POSITION // CHECK this is sketchy
     }
 
     fun setCourses(newList: List<Course>){
