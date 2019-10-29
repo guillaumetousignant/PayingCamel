@@ -17,8 +17,13 @@ import android.content.Intent
 import android.app.Activity
 import android.graphics.Color
 import android.icu.util.Calendar
+import androidx.recyclerview.selection.SelectionPredicates
+import androidx.recyclerview.selection.SelectionTracker
+import androidx.recyclerview.selection.StorageStrategy
 import com.guillaumetousignant.payingcamel.NewCourseActivity
 import com.guillaumetousignant.payingcamel.database.course.Course
+import com.guillaumetousignant.payingcamel.database.course.CourseItemDetailsLookup
+import com.guillaumetousignant.payingcamel.database.course.CourseItemKeyProvider
 import java.util.*
 
 class OverviewFragment : Fragment(R.layout.fragment_overview) {
@@ -34,6 +39,16 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
         val recyclerView: RecyclerView = view.findViewById(R.id.overview_recyclerview)
         val adapter = CourseListAdapter {}
+        val tracker = SelectionTracker.Builder<String>(
+            "courseSelection",
+            recyclerView,
+            CourseItemKeyProvider(recyclerView),
+            CourseItemDetailsLookup(recyclerView),
+            StorageStrategy.createLongStorage()
+        ).withSelectionPredicate(
+            SelectionPredicates.createSelectAnything()
+        ).build()
+        adapter.tracker = tracker
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
