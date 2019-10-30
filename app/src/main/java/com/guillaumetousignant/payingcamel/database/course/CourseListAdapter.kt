@@ -30,12 +30,10 @@ class CourseListAdapter internal constructor(
 
     inner class CourseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val courseItemView: TextView = itemView.findViewById(R.id.textView)
-
-        //val firstLetterView: TextView = itemView.findViewById(R.id.first_letter)
-        //val firstLetterCircle: RelativeLayout = itemView.findViewById(R.id.first_letter_circle)
-
         val iconText: TextView = itemView.findViewById(R.id.icon_text)
         val imgProfile: ImageView = itemView.findViewById(R.id.icon_profile)
+        val iconBack: RelativeLayout = itemView.findViewById(R.id.icon_back)
+        val iconFront: RelativeLayout = itemView.findViewById(R.id.icon_front)
         var uuid: String? = null
 
         fun getItemDetails(): ItemDetailsLookup.ItemDetails<String> =
@@ -96,21 +94,21 @@ class CourseListAdapter internal constructor(
         //}
     }
 
-    /*private fun applyIconAnimation(holder: CourseViewHolder, position: Int) {
+    private fun applyIconAnimation(holder: CourseViewHolder, position: Int) {
         if (selectedItems.get(position, false)) {
-            holder.iconFront.setVisibility(View.GONE)
+            holder.iconFront.visibility = View.GONE
             resetIconYAxis(holder.iconBack)
-            holder.iconBack.setVisibility(View.VISIBLE)
-            holder.iconBack.setAlpha(1)
+            holder.iconBack.visibility = View.VISIBLE
+            holder.iconBack.alpha = 1.0f
             if (currentSelectedIndex === position) {
                 FlipAnimator.flipView(mContext, holder.iconBack, holder.iconFront, true)
                 resetCurrentIndex()
             }
         } else {
-            holder.iconBack.setVisibility(View.GONE)
+            holder.iconBack.visibility  = View.GONE
             resetIconYAxis(holder.iconFront)
-            holder.iconFront.setVisibility(View.VISIBLE)
-            holder.iconFront.setAlpha(1)
+            holder.iconFront.visibility = View.VISIBLE
+            holder.iconFront.alpha = 1.0f
             if (reverseAllAnimations && animationItemsIndex.get(
                     position,
                     false
@@ -120,7 +118,7 @@ class CourseListAdapter internal constructor(
                 resetCurrentIndex()
             }
         }
-    }*/
+    }
 
 
     // As the views will be reused, sometimes the icon appears as
