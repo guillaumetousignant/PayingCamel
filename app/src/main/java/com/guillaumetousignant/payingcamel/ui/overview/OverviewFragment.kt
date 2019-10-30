@@ -20,6 +20,7 @@ import android.icu.util.Calendar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
@@ -46,7 +47,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
             ViewModelProviders.of(this).get(OverviewViewModel::class.java)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.overview_recyclerview)
-        val adapter = CourseListAdapter {}
+        val adapter = CourseListAdapter(context) {}
         recyclerView.adapter = adapter
         keyProvider = CourseItemKeyProvider()
         selectionTracker = SelectionTracker.Builder<String>(
@@ -133,6 +134,25 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
     override fun onSaveInstanceState(outState: Bundle) {
         selectionTracker.onSaveInstanceState(outState)
         super.onSaveInstanceState(outState)
+    }
+
+    private fun enableActionMode(position: Int) {
+        if (actionMode == null) {
+            actionMode = (activity as AppCompatActivity).startSupportActionMode(actionModeCallback)
+        }
+        toggleSelection(position)
+    }
+
+    private fun toggleSelection(position: Int) {
+        //mAdapter.toggleSelection(position)
+        val count = selectionTracker.selection.size()
+
+        if (count == 0) {
+            actionMode?.finish()
+        } else {
+            actionMode?.setTitle(count.toString())
+            actionMode?.invalidate()
+        }
     }
 
     private inner class ActionModeCallback : ActionMode.Callback {

@@ -1,5 +1,6 @@
 package com.guillaumetousignant.payingcamel.database.course
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,12 +14,14 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.guillaumetousignant.payingcamel.ui.helpers.CircleTransform
 import com.bumptech.glide.Glide
 import android.text.TextUtils
+import android.util.SparseBooleanArray
 import android.widget.ImageView
 import androidx.recyclerview.selection.SelectionTracker
 import java.util.Locale
+import android.view.HapticFeedbackConstants
 
 class CourseListAdapter internal constructor(
-    //context: Context
+    val context: Context?,
     //inflater_in: LayoutInflater
     val listener: (Course) -> Unit
 ) : RecyclerView.Adapter<CourseListAdapter.CourseViewHolder>() {
@@ -34,6 +37,7 @@ class CourseListAdapter internal constructor(
         val imgProfile: ImageView = itemView.findViewById(R.id.icon_profile)
         val iconBack: RelativeLayout = itemView.findViewById(R.id.icon_back)
         val iconFront: RelativeLayout = itemView.findViewById(R.id.icon_front)
+        val iconContainer: RelativeLayout = itemView.findViewById(R.id.icon_container)
         var uuid: String? = null
 
         fun getItemDetails(): ItemDetailsLookup.ItemDetails<String> =
@@ -42,11 +46,15 @@ class CourseListAdapter internal constructor(
                 override fun getSelectionKey(): String? = uuid
             }
 
-        fun bind(course: Course, isActivated: Boolean = false) {
+        fun bind(course: Course, position: Int, isActivated: Boolean = false) {
             courseItemView.text = course.name?:"(...)"
             itemView.isActivated = isActivated
             iconText.text = course.name?.substring(0,1)?.toUpperCase(Locale.getDefault())?:"-"
             uuid = course.uuid.toString()
+
+            applyIconAnimation(this, position, uuid)
+            applyProfilePicture(this, course)
+            //applyClickEvents(this, position)
         }
     }
 
@@ -61,7 +69,7 @@ class CourseListAdapter internal constructor(
         val current = courses[position]
 
         val selected = tracker?.isSelected(holder.uuid)?:false
-        holder.bind(current, selected)
+        holder.bind(current, position, selected)
 
         holder.courseItemView.setOnClickListener {
             listener(current)
@@ -94,30 +102,60 @@ class CourseListAdapter internal constructor(
         //}
     }
 
-    /*private fun applyIconAnimation(holder: CourseViewHolder, position: Int) {
-        if (selectedItems.get(position, false)) {
+    private fun applyIconAnimation(holder: CourseViewHolder, position: Int, key: String?) {
+        if (tracker?.isSelected(key) == true) {
             holder.iconFront.visibility = View.GONE
             resetIconYAxis(holder.iconBack)
             holder.iconBack.visibility = View.VISIBLE
             holder.iconBack.alpha = 1.0f
-            if (currentSelectedIndex === position) {
-                FlipAnimator.flipView(mContext, holder.iconBack, holder.iconFront, true)
-                resetCurrentIndex()
-            }
+            //if (currentSelectedIndex === position) {
+                context?.let {
+                    FlipAnimator.flipView(it, holder.iconBack, holder.iconFront, true)
+                }
+            //    resetCurrentIndex()
+            //}
         } else {
             holder.iconBack.visibility  = View.GONE
             resetIconYAxis(holder.iconFront)
             holder.iconFront.visibility = View.VISIBLE
             holder.iconFront.alpha = 1.0f
-            if (reverseAllAnimations && animationItemsIndex.get(
+            /*if (reverseAllAnimations && animationItemsIndex.get(
                     position,
                     false
                 ) || currentSelectedIndex === position
-            ) {
-                FlipAnimator.flipView(mContext, holder.iconBack, holder.iconFront, false)
-                resetCurrentIndex()
-            }
+            ) {*/
+                context?.let {
+                    FlipAnimator.flipView(it, holder.iconBack, holder.iconFront, false)
+                }
+                //resetCurrentIndex()
+            //}
         }
+    }
+
+    /*private fun applyClickEvents(holder: MyViewHolder, position: Int) {
+        holder.iconContainer.setOnClickListener(View.OnClickListener {
+            listener.onIconClicked(
+                position
+            )
+        })
+
+        holder.iconImp.setOnClickListener(View.OnClickListener {
+            listener.onIconImportantClicked(
+                position
+            )
+        })
+
+        holder.messageContainer.setOnClickListener(View.OnClickListener {
+            listener.onMessageRowClicked(
+                position
+            )
+        })
+
+        holder.messageContainer.setOnLongClickListener(View.OnLongClickListener { view ->
+            listener.onRowLongClicked(position)
+            view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
+            true
+        })
     }*/
 
 

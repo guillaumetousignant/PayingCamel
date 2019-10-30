@@ -29,7 +29,7 @@ class CoursePickerFragment(val course: MutableLiveData<Course?>, private val all
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.course_picker_dialog_recyclerview)
-        val adapter = CourseListAdapter {
+        val adapter = CourseListAdapter(context) {
             course.postValue(it)
             dismiss()
         }
