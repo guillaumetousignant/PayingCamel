@@ -13,8 +13,24 @@ class CourseItemKeyProvider internal constructor() :
         return courseList[i].uuid.toString()
     }
 
+    fun getKeys(i: List<Int>): List<String?> {
+        val list = mutableListOf<String?>() // CHECK maybe not best way
+        for (value in i){
+            list.add(courseList[value].uuid.toString())
+        }
+        return list
+    }
+
     override fun getPosition(s: String): Int {
         return mKeyToPosition[s]?: RecyclerView.NO_POSITION // CHECK this is sketchy
+    }
+
+    fun getPositions(courses: List<String>): List<Int> {
+        val list = mutableListOf<Int>() // CHECK maybe not best way
+        for (course in courses){
+            list.add(mKeyToPosition[course]?: RecyclerView.NO_POSITION)
+        }
+        return list
     }
 
     fun setCourses(newList: List<Course>){

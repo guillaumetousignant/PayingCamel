@@ -94,7 +94,7 @@ class CourseListAdapter internal constructor(
         //}
     }
 
-    private fun applyIconAnimation(holder: CourseViewHolder, position: Int) {
+    /*private fun applyIconAnimation(holder: CourseViewHolder, position: Int) {
         if (selectedItems.get(position, false)) {
             holder.iconFront.visibility = View.GONE
             resetIconYAxis(holder.iconBack)
@@ -118,7 +118,7 @@ class CourseListAdapter internal constructor(
                 resetCurrentIndex()
             }
         }
-    }
+    }*/
 
 
     // As the views will be reused, sometimes the icon appears as

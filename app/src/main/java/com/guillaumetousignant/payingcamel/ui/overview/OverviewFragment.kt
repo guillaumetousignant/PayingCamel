@@ -35,6 +35,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
     private val newCourseActivityRequestCode = 1
     private lateinit var overviewViewModel: OverviewViewModel
     private lateinit var selectionTracker: SelectionTracker<String>
+    private lateinit var keyProvider: CourseItemKeyProvider
     private val actionModeCallback: ActionModeCallback = ActionModeCallback()
     private var actionMode: ActionMode? = null
 
@@ -47,7 +48,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         val recyclerView: RecyclerView = view.findViewById(R.id.overview_recyclerview)
         val adapter = CourseListAdapter {}
         recyclerView.adapter = adapter
-        val keyProvider = CourseItemKeyProvider()
+        keyProvider = CourseItemKeyProvider()
         selectionTracker = SelectionTracker.Builder<String>(
             "courseSelection",
             recyclerView,
@@ -148,7 +149,15 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
             return when (item.itemId) {
                 R.id.action_delete -> {
                     // delete all the selected messages
-                    overviewViewModel.delete()
+                    val uuidList = selectionTracker.selection.toList()
+                    val courseList = mutableListOf<Course>() // CHECK maybe not best way
+                    for (uuid in uuidList){
+                        overviewViewModel.allCourses.value?.let{
+                            courseList.add(it[keyProvider.getPosition(uuid)])
+                        }
+                    }
+
+                    overviewViewModel.delete(courseList)
                     mode.finish()
                     true
                 }
