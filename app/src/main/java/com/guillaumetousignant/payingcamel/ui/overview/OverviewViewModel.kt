@@ -42,6 +42,10 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
         repository.insert(course)
     }
 
+    fun delete(courses: List<Course>) = scope.launch(Dispatchers.IO) {
+        repository.delete(courses)
+    }
+
     override fun onCleared() {
         super.onCleared()
         parentJob.cancel()

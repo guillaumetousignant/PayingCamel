@@ -1,10 +1,7 @@
 package com.guillaumetousignant.payingcamel.database.course
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface CourseDao {
@@ -22,4 +19,7 @@ interface CourseDao {
 
     @Query("DELETE FROM course_table")
     fun deleteAll()
+
+    @Delete
+    fun delete(courses: List<Course>)
 }

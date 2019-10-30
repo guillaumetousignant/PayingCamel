@@ -18,4 +18,10 @@ class CourseRepository(private val courseDao: CourseDao) {
     suspend fun insert(course: Course) {
         courseDao.insert(course)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun delete(courses: List<Course>) {
+        courseDao.delete(courses)
+    }
 }

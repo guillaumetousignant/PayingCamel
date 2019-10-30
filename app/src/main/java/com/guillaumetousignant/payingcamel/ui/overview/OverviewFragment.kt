@@ -18,6 +18,9 @@ import android.app.Activity
 import android.graphics.Color
 import android.icu.util.Calendar
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.view.ActionMode
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
@@ -32,6 +35,8 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
     private val newCourseActivityRequestCode = 1
     private lateinit var overviewViewModel: OverviewViewModel
     private lateinit var selectionTracker: SelectionTracker<String>
+    private val actionModeCallback: ActionModeCallback = ActionModeCallback()
+    private var actionMode: ActionMode? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -127,5 +132,38 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
     override fun onSaveInstanceState(outState: Bundle) {
         selectionTracker.onSaveInstanceState(outState)
         super.onSaveInstanceState(outState)
+    }
+
+    private inner class ActionModeCallback : ActionMode.Callback {
+        override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+            mode.menuInflater.inflate(R.menu.menu_action_mode, menu)
+            return true
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
+            return false
+        }
+
+        override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+            return when (item.itemId) {
+                R.id.action_delete -> {
+                    // delete all the selected messages
+                    overviewViewModel.delete()
+                    mode.finish()
+                    true
+                }
+
+                else -> false
+            }
+        }
+
+        override fun onDestroyActionMode(mode: ActionMode) {
+            selectionTracker.clearSelection()
+            actionMode = null
+            /*recyclerView.post(Runnable {
+                mAdapter.resetAnimationIndex()
+                // mAdapter.notifyDataSetChanged();
+            })*/
+        }
     }
 }
