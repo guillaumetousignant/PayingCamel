@@ -62,6 +62,9 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         adapter.tracker = selectionTracker
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
+
+        selectionTracker.addObserver(CourseSelectionObserver())
+
         overviewViewModel.allCourses.observe(this, Observer { courses ->
             // Update the cached copy of the words in the adapter.
             courses?.let { adapter.setCourses(it)
@@ -136,21 +139,21 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         super.onSaveInstanceState(outState)
     }
 
-    private fun enableActionMode(position: Int) {
+    private fun enableActionMode() {
         if (actionMode == null) {
             actionMode = (activity as AppCompatActivity).startSupportActionMode(actionModeCallback)
         }
-        toggleSelection(position)
+        toggleSelection()
     }
 
-    private fun toggleSelection(position: Int) {
+    private fun toggleSelection() {
         //mAdapter.toggleSelection(position)
         val count = selectionTracker.selection.size()
 
         if (count == 0) {
             actionMode?.finish()
         } else {
-            actionMode?.setTitle(count.toString())
+            actionMode?.title = count.toString()
             actionMode?.invalidate()
         }
     }
@@ -193,6 +196,13 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
                 mAdapter.resetAnimationIndex()
                 // mAdapter.notifyDataSetChanged();
             })*/
+        }
+    }
+
+    private inner class CourseSelectionObserver : SelectionTracker.SelectionObserver<String>() {
+        override fun onItemStateChanged(key: String, selected: Boolean) {
+            super.onItemStateChanged(key, selected)
+            enableActionMode()
         }
     }
 }
