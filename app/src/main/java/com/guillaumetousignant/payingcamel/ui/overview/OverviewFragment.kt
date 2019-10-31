@@ -22,6 +22,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
+import androidx.core.content.res.ResourcesCompat.getColor
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
@@ -160,6 +161,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
     private inner class ActionModeCallback : ActionMode.Callback {
         override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+            window.statusBarColor = getColor(resources, R.color.colorPrimaryDark, activity?.theme)
             mode.menuInflater.inflate(R.menu.menu_action_mode, menu)
             return true
         }
