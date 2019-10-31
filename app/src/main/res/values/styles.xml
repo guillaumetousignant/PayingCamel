@@ -44,4 +44,17 @@
         <item name="actionMenuTextColor">@color/colorAccent</item>
     </style>
 
+
+    <style name="ActionModeTheme" parent="AppTheme">
+        <item name="actionModeStyle">@style/ActionModStyle</item>
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionMenuTextColor">@color/colorBackground</item>
+    </style>
+
+    <style name="ActionModStyle" parent="Base.Widget.AppCompat.ActionMode">
+        <item name="background">?attr/actionModeBackground</item>
+        <item name="backgroundSplit">?attr/actionModeSplitBackground</item>
+        <item name="height">?attr/actionBarSize</item>
+    </style>
+
 </resources>
