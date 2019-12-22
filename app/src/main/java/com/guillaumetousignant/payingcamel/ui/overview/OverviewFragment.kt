@@ -22,6 +22,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat.getColor
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
@@ -142,7 +143,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
     private fun enableActionMode() {
         if (actionMode == null) {
-            actionMode = (activity as AppCompatActivity).startSupportActionMode(actionModeCallback)
+            actionMode = (activity as AppCompatActivity?)?.startSupportActionMode(actionModeCallback)
         }
         toggleSelection()
     }
