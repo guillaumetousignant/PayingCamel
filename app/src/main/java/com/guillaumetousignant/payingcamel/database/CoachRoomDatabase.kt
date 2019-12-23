@@ -30,7 +30,7 @@ import com.guillaumetousignant.payingcamel.database.trip.TripDao
 
 // Annotates class to be a Room Database with a table (entity) of the Word class
 @Database(entities = [Course::class, Expense::class, Fill::class, Path::class, Rate::class, Skater::class, Trip::class],
-          version = 4)
+          version = 5)
 @TypeConverters(Converters::class)
 abstract class CoachRoomDatabase : RoomDatabase() {
 
@@ -235,13 +235,13 @@ abstract class CoachRoomDatabase : RoomDatabase() {
 
                 var skater = Skater(
                     UUID.randomUUID(), "Guillaume", "Tousignant",
-                    "Niveau 0 lol", "moi_guillaume@hotmail.com", true
+                    "Niveau 0 lol", "moi_guillaume@hotmail.com", true, 10539
                 )
                 skaterDao.insert(skater)
 
                 skater = Skater(
                     UUID.randomUUID(), "Ariane", "Laurier",
-                    "Amour d'amour ❤❤❤", null, true
+                    "Amour d'amour ❤❤❤", null, true, 10540
                 )
                 skaterDao.insert(skater)
 

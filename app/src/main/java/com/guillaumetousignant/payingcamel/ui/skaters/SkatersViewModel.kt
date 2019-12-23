@@ -43,6 +43,10 @@ class SkatersViewModel(application: Application) : AndroidViewModel(application)
         repository.insert(skater)
     }
 
+    fun delete(skaters: List<Skater>) = scope.launch(Dispatchers.IO) {
+        repository.delete(skaters)
+    }
+
     override fun onCleared() {
         super.onCleared()
         parentJob.cancel()

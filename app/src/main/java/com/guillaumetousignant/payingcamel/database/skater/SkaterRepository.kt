@@ -18,4 +18,10 @@ class SkaterRepository(private val skaterDao: SkaterDao) {
     suspend fun insert(skater: Skater) {
         skaterDao.insert(skater)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun delete(skaters: List<Skater>) {
+        skaterDao.delete(skaters)
+    }
 }

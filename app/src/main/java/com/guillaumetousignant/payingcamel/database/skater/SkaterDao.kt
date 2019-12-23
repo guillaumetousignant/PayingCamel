@@ -1,10 +1,7 @@
 package com.guillaumetousignant.payingcamel.database.skater
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface SkaterDao {
@@ -25,4 +22,7 @@ interface SkaterDao {
 
     @Query("DELETE FROM skater_table")
     fun deleteAll()
+
+    @Delete
+    fun delete(skaters: List<Skater>)
 }

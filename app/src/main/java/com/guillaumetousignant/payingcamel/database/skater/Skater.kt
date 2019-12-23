@@ -13,4 +13,5 @@ class Skater(@PrimaryKey @ColumnInfo(name = "uuid") val uuid: UUID,
              @ColumnInfo(name = "last_name") val last_name: String,
              @ColumnInfo(name = "note") val note: String?,
              @ColumnInfo(name = "email") val email: String?,
-             @ColumnInfo(name = "active") val active: Boolean)
+             @ColumnInfo(name = "active") val active: Boolean,
+             @ColumnInfo(name = "color") val color: Int)
