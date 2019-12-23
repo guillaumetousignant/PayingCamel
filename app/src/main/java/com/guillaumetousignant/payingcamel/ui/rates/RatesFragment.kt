@@ -2,6 +2,7 @@ package com.guillaumetousignant.payingcamel.ui.rates
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -58,7 +59,8 @@ class RatesFragment : Fragment(R.layout.fragment_rates) {
                     data.getIntExtra(NewRateActivity.EXTRA_AMOUNT, 0),
                     data.getStringExtra(NewRateActivity.EXTRA_NAME),
                     data.getStringExtra(NewRateActivity.EXTRA_NOTE),
-                    data.getSerializableExtra(NewRateActivity.EXTRA_SKATER) as UUID?
+                    data.getSerializableExtra(NewRateActivity.EXTRA_SKATER) as UUID?,
+                    getRandomMaterialColor(getString(R.string.icon_color_type))
                 )
                 ratesViewModel.insert(rate)
                 Unit
@@ -76,5 +78,18 @@ class RatesFragment : Fragment(R.layout.fragment_rates) {
                     .setAction("Action", null).show()
             }
         }
+    }
+
+    private fun getRandomMaterialColor(typeColor: String): Int {
+        var returnColor = Color.GRAY
+        val arrayId = resources.getIdentifier("mdcolor_$typeColor", "array", activity?.packageName)
+
+        if (arrayId != 0) {
+            val colors = resources.obtainTypedArray(arrayId)
+            val index = (Math.random() * colors.length()).toInt()
+            returnColor = colors.getColor(index, Color.GRAY)
+            colors.recycle()
+        }
+        return returnColor
     }
 }

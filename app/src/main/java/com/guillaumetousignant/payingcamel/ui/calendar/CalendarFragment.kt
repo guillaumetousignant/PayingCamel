@@ -189,7 +189,8 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                     data.getSerializableExtra(NewTripActivity.EXTRA_COURSE) as UUID?,
                     data.getSerializableExtra(NewTripActivity.EXTRA_SKATER) as UUID?,
                     data.getStringExtra(NewTripActivity.EXTRA_NAME),
-                    data.getStringExtra(NewTripActivity.EXTRA_NOTE)
+                    data.getStringExtra(NewTripActivity.EXTRA_NOTE),
+                    getRandomMaterialColor(getString(R.string.icon_color_type))
                 )
                 calendarViewModel.insert(trip)
                 Unit
@@ -210,7 +211,8 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                     data.getSerializableExtra(NewExpenseActivity.EXTRA_COURSE) as UUID?,
                     data.getSerializableExtra(NewExpenseActivity.EXTRA_SKATER) as UUID?,
                     data.getStringExtra(NewExpenseActivity.EXTRA_NAME),
-                    data.getStringExtra(NewExpenseActivity.EXTRA_NOTE)
+                    data.getStringExtra(NewExpenseActivity.EXTRA_NOTE),
+                    getRandomMaterialColor(getString(R.string.icon_color_type))
                 )
                 calendarViewModel.insert(expense)
                 Unit
@@ -229,7 +231,8 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                     data.getIntExtra(NewFillActivity.EXTRA_AMOUNT, 0),
                     data.getSerializableExtra(NewFillActivity.EXTRA_START) as Calendar,
                     data.getStringExtra(NewFillActivity.EXTRA_NAME),
-                    data.getStringExtra(NewFillActivity.EXTRA_NOTE)
+                    data.getStringExtra(NewFillActivity.EXTRA_NOTE),
+                    getRandomMaterialColor(getString(R.string.icon_color_type))
                 )
                 calendarViewModel.insert(fill)
                 Unit

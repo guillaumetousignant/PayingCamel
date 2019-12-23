@@ -2,6 +2,7 @@ package com.guillaumetousignant.payingcamel.ui.gas
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.View
@@ -61,7 +62,8 @@ class GasFragment : Fragment(R.layout.fragment_gas) {
                     data.getIntExtra(NewFillActivity.EXTRA_AMOUNT, 0),
                     data.getSerializableExtra(NewFillActivity.EXTRA_START) as Calendar,
                     data.getStringExtra(NewFillActivity.EXTRA_NAME),
-                    data.getStringExtra(NewFillActivity.EXTRA_NOTE)
+                    data.getStringExtra(NewFillActivity.EXTRA_NOTE),
+                    getRandomMaterialColor(getString(R.string.icon_color_type))
                 )
                 gasViewModel.insert(fill)
                 Unit
@@ -79,5 +81,18 @@ class GasFragment : Fragment(R.layout.fragment_gas) {
                     .setAction("Action", null).show()
             }
         }
+    }
+
+    private fun getRandomMaterialColor(typeColor: String): Int {
+        var returnColor = Color.GRAY
+        val arrayId = resources.getIdentifier("mdcolor_$typeColor", "array", activity?.packageName)
+
+        if (arrayId != 0) {
+            val colors = resources.obtainTypedArray(arrayId)
+            val index = (Math.random() * colors.length()).toInt()
+            returnColor = colors.getColor(index, Color.GRAY)
+            colors.recycle()
+        }
+        return returnColor
     }
 }

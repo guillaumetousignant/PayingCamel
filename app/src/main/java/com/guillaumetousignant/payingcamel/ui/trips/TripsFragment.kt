@@ -2,6 +2,7 @@ package com.guillaumetousignant.payingcamel.ui.trips
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.View
@@ -66,7 +67,8 @@ class TripsFragment : Fragment(R.layout.fragment_trips) {
                     data.getSerializableExtra(NewTripActivity.EXTRA_COURSE) as UUID?,
                     data.getSerializableExtra(NewTripActivity.EXTRA_SKATER) as UUID?,
                     data.getStringExtra(NewTripActivity.EXTRA_NAME),
-                    data.getStringExtra(NewTripActivity.EXTRA_NOTE)
+                    data.getStringExtra(NewTripActivity.EXTRA_NOTE),
+                    getRandomMaterialColor(getString(R.string.icon_color_type))
                 )
                 tripsViewModel.insert(trip)
                 Unit
@@ -84,5 +86,18 @@ class TripsFragment : Fragment(R.layout.fragment_trips) {
                     .setAction("Action", null).show()
             }
         }
+    }
+
+    private fun getRandomMaterialColor(typeColor: String): Int {
+        var returnColor = Color.GRAY
+        val arrayId = resources.getIdentifier("mdcolor_$typeColor", "array", activity?.packageName)
+
+        if (arrayId != 0) {
+            val colors = resources.obtainTypedArray(arrayId)
+            val index = (Math.random() * colors.length()).toInt()
+            returnColor = colors.getColor(index, Color.GRAY)
+            colors.recycle()
+        }
+        return returnColor
     }
 }

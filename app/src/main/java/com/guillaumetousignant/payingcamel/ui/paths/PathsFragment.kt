@@ -2,6 +2,7 @@ package com.guillaumetousignant.payingcamel.ui.paths
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -60,7 +61,8 @@ class PathsFragment : Fragment(R.layout.fragment_paths) {
                     data.getStringExtra(NewPathActivity.EXTRA_FROM),
                     data.getStringExtra(NewPathActivity.EXTRA_TO),
                     data.getStringExtra(NewPathActivity.EXTRA_NAME),
-                    data.getStringExtra(NewPathActivity.EXTRA_NOTE)
+                    data.getStringExtra(NewPathActivity.EXTRA_NOTE),
+                    getRandomMaterialColor(getString(R.string.icon_color_type))
                 )
                 pathsViewModel.insert(path)
                 Unit
@@ -78,5 +80,18 @@ class PathsFragment : Fragment(R.layout.fragment_paths) {
                     .setAction("Action", null).show()
             }
         }
+    }
+
+    private fun getRandomMaterialColor(typeColor: String): Int {
+        var returnColor = Color.GRAY
+        val arrayId = resources.getIdentifier("mdcolor_$typeColor", "array", activity?.packageName)
+
+        if (arrayId != 0) {
+            val colors = resources.obtainTypedArray(arrayId)
+            val index = (Math.random() * colors.length()).toInt()
+            returnColor = colors.getColor(index, Color.GRAY)
+            colors.recycle()
+        }
+        return returnColor
     }
 }

@@ -2,6 +2,7 @@ package com.guillaumetousignant.payingcamel.ui.expenses
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.View
@@ -64,7 +65,8 @@ class ExpensesFragment : Fragment(R.layout.fragment_expenses) {
                     data.getSerializableExtra(NewExpenseActivity.EXTRA_COURSE) as UUID?,
                     data.getSerializableExtra(NewExpenseActivity.EXTRA_SKATER) as UUID?,
                     data.getStringExtra(NewExpenseActivity.EXTRA_NAME),
-                    data.getStringExtra(NewExpenseActivity.EXTRA_NOTE)
+                    data.getStringExtra(NewExpenseActivity.EXTRA_NOTE),
+                    getRandomMaterialColor(getString(R.string.icon_color_type))
                 )
                 expensesViewModel.insert(expense)
                 Unit
@@ -82,5 +84,18 @@ class ExpensesFragment : Fragment(R.layout.fragment_expenses) {
                     .setAction("Action", null).show()
             }
         }
+    }
+
+    private fun getRandomMaterialColor(typeColor: String): Int {
+        var returnColor = Color.GRAY
+        val arrayId = resources.getIdentifier("mdcolor_$typeColor", "array", activity?.packageName)
+
+        if (arrayId != 0) {
+            val colors = resources.obtainTypedArray(arrayId)
+            val index = (Math.random() * colors.length()).toInt()
+            returnColor = colors.getColor(index, Color.GRAY)
+            colors.recycle()
+        }
+        return returnColor
     }
 }
