@@ -12,4 +12,5 @@ class Path(@PrimaryKey @ColumnInfo(name = "uuid") val uuid: UUID,
            @ColumnInfo(name = "from") val from: String?,
            @ColumnInfo(name = "to") val to: String?,
            @ColumnInfo(name = "name") val name: String?,
-           @ColumnInfo(name = "note") val note: String?)
+           @ColumnInfo(name = "note") val note: String?,
+           @ColumnInfo(name = "color") val color: Int)

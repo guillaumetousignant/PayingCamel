@@ -17,4 +17,5 @@ class Trip(@PrimaryKey @ColumnInfo(name = "uuid") val uuid: UUID,
            @ColumnInfo(name = "course") val course: UUID?,
            @ColumnInfo(name = "skater") val skater: UUID?,
            @ColumnInfo(name = "name") val name: String?,
-           @ColumnInfo(name = "note") val note: String?)
+           @ColumnInfo(name = "note") val note: String?,
+           @ColumnInfo(name = "color") val color: Int)

@@ -30,7 +30,7 @@ import com.guillaumetousignant.payingcamel.database.trip.TripDao
 
 // Annotates class to be a Room Database with a table (entity) of the Word class
 @Database(entities = [Course::class, Expense::class, Fill::class, Path::class, Rate::class, Skater::class, Trip::class],
-          version = 5)
+          version = 6)
 @TypeConverters(Converters::class)
 abstract class CoachRoomDatabase : RoomDatabase() {
 
@@ -187,49 +187,57 @@ abstract class CoachRoomDatabase : RoomDatabase() {
 
                 var expense = Expense(
                     UUID.randomUUID(), 1000, Calendar.getInstance(),
-                    null, null, "Beignes", "Beignes pour manger miam miam"
+                    null, null, "Beignes", "Beignes pour manger miam miam",
+                    10541
                 )
                 expenseDao.insert(expense)
 
                 expense = Expense(
                     UUID.randomUUID(), 2000, Calendar.getInstance(),
-                    null, null, "Beignes 2", "2e achat de beignes miam miam"
+                    null, null, "Beignes 2", "2e achat de beignes miam miam",
+                    10541
                 )
                 expenseDao.insert(expense)
 
                 var fill = Fill(
                     UUID.randomUUID(), 4300, Calendar.getInstance(), "Plein",
-                    null
+                    null,
+                    10541
                 )
                 fillDao.insert(fill)
 
                 fill = Fill(
                     UUID.randomUUID(), 1300, Calendar.getInstance(), "Plein",
-                    "Plus d'essence"
+                    "Plus d'essence",
+                    10541
                 )
                 fillDao.insert(fill)
 
                 var path = Path(
                     UUID.randomUUID(), 10.5, "maison", "aréna",
-                    "Maison-Cholette", null
+                    "Maison-Cholette", null,
+                    10541
                 )
                 pathDao.insert(path)
 
                 path = Path(
                     UUID.randomUUID(), 30.5, "maison", "Baribeauy",
-                    "Maison-Baribeau", "Sans traffic"
+                    "Maison-Baribeau", "Sans traffic",
+                    10541
                 )
                 pathDao.insert(path)
 
                 var rate = Rate(
                     UUID.randomUUID(), 2100, "Privé", "Augmentation 2019",
-                    null
+                    null,
+                    10541
                 )
                 rateDao.insert(rate)
 
                 rate = Rate(
                     UUID.randomUUID(), 2450, "Club", "Augmentation 2019",
-                    null
+                    null,
+                    10541
                 )
                 rateDao.insert(rate)
 
@@ -248,21 +256,24 @@ abstract class CoachRoomDatabase : RoomDatabase() {
                 var trip = Trip(
                     UUID.randomUUID(), "Maison-Cholette", "maison",
                     "Cholette", 10.5, Calendar.getInstance(), null, null,
-                    "Mardi soir", "J'ai vu un chevreuil"
+                    "Mardi soir", "J'ai vu un chevreuil",
+                    10541
                 )
                 tripDao.insert(trip)
 
                 trip = Trip(
                     UUID.randomUUID(), "Maison-Baribeau", "maison",
                     "Baribeau", 30.5, Calendar.getInstance(), null, null,
-                    "Mardi pm", null
+                    "Mardi pm", null,
+                    10541
                 )
                 tripDao.insert(trip)
 
                 trip = Trip(
                     UUID.randomUUID(), "Maison-Cholette", "maison",
                     "Cholette", 10.5, Calendar.getInstance(), null, null,
-                    "Jeudi soir", null
+                    "Jeudi soir", null,
+                    10541
                 )
                 tripDao.insert(trip)
             }
