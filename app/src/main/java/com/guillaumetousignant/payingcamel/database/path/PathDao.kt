@@ -1,10 +1,7 @@
 package com.guillaumetousignant.payingcamel.database.path
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface PathDao {
@@ -22,4 +19,7 @@ interface PathDao {
 
     @Query("DELETE FROM path_table")
     fun deleteAll()
+
+    @Delete
+    fun delete(paths: List<Path>)
 }

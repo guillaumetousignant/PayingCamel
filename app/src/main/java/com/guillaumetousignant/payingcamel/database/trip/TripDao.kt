@@ -1,10 +1,7 @@
 package com.guillaumetousignant.payingcamel.database.trip
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface TripDao {
@@ -22,4 +19,7 @@ interface TripDao {
 
     @Query("DELETE FROM trip_table")
     fun deleteAll()
+
+    @Delete
+    fun delete(trips: List<Trip>)
 }

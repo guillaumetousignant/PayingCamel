@@ -1,10 +1,7 @@
 package com.guillaumetousignant.payingcamel.database.rate
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface RateDao {
@@ -22,4 +19,7 @@ interface RateDao {
 
     @Query("DELETE FROM rate_table")
     fun deleteAll()
+
+    @Delete
+    fun delete(rates: List<Rate>)
 }

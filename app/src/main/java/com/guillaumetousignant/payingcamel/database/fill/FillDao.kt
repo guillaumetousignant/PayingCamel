@@ -1,10 +1,7 @@
 package com.guillaumetousignant.payingcamel.database.fill
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface FillDao {
@@ -22,4 +19,7 @@ interface FillDao {
 
     @Query("DELETE FROM fill_table")
     fun deleteAll()
+
+    @Delete
+    fun delete(fills: List<Fill>)
 }

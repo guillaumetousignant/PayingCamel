@@ -1,10 +1,7 @@
 package com.guillaumetousignant.payingcamel.database.expense
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface ExpenseDao {
@@ -22,4 +19,7 @@ interface ExpenseDao {
 
     @Query("DELETE FROM expense_table")
     fun deleteAll()
+
+    @Delete
+    fun delete(expenses: List<Expense>)
 }
