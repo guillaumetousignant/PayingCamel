@@ -14,7 +14,7 @@ interface ExpenseDao {
     // data has changed. Since we are getting all the contents of the database,
     // we are notified whenever any of the database contents have changed.
     @Query("SELECT * from expense_table ORDER BY start_time DESC")
-    fun getDescEexpenses(): LiveData<List<Expense>>
+    fun getDescExpenses(): LiveData<List<Expense>>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insert(expense: Expense)
