@@ -18,4 +18,10 @@ class FillRepository(private val fillDao: FillDao) {
     suspend fun insert(fill: Fill) {
         fillDao.insert(fill)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun delete(fills: List<Fill>) {
+        fillDao.delete(fills)
+    }
 }

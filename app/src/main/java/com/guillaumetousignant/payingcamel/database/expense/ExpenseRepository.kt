@@ -18,4 +18,10 @@ class ExpenseRepository(private val expenseDao: ExpenseDao) {
     suspend fun insert(expense: Expense) {
         expenseDao.insert(expense)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun delete(expenses: List<Expense>) {
+        expenseDao.delete(expenses)
+    }
 }

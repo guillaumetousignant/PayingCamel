@@ -18,4 +18,10 @@ class RateRepository(private val rateDao: RateDao) {
     suspend fun insert(rate: Rate) {
         rateDao.insert(rate)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun delete(rates: List<Rate>) {
+        rateDao.delete(rates)
+    }
 }

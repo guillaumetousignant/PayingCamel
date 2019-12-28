@@ -18,4 +18,10 @@ class TripRepository(private val tripDao: TripDao) {
     suspend fun insert(trip: Trip) {
         tripDao.insert(trip)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun delete(trips: List<Trip>) {
+        tripDao.delete(trips)
+    }
 }

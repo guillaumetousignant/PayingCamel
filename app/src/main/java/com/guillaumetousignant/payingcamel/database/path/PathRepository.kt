@@ -18,4 +18,10 @@ class PathRepository(private val pathDao: PathDao) {
     suspend fun insert(path: Path) {
         pathDao.insert(path)
     }
+
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun delete(paths: List<Path>) {
+        pathDao.delete(paths)
+    }
 }
