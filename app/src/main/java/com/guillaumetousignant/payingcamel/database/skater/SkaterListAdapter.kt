@@ -13,7 +13,7 @@ import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
 import com.guillaumetousignant.payingcamel.R
 import com.guillaumetousignant.payingcamel.ui.helpers.FlipAnimator
-import java.util.*
+import java.util.Locale
 
 //import androidx.fragment.app.Fragment
 //import android.content.res.Resources

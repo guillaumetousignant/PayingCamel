@@ -63,4 +63,6 @@
     <string name="label_course">Course</string>
     <string name="action_delete">Delete</string>
     <string name="icon_color_type" translatable="false">400</string>
+    <string name="title_default">%s</string>
+    <string name="name_empty">No title</string>
 </resources>

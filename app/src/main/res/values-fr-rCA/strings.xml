@@ -61,4 +61,6 @@
     <string name="label_fill">Plein</string>
     <string name="label_trip">Déplacement</string>
     <string name="action_delete">Supprimer</string>
+    <string name="title_default">%s</string>
+    <string name="name_empty">Sans titre</string>
 </resources>

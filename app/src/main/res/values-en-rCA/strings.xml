@@ -61,4 +61,6 @@
     <string name="label_fill">Fill</string>
     <string name="label_trip">Trip</string>
     <string name="action_delete">Delete</string>
+    <string name="title_default">%s</string>
+    <string name="name_empty">No title</string>
 </resources>
