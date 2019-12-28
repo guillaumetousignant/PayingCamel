@@ -43,6 +43,10 @@ class TripsViewModel(application: Application) : AndroidViewModel(application) {
         repository.insert(trip)
     }
 
+    fun delete(trips: List<Trip>) = scope.launch(Dispatchers.IO) {
+        repository.delete(trips)
+    }
+
     override fun onCleared() {
         super.onCleared()
         parentJob.cancel()
