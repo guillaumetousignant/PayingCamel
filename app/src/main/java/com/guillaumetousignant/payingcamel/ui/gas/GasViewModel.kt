@@ -43,6 +43,10 @@ class GasViewModel(application: Application) : AndroidViewModel(application) {
         repository.insert(fill)
     }
 
+    fun delete(fills: List<Fill>) = scope.launch(Dispatchers.IO) {
+        repository.delete(fills)
+    }
+
     override fun onCleared() {
         super.onCleared()
         parentJob.cancel()

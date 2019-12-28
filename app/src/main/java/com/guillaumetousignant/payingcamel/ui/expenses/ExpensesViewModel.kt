@@ -44,6 +44,10 @@ class ExpensesViewModel(application: Application) : AndroidViewModel(application
         repository.insert(expense)
     }
 
+    fun delete(expenses: List<Expense>) = scope.launch(Dispatchers.IO) {
+        repository.delete(expenses)
+    }
+
     override fun onCleared() {
         super.onCleared()
         parentJob.cancel()

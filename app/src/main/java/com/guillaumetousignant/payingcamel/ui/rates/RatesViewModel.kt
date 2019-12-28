@@ -43,6 +43,10 @@ class RatesViewModel(application: Application) : AndroidViewModel(application) {
         repository.insert(rate)
     }
 
+    fun delete(rates: List<Rate>) = scope.launch(Dispatchers.IO) {
+        repository.delete(rates)
+    }
+
     override fun onCleared() {
         super.onCleared()
         parentJob.cancel()

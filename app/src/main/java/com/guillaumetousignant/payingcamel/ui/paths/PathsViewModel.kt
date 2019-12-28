@@ -43,6 +43,10 @@ class PathsViewModel(application: Application) : AndroidViewModel(application) {
         repository.insert(path)
     }
 
+    fun delete(paths: List<Path>) = scope.launch(Dispatchers.IO) {
+        repository.delete(paths)
+    }
+
     override fun onCleared() {
         super.onCleared()
         parentJob.cancel()
