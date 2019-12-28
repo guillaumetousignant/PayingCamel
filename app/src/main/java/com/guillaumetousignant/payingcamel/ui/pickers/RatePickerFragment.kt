@@ -29,7 +29,7 @@ class RatePickerFragment(val rate: MutableLiveData<Rate?>, private val allRates:
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.rate_picker_dialog_recyclerview)
-        val adapter = RateListAdapter {
+        val adapter = RateListAdapter(context) {
             rate.postValue(it)
             dismiss()
         }

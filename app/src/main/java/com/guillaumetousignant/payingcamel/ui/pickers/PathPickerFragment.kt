@@ -29,7 +29,7 @@ class PathPickerFragment(val path: MutableLiveData<Path?>, private val allPaths:
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.path_picker_dialog_recyclerview)
-        val adapter = PathListAdapter {
+        val adapter = PathListAdapter(context) {
             path.postValue(it)
             dismiss()
         }
