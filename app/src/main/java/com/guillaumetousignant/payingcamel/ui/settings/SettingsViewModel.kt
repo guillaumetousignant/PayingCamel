@@ -8,6 +8,7 @@ import com.guillaumetousignant.payingcamel.database.backup.BackupRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
@@ -32,7 +33,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
-    fun checkpoint() {
+    fun checkpoint() = scope.launch(Dispatchers.IO) {
         repository.checkpoint(SimpleSQLiteQuery("pragma wal_checkpoint(full)"))
     }
 

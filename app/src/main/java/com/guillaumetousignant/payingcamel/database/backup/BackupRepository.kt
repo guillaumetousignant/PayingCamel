@@ -9,8 +9,9 @@ class BackupRepository(private val backupDao: BackupDao) {
 
     // Room executes all queries on a separate thread.
 
+    @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    fun checkpoint(supportSQLiteQuery: SupportSQLiteQuery?) {
+    suspend fun checkpoint(supportSQLiteQuery: SupportSQLiteQuery?) {
         backupDao.checkpoint(supportSQLiteQuery)
     }
 }
