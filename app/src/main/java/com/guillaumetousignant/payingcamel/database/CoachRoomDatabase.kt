@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 
 import java.util.UUID // REMOVE
 import android.icu.util.Calendar // REMOVE
+import com.guillaumetousignant.payingcamel.database.backup.BackupDao
 import com.guillaumetousignant.payingcamel.database.course.Course
 import com.guillaumetousignant.payingcamel.database.course.CourseDao
 import com.guillaumetousignant.payingcamel.database.expense.Expense
@@ -41,6 +42,7 @@ abstract class CoachRoomDatabase : RoomDatabase() {
     abstract fun rateDao(): RateDao
     abstract fun skaterDao(): SkaterDao
     abstract fun tripDao(): TripDao
+    abstract fun backupDao(): BackupDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the
