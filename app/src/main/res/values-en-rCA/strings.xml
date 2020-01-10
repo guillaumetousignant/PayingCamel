@@ -63,4 +63,8 @@
     <string name="action_delete">Delete</string>
     <string name="title_default">%s</string>
     <string name="name_empty">No title</string>
+    <string name="settings_backup_title">Backup Database</string>
+    <string name="settings_backup_summary">Saves database file for safekeeping</string>
+    <string name="settings_restore_title">Restore Database</string>
+    <string name="settings_restore_summary">Restores database from file</string>
 </resources>

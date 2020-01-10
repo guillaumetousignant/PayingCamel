@@ -7,8 +7,13 @@
         app:title="@string/settings_notifications_title"/>
 
     <Preference
-        app:key="feedback"
-        app:title="@string/settings_feedback_title"
-        app:summary="@string/settings_feedback_summary"/>
+        app:key="backup"
+        app:title="@string/settings_backup_title"
+        app:summary="@string/settings_backup_summary"/>
+
+    <Preference
+        app:key="restore"
+        app:title="@string/settings_restore_title"
+        app:summary="@string/settings_restore_summary"/>
 
 </PreferenceScreen>

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat // Added
 import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.R
@@ -70,6 +71,29 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                 Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
             }
+        }
+    }
+
+    override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        return when(preference.key) {
+            "backup" -> {
+                // user clicked "backup" button
+                // take appropriate actions
+                // return "true" to indicate you handled the click
+                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+                intent.type = "*/*" // this line is a must when using ACTION_CREATE_DOCUMENT
+                startActivityForResult(intent, backupActivityRequestCode)
+
+                true
+            }
+            "restore" -> {
+                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+                intent.type = "*/*" // this line is a must when using ACTION_CREATE_DOCUMENT
+                startActivityForResult(intent, restoreActivityRequestCode)
+
+                true
+            }
+            else -> false
         }
     }
 }
