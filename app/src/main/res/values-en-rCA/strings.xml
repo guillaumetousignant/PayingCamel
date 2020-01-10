@@ -67,4 +67,5 @@
     <string name="settings_backup_summary">Saves database file for safekeeping</string>
     <string name="settings_restore_title">Restore Database</string>
     <string name="settings_restore_summary">Restores database from file</string>
+    <string name="restore_too_few_files">Three files must be selected</string>
 </resources>

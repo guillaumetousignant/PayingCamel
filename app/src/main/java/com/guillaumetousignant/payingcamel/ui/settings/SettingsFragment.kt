@@ -5,9 +5,10 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.Preference
-import androidx.preference.PreferenceFragmentCompat // Added
+import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.R
+
 
 class SettingsFragment : PreferenceFragmentCompat() { // Changed
 
@@ -38,11 +39,25 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
              }
         }
         else if (requestCode == restoreActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.data?.let {inputPath ->
+            val clipData = intentData?.clipData
+
+            if ((clipData != null) && (clipData.itemCount == 3)) {
+                context?.let{
+                    settingsViewModel.restore(clipData, it)
+                }
+            }
+            else {
+                view?.let{
+                    Snackbar.make(it, R.string.restore_too_few_files, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
+            }
+
+            /*intentData?.data?.let {inputPath ->
                 context?.let{ theContext ->
                     settingsViewModel.restore(inputPath, theContext)
                 }
-            }
+            }*/
         }
         else if (requestCode == restoreActivityRequestCode) {
             view?.let{
@@ -73,6 +88,7 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
             "restore" -> {
                 val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
                 intent.type = "application/x-sqlite3" // this line is a must when using ACTION_CREATE_DOCUMENT
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                 startActivityForResult(intent, restoreActivityRequestCode)
 
                 true
