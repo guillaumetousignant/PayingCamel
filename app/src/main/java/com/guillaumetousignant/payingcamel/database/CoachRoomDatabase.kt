@@ -65,8 +65,8 @@ abstract class CoachRoomDatabase : RoomDatabase() {
                     // Wipes and rebuilds instead of migrating if no Migration object.
                     // Migration is not part of this codelab. (Add back two following lines and
                     // the one with scope, then add callback. GT)
-                    .fallbackToDestructiveMigration() // Removed
-                    .addCallback(CoachDatabaseCallback(scope)) // Removed
+                    //.fallbackToDestructiveMigration() // Removed
+                    //.addCallback(CoachDatabaseCallback(scope)) // Removed
                     .build()
                 INSTANCE = instance
                 // return instance
