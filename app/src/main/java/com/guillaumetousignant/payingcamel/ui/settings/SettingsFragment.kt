@@ -33,7 +33,7 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                 inPath?.let { inputPath ->
                     outPath?.let {outputPath ->
                         context?.let{ theContext ->
-                            settingsViewModel.backup(inputPath, outputPath, theContext.contentResolver)
+                            settingsViewModel.backup(inputPath, outputPath, theContext)
                         }
                     }
                 }
@@ -54,7 +54,7 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                 inPath?.let { inputPath ->
                     outPath?.let {outputPath ->
                         context?.let{ theContext ->
-                            settingsViewModel.restore(inputPath, outputPath, theContext.contentResolver)
+                            settingsViewModel.restore(inputPath, outputPath, theContext)
                         }
                     }
                 }

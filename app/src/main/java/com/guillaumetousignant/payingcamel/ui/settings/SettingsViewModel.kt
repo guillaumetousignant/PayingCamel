@@ -1,10 +1,16 @@
 package com.guillaumetousignant.payingcamel.ui.settings
 
+import android.app.Activity
 import android.app.Application
 import android.content.ContentResolver
+import android.content.Context
+import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.sqlite.db.SimpleSQLiteQuery
+import com.guillaumetousignant.payingcamel.MainActivity
 import com.guillaumetousignant.payingcamel.database.CoachRoomDatabase
 import com.guillaumetousignant.payingcamel.database.backup.BackupRepository
 import kotlinx.coroutines.CoroutineScope
@@ -13,6 +19,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.io.File
 import kotlin.coroutines.CoroutineContext
+
 
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -36,11 +43,11 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
-    fun backup(inPath: File, outPath: Uri, contentResolver: ContentResolver) = scope.launch(Dispatchers.IO) {
+    fun backup(inPath: File, outPath: Uri, context: Context) = scope.launch(Dispatchers.IO) {
         repository.checkpoint(SimpleSQLiteQuery("pragma wal_checkpoint(full)"))
 
         val inStream = inPath.inputStream()
-        val outStream = contentResolver.openOutputStream(outPath)
+        val outStream = context.contentResolver.openOutputStream(outPath)
 
         inStream.use { input ->
             outStream.use { output ->
@@ -51,11 +58,11 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun restore(inPath: Uri, outPath: File, contentResolver: ContentResolver) = scope.launch(Dispatchers.IO) {
+    fun restore(inPath: Uri, outPath: File, context: Context) = scope.launch(Dispatchers.IO) {
         repository.checkpoint(SimpleSQLiteQuery("pragma wal_checkpoint(full)"))
 
         val outStream = outPath.outputStream()
-        val inStream = contentResolver.openInputStream(inPath)
+        val inStream = context.contentResolver.openInputStream(inPath)
 
         inStream.use { input ->
             outStream.use { output ->
@@ -64,6 +71,16 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 }
             }
         }
+
+        val intent = Intent(context, MainActivity::class.java)
+        intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
+        intent.addFlags(FLAG_ACTIVITY_CLEAR_TASK)
+        context.startActivity(intent)
+        if (context is Activity) {
+            context.finish()
+        }
+
+        Runtime.getRuntime().exit(0)
     }
 
     override fun onCleared() {
