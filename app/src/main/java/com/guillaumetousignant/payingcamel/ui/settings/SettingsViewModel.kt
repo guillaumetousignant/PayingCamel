@@ -66,9 +66,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
         inStream.use { input ->
             outStream.use { output ->
-                output.let { outputStream ->
-                    input?.copyTo(outputStream)
-                }
+                input?.copyTo(output)
             }
         }
 
