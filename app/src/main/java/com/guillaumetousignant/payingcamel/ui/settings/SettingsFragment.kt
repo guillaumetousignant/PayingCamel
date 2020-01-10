@@ -88,7 +88,7 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                 true
             }
             "restore" -> {
-                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
                 intent.type = "*/*" // this line is a must when using ACTION_CREATE_DOCUMENT
                 startActivityForResult(intent, restoreActivityRequestCode)
 
