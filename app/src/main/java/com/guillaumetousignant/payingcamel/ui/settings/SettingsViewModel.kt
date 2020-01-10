@@ -11,6 +11,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.OpenableColumns
 import android.util.Log
+import android.view.View
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.AndroidViewModel
 import androidx.sqlite.db.SimpleSQLiteQuery
@@ -193,10 +194,10 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             Runtime.getRuntime().exit(0)
         }
         else {
-            /*context.findViewById(android.R.id.content).getRootView()?.let{
-                Snackbar.make(it, R.string.restore_too_few_files, Snackbar.LENGTH_LONG)
+            (context as Activity).findViewById<View>(android.R.id.content).rootView?.let{
+                Snackbar.make(it, R.string.restore_wrong_files, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
-            }*/
+            }
         }
 
         /*val inStream = context.contentResolver.openInputStream(inPath)
