@@ -25,17 +25,9 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
         super.onActivityResult(requestCode, resultCode, intentData)
 
         if (requestCode == backupActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.let {data ->
-
-                val inPath = context?.getDatabasePath("coach_database")
-                val outPath = data.data
-
-                inPath?.let { inputPath ->
-                    outPath?.let {outputPath ->
-                        context?.let{ theContext ->
-                            settingsViewModel.backup(inputPath, outputPath, theContext)
-                        }
-                    }
+            intentData?.data?.let {outputPath ->
+                context?.let{ theContext ->
+                    settingsViewModel.backup(outputPath, theContext)
                 }
             }
         }
@@ -46,17 +38,9 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
              }
         }
         else if (requestCode == restoreActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.let {data ->
-
-                val outPath = context?.getDatabasePath("coach_database")
-                val inPath = data.data
-
-                inPath?.let { inputPath ->
-                    outPath?.let {outputPath ->
-                        context?.let{ theContext ->
-                            settingsViewModel.restore(inputPath, outputPath, theContext)
-                        }
-                    }
+            intentData?.data?.let {inputPath ->
+                context?.let{ theContext ->
+                    settingsViewModel.restore(inputPath, theContext)
                 }
             }
         }

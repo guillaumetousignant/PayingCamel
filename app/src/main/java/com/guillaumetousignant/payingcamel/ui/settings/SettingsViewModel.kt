@@ -43,10 +43,10 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
-    fun backup(inPath: File, outPath: Uri, context: Context) = scope.launch(Dispatchers.IO) {
+    fun backup(outPath: Uri, context: Context) = scope.launch(Dispatchers.IO) {
         repository.checkpoint(SimpleSQLiteQuery("pragma wal_checkpoint(full)"))
 
-        val inStream = inPath.inputStream()
+        val inStream = context.getDatabasePath("coach_database").inputStream()
         val outStream = context.contentResolver.openOutputStream(outPath)
 
         inStream.use { input ->
@@ -58,10 +58,10 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    fun restore(inPath: Uri, outPath: File, context: Context) = scope.launch(Dispatchers.IO) {
+    fun restore(inPath: Uri, context: Context) = scope.launch(Dispatchers.IO) {
         repository.checkpoint(SimpleSQLiteQuery("pragma wal_checkpoint(full)"))
 
-        val outStream = outPath.outputStream()
+        val outStream = context.getDatabasePath("coach_database").outputStream()
         val inStream = context.contentResolver.openInputStream(inPath)
 
         inStream.use { input ->
