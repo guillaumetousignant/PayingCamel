@@ -75,6 +75,7 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
     }
 
     override fun onPreferenceTreeClick(preference: Preference): Boolean {
+        super.onPreferenceTreeClick(preference)
         return when(preference.key) {
             "backup" -> {
                 // user clicked "backup" button
