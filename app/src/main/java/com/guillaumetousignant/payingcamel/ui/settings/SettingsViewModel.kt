@@ -1,6 +1,8 @@
 package com.guillaumetousignant.payingcamel.ui.settings
 
 import android.app.Application
+import android.content.ContentResolver
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.guillaumetousignant.payingcamel.database.CoachRoomDatabase
@@ -9,6 +11,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.io.File
 import kotlin.coroutines.CoroutineContext
 
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
@@ -33,8 +36,34 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
-    fun checkpoint() = scope.launch(Dispatchers.IO) {
+    fun backup(inPath: File, outPath: Uri, contentResolver: ContentResolver) = scope.launch(Dispatchers.IO) {
         repository.checkpoint(SimpleSQLiteQuery("pragma wal_checkpoint(full)"))
+
+        val inStream = inPath.inputStream()
+        val outStream = contentResolver.openOutputStream(outPath)
+
+        inStream.use { input ->
+            outStream.use { output ->
+                output?.let { outputStream ->
+                    input.copyTo(outputStream)
+                }
+            }
+        }
+    }
+
+    fun restore(inPath: Uri, outPath: File, contentResolver: ContentResolver) = scope.launch(Dispatchers.IO) {
+        repository.checkpoint(SimpleSQLiteQuery("pragma wal_checkpoint(full)"))
+
+        val outStream = outPath.outputStream()
+        val inStream = contentResolver.openInputStream(inPath)
+
+        inStream.use { input ->
+            outStream.use { output ->
+                output.let { outputStream ->
+                    input?.copyTo(outputStream)
+                }
+            }
+        }
     }
 
     override fun onCleared() {
