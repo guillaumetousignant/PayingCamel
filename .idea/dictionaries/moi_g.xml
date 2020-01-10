@@ -10,8 +10,10 @@
       <w>lateinit</w>
       <w>mdcolor</w>
       <w>payingcamel</w>
+      <w>pcbackup</w>
       <w>recyclerview</w>
       <w>snackbar</w>
+      <w>sqlite</w>
       <w>wordlistsql</w>
     </words>
   </dictionary>

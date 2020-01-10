@@ -65,15 +65,14 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                 // user clicked "backup" button
                 // take appropriate actions
                 // return "true" to indicate you handled the click
-                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
-                intent.type = "*/*" // this line is a must when using ACTION_CREATE_DOCUMENT
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT_TREE)
                 startActivityForResult(intent, backupActivityRequestCode)
 
                 true
             }
             "restore" -> {
                 val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-                intent.type = "*/*" // this line is a must when using ACTION_CREATE_DOCUMENT
+                intent.type = "application/x-sqlite3" // this line is a must when using ACTION_CREATE_DOCUMENT
                 startActivityForResult(intent, restoreActivityRequestCode)
 
                 true
