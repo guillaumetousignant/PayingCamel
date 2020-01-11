@@ -70,5 +70,5 @@
     <string name="restore_too_few_files">Sélectionner trois fichiers</string>
     <string name="restore_wrong_files">Les trois fichiers doivent être : database, wal, shm.</string>
     <string name="icon_attribution_title">Icône</string>
-    <string name="icon_attribution_summary">Icône faite par Freepik de www.flaticon.com</string>
+    <string name="icon_attribution_summary">Icône faite par Freepik de www.flaticon.com et Carol Liao de www.toicon.com</string>
 </resources>
