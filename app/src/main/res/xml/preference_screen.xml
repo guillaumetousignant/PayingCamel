@@ -16,4 +16,9 @@
         app:title="@string/settings_restore_title"
         app:summary="@string/settings_restore_summary"/>
 
+    <Preference
+        app:key="icon_attribution"
+        app:title="@string/icon_attribution_title"
+        app:summary="@string/icon_attribution_summary"/>
+
 </PreferenceScreen>

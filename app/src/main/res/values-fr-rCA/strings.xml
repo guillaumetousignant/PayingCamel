@@ -69,4 +69,6 @@
     <string name="settings_restore_summary">Restaure la base de données à partir d\'un fichier</string>
     <string name="restore_too_few_files">Sélectionner trois fichiers</string>
     <string name="restore_wrong_files">Les trois fichiers doivent être : database, wal, shm.</string>
+    <string name="icon_attribution_title">Icône</string>
+    <string name="icon_attribution_summary">Icône faite par Freepik de www.flaticon.com</string>
 </resources>

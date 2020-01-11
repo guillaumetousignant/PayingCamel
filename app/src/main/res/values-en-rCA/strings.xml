@@ -69,4 +69,6 @@
     <string name="settings_restore_summary">Restores database from file</string>
     <string name="restore_too_few_files">Three files must be selected</string>
     <string name="restore_wrong_files">The three files should be: database, wal, shm.</string>
+    <string name="icon_attribution_title">Icon</string>
+    <string name="icon_attribution_summary">Icon made by Freepik from www.flaticon.com</string>
 </resources>
