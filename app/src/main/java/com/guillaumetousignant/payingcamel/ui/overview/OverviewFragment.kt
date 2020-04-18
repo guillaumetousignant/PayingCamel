@@ -3,49 +3,33 @@ package com.guillaumetousignant.payingcamel.ui.overview
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.guillaumetousignant.payingcamel.R
 
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.guillaumetousignant.payingcamel.database.course.CourseListAdapter
 
 import com.google.android.material.snackbar.Snackbar
 import android.content.Intent
 import android.app.Activity
 import android.graphics.Color
 import android.icu.util.Calendar
-import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.view.ActionMode
-import androidx.appcompat.widget.Toolbar
-import androidx.core.content.res.ResourcesCompat.getColor
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.selection.SelectionPredicates
-import androidx.recyclerview.selection.SelectionTracker
-import androidx.recyclerview.selection.StorageStrategy
 import com.guillaumetousignant.payingcamel.NewCourseActivity
 import com.guillaumetousignant.payingcamel.database.course.Course
-import com.guillaumetousignant.payingcamel.database.course.CourseItemDetailsLookup
-import com.guillaumetousignant.payingcamel.database.course.CourseItemKeyProvider
 import java.util.*
 
 class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
-    private val newCourseActivityRequestCode = 1
+    private val printActivityRequestCode = 10
     private lateinit var overviewViewModel: OverviewViewModel
-    private lateinit var selectionTracker: SelectionTracker<String>
-    private lateinit var keyProvider: CourseItemKeyProvider
-    private val actionModeCallback: ActionModeCallback = ActionModeCallback()
-    private var actionMode: ActionMode? = null
 
     private lateinit var startDateText: TextView
     private lateinit var endDateText: TextView
-    private lateinit var skaterNameText: TextView
+    private lateinit var skaterListText: TextView
+    private lateinit var courseAmountText: TextView
+    private lateinit var expenseAmountText: TextView
+    private lateinit var fillAmountText: TextView
+    private lateinit var distanceAmountText: TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,45 +37,25 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         overviewViewModel =
             ViewModelProvider(this).get(OverviewViewModel::class.java)
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.overview_recyclerview)
-        val adapter = CourseListAdapter(context) {}
-        recyclerView.adapter = adapter
-        keyProvider = CourseItemKeyProvider()
-        selectionTracker = SelectionTracker.Builder<String>(
-            "courseSelection",
-            recyclerView,
-            keyProvider,
-            CourseItemDetailsLookup(recyclerView),
-            StorageStrategy.createStringStorage()
-        ).withSelectionPredicate(
-            SelectionPredicates.createSelectAnything()
-        ).build()
-        adapter.tracker = selectionTracker
-        recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
-
-
-        selectionTracker.addObserver(CourseSelectionObserver())
-
-        overviewViewModel.allCourses.observe(viewLifecycleOwner, Observer { courses ->
-            // Update the cached copy of the words in the adapter.
-            courses?.let { adapter.setCourses(it)
-                            keyProvider.setCourses(it)}
-        })
+        startDateText = view.findViewById(R.id.start_date)
+        endDateText = view.findViewById(R.id.end_date)
+        skaterListText = view.findViewById(R.id.skater_list_text)
+        courseAmountText = view.findViewById(R.id.course_amount)
+        expenseAmountText = view.findViewById(R.id.expense_amount)
+        fillAmountText = view.findViewById(R.id.fill_amount)
+        distanceAmountText = view.findViewById(R.id.trip_amount)
 
         val fabOverview: FloatingActionButton = view.findViewById(R.id.fab_overview)
         fabOverview.setOnClickListener {
-            /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()*/
-            val intent = Intent(activity, NewCourseActivity::class.java)
-            intent.putExtra(NewCourseActivity.EXTRA_CALENDAR, Calendar.getInstance())
-            startActivityForResult(intent, newCourseActivityRequestCode)
+            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
         super.onActivityResult(requestCode, resultCode, intentData)
 
-        if (requestCode == newCourseActivityRequestCode && resultCode == Activity.RESULT_OK) {
+        if (requestCode == printActivityRequestCode && resultCode == Activity.RESULT_OK) {
             intentData?.let { data ->
                 val course = Course(
                     UUID.randomUUID(),
@@ -109,7 +73,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
                 Unit
             }
         }
-        else if (requestCode == newCourseActivityRequestCode && resultCode == Activity.RESULT_CANCELED) {
+        else if (requestCode == printActivityRequestCode && resultCode == Activity.RESULT_CANCELED) {
            /* view?.let{
                 Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
@@ -134,93 +98,5 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
             colors.recycle()
         }
         return returnColor
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        selectionTracker.onRestoreInstanceState(savedInstanceState)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        selectionTracker.onSaveInstanceState(outState)
-        super.onSaveInstanceState(outState)
-    }
-
-    private fun enableActionMode() {
-        if (actionMode == null) {
-            actionMode = (activity as AppCompatActivity?)?.startSupportActionMode(actionModeCallback)
-        }
-        toggleSelection()
-        //activity?.let{
-        //    it.window?.statusBarColor = it.getColor(R.color.colorAccent)
-        //}
-    }
-
-    private fun toggleSelection() {
-        //mAdapter.toggleSelection(position)
-        val count = selectionTracker.selection.size()
-
-        if (count == 0) {
-            actionMode?.finish()
-        } else {
-            actionMode?.title = count.toString()
-            actionMode?.invalidate()
-        }
-    }
-
-    private inner class ActionModeCallback : ActionMode.Callback {
-        private var statusBarColor: Int? = 0
-        override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
-            statusBarColor = activity?.window?.statusBarColor
-            activity?.let{
-                it.window?.statusBarColor = it.getColor(R.color.colorAccent)
-            }
-            mode.menuInflater.inflate(R.menu.menu_action_mode, menu)
-            return true
-        }
-
-        override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-            return false
-        }
-
-        override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
-            return when (item.itemId) {
-                R.id.action_delete -> {
-                    // delete all the selected messages
-                    val uuidList = selectionTracker.selection.toList()
-                    val courseList = mutableListOf<Course>() // CHECK maybe not best way
-                    for (uuid in uuidList){
-                        overviewViewModel.allCourses.value?.let{
-                            courseList.add(it[keyProvider.getPosition(uuid)])
-                        }
-                    }
-
-                    overviewViewModel.delete(courseList)
-                    mode.finish()
-                    true
-                }
-
-                else -> false
-            }
-        }
-
-        override fun onDestroyActionMode(mode: ActionMode) {
-            statusBarColor?.let{
-                activity?.window?.statusBarColor = it
-            }
-            selectionTracker.clearSelection()
-            actionMode = null
-            /*recyclerView.post(Runnable {
-                mAdapter.resetAnimationIndex()
-                // mAdapter.notifyDataSetChanged();
-            })*/
-        }
-    }
-
-    private inner class CourseSelectionObserver : SelectionTracker.SelectionObserver<String>() {
-        override fun onItemStateChanged(key: String, selected: Boolean) {
-            super.onItemStateChanged(key, selected)
-            enableActionMode()
-        }
     }
 }
