@@ -3,7 +3,7 @@ package com.guillaumetousignant.payingcamel.ui.settings
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.material.snackbar.Snackbar
@@ -18,7 +18,7 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) { // Added
         settingsViewModel =
-            ViewModelProviders.of(this).get(SettingsViewModel::class.java)
+            ViewModelProvider(this).get(SettingsViewModel::class.java)
         setPreferencesFromResource(R.xml.preference_screen, rootKey) // Added
     } // Added
 

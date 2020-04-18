@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
@@ -41,7 +41,7 @@ class RatesFragment : Fragment(R.layout.fragment_rates) {
         super.onViewCreated(view, savedInstanceState)
 
         ratesViewModel =
-            ViewModelProviders.of(this).get(RatesViewModel::class.java)
+            ViewModelProvider(this).get(RatesViewModel::class.java)
         val recyclerView: RecyclerView = view.findViewById(R.id.rates_recyclerview)
         val adapter = RateListAdapter(context) {}
         recyclerView.adapter = adapter
@@ -60,7 +60,7 @@ class RatesFragment : Fragment(R.layout.fragment_rates) {
 
         selectionTracker.addObserver(RateSelectionObserver())
 
-        ratesViewModel.allRates.observe(this, Observer { rates ->
+        ratesViewModel.allRates.observe(viewLifecycleOwner, Observer { rates ->
             // Update the cached copy of the words in the adapter.
             rates?.let { adapter.setRates(it)
                 keyProvider.setRates(it)}

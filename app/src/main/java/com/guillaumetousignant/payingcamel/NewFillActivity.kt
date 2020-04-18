@@ -15,7 +15,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.ui.gas.NewFillViewModel
 import com.guillaumetousignant.payingcamel.ui.gas.NewFillViewModelFactory
@@ -47,7 +47,7 @@ class NewFillActivity : AppCompatActivity(R.layout.activity_new_fill) {
         initCalendar.set(Calendar.MINUTE, 0)
         val factory = NewFillViewModelFactory(application, initCalendar)
         newFillViewModel =
-            ViewModelProviders.of(this, factory).get(NewFillViewModel::class.java) // Added
+            ViewModelProvider(this, factory).get(NewFillViewModel::class.java) // Added
 
         setSupportActionBar(findViewById(R.id.new_fill_toolbar))
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp) // set drawable icon

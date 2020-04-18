@@ -14,7 +14,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.database.skater.Skater
 import com.guillaumetousignant.payingcamel.ui.pickers.SkaterPickerFragment
@@ -37,7 +37,7 @@ class NewRateActivity : AppCompatActivity(R.layout.activity_new_rate) {
         skaterNameText = findViewById(R.id.rate_skater_name)
 
         newRateViewModel =
-            ViewModelProviders.of(this).get(NewRateViewModel::class.java)
+            ViewModelProvider(this).get(NewRateViewModel::class.java)
 
         setSupportActionBar(findViewById(R.id.new_rate_toolbar))
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp) // set drawable icon

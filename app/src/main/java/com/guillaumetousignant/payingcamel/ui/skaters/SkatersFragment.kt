@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
@@ -41,7 +41,7 @@ class SkatersFragment : Fragment(R.layout.fragment_skaters) {
         super.onViewCreated(view, savedInstanceState)
 
         skatersViewModel =
-            ViewModelProviders.of(this).get(SkatersViewModel::class.java)
+            ViewModelProvider(this).get(SkatersViewModel::class.java)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.skaters_recyclerview)
         val adapter = SkaterListAdapter(context) {}
@@ -61,7 +61,7 @@ class SkatersFragment : Fragment(R.layout.fragment_skaters) {
 
         selectionTracker.addObserver(SkaterSelectionObserver())
 
-        skatersViewModel.allSkaters.observe(this, Observer { skaters ->
+        skatersViewModel.allSkaters.observe(viewLifecycleOwner, Observer { skaters ->
             // Update the cached copy of the words in the adapter.
             skaters?.let { adapter.setSkaters(it)
                 keyProvider.setSkaters(it)}

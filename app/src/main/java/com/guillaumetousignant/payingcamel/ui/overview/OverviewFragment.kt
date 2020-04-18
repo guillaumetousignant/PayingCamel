@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.guillaumetousignant.payingcamel.R
 
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.res.ResourcesCompat.getColor
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
@@ -46,7 +46,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         super.onViewCreated(view, savedInstanceState)
 
         overviewViewModel =
-            ViewModelProviders.of(this).get(OverviewViewModel::class.java)
+            ViewModelProvider(this).get(OverviewViewModel::class.java)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.overview_recyclerview)
         val adapter = CourseListAdapter(context) {}
@@ -67,7 +67,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
         selectionTracker.addObserver(CourseSelectionObserver())
 
-        overviewViewModel.allCourses.observe(this, Observer { courses ->
+        overviewViewModel.allCourses.observe(viewLifecycleOwner, Observer { courses ->
             // Update the cached copy of the words in the adapter.
             courses?.let { adapter.setCourses(it)
                             keyProvider.setCourses(it)}

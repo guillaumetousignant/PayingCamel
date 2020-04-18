@@ -11,7 +11,6 @@ import android.widget.EditText
 import android.icu.util.Calendar
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.lifecycle.ViewModelProviders
 import com.guillaumetousignant.payingcamel.ui.new_course.NewCourseViewModel
 import android.view.Menu
 import android.view.MenuItem
@@ -19,6 +18,7 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.guillaumetousignant.payingcamel.ui.pickers.DatePickerFragment
 import com.guillaumetousignant.payingcamel.ui.pickers.SkaterPickerFragment
 import com.guillaumetousignant.payingcamel.ui.pickers.TimePickerFragment
@@ -66,7 +66,7 @@ class NewCourseActivity : AppCompatActivity(R.layout.activity_new_course) {
         initCalendar.set(Calendar.MINUTE, 0)
         val factory = NewCourseViewModelFactory(application, initCalendar)
         newCourseViewModel =
-            ViewModelProviders.of(this, factory).get(NewCourseViewModel::class.java) // Added
+            ViewModelProvider(this, factory).get(NewCourseViewModel::class.java) // Added
 
         setSupportActionBar(findViewById(R.id.new_course_toolbar))
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp) // set drawable icon

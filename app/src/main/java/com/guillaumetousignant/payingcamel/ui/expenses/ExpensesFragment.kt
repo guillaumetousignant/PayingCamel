@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
@@ -42,7 +42,7 @@ class ExpensesFragment : Fragment(R.layout.fragment_expenses) {
         super.onViewCreated(view, savedInstanceState)
 
         expensesViewModel =
-            ViewModelProviders.of(this).get(ExpensesViewModel::class.java)
+            ViewModelProvider(this).get(ExpensesViewModel::class.java)
 
         val recyclerView: RecyclerView = view.findViewById(R.id.expenses_recyclerview)
         //val adapter = CourseListAdapter(this)
@@ -63,7 +63,7 @@ class ExpensesFragment : Fragment(R.layout.fragment_expenses) {
 
         selectionTracker.addObserver(ExpenseSelectionObserver())
 
-        expensesViewModel.allExpenses.observe(this, Observer { expenses ->
+        expensesViewModel.allExpenses.observe(viewLifecycleOwner, Observer { expenses ->
             // Update the cached copy of the words in the adapter.
             expenses?.let { adapter.setExpenses(it)
                 keyProvider.setExpenses(it)}

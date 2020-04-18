@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.selection.SelectionPredicates
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
@@ -42,7 +42,7 @@ class GasFragment : Fragment(R.layout.fragment_gas) {
         super.onViewCreated(view, savedInstanceState)
 
         gasViewModel =
-            ViewModelProviders.of(this).get(GasViewModel::class.java)
+            ViewModelProvider(this).get(GasViewModel::class.java)
         val recyclerView: RecyclerView = view.findViewById(R.id.gas_recyclerview)
         //val adapter = CourseListAdapter(this)
         val adapter = FillListAdapter(context) {}
@@ -62,7 +62,7 @@ class GasFragment : Fragment(R.layout.fragment_gas) {
 
         selectionTracker.addObserver(FillSelectionObserver())
 
-        gasViewModel.allFills.observe(this, Observer { fills ->
+        gasViewModel.allFills.observe(viewLifecycleOwner, Observer { fills ->
             // Update the cached copy of the words in the adapter.
             fills?.let { adapter.setFills(it)
                 keyProvider.setFills(it)}

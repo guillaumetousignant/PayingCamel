@@ -12,7 +12,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 import com.guillaumetousignant.payingcamel.database.course.Course
 import com.guillaumetousignant.payingcamel.database.path.Path
@@ -52,7 +52,7 @@ class NewTripActivity : AppCompatActivity(R.layout.activity_new_trip) {
         initCalendar.set(Calendar.MINUTE, 0)
         val factory = NewTripViewModelFactory(application, initCalendar)
         newTripViewModel =
-            ViewModelProviders.of(this, factory).get(NewTripViewModel::class.java) // Added
+            ViewModelProvider(this, factory).get(NewTripViewModel::class.java) // Added
 
         setSupportActionBar(findViewById(R.id.new_trip_toolbar))
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp) // set drawable icon

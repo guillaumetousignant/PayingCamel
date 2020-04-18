@@ -9,11 +9,11 @@ import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.guillaumetousignant.payingcamel.R
 
 import android.widget.CalendarView
 import androidx.core.content.res.ResourcesCompat
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
 
 import com.guillaumetousignant.payingcamel.NewCourseActivity
@@ -40,7 +40,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         super.onViewCreated(view, savedInstanceState)
 
         calendarViewModel =
-            ViewModelProviders.of(this).get(CalendarViewModel::class.java)
+            ViewModelProvider(this).get(CalendarViewModel::class.java)
 
         val calendarView = view.findViewById<CalendarView>(R.id.calendar_view)
         calendarView?.setOnDateChangeListener { _, year, month, dayOfMonth ->
@@ -54,19 +54,19 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         }
 
         // REMOVE  if removed, first thing added from the main view will fail if nothing from the database is used (no rate etc)
-        calendarViewModel.allCourses.observe(this, Observer { /*courses ->*/
+        calendarViewModel.allCourses.observe(viewLifecycleOwner, Observer { /*courses ->*/
             // Update the cached copy of the words in the adapter.
             //courses?.let { adapter.setCourses(it) }
         })
-        calendarViewModel.allTrips.observe(this, Observer { /*trips ->*/
+        calendarViewModel.allTrips.observe(viewLifecycleOwner, Observer { /*trips ->*/
             // Update the cached copy of the words in the adapter.
             //trips?.let { adapter.setTrips(it) }
         })
-        calendarViewModel.allExpenses.observe(this, Observer { /*expenses ->*/
+        calendarViewModel.allExpenses.observe(viewLifecycleOwner, Observer { /*expenses ->*/
             // Update the cached copy of the words in the adapter.
             //expenses?.let { adapter.setExpenses(it) }
         })
-        calendarViewModel.allFills.observe(this, Observer { /*fills ->*/
+        calendarViewModel.allFills.observe(viewLifecycleOwner, Observer { /*fills ->*/
             // Update the cached copy of the words in the adapter.
             //fills?.let { adapter.setFills(it) }
         })
