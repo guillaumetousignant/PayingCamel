@@ -19,6 +19,7 @@ import android.icu.util.Calendar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.Toolbar
@@ -41,6 +42,10 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
     private lateinit var keyProvider: CourseItemKeyProvider
     private val actionModeCallback: ActionModeCallback = ActionModeCallback()
     private var actionMode: ActionMode? = null
+
+    private lateinit var startDateText: TextView
+    private lateinit var endDateText: TextView
+    private lateinit var skaterNameText: TextView
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
