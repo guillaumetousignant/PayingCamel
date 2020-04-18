@@ -71,4 +71,9 @@
     <string name="restore_wrong_files">Les trois fichiers doivent être : database, wal, shm.</string>
     <string name="icon_attribution_title">Icône</string>
     <string name="icon_attribution_summary">Icône faite par Freepik de www.flaticon.com et Carol Liao de www.toicon.com</string>
+    <string name="hint_selected_skaters">Toutes les patineuses</string>
+    <string name="expense_amount_description">Dépenses</string>
+    <string name="course_amount_description">Revenus</string>
+    <string name="trip_amount_description">Distance totale</string>
+    <string name="fill_amount_description">Dépenses pleins</string>
 </resources>

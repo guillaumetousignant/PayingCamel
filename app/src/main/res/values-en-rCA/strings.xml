@@ -71,4 +71,9 @@
     <string name="restore_wrong_files">The three files should be: database, wal, shm.</string>
     <string name="icon_attribution_title">Icon</string>
     <string name="icon_attribution_summary">Icon made by Freepik from www.flaticon.com and Carol Liao from www.toicon.com</string>
+    <string name="hint_selected_skaters">All skaters</string>
+    <string name="course_amount_description">Income</string>
+    <string name="expense_amount_description">Expenses</string>
+    <string name="trip_amount_description">Total distance</string>
+    <string name="fill_amount_description">Fill expenses</string>
 </resources>

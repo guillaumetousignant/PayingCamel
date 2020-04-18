@@ -1,13 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/date_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/big_padding"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:ems="10"
+            android:focusable="false"
+            android:onClick="showStartDatePickerDialog" />
+
+        <TextView
+            android:id="@+id/end_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:ems="10"
+            android:focusable="false"
+            android:gravity="center_vertical|end"
+            android:onClick="showEndDatePickerDialog" />
+    </LinearLayout>
 
 
+    <TextView
+        android:id="@+id/skater_list_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="false"
+        android:hint="@string/hint_selected_skaters"
+        android:onClick="showSkaterPickerDialog"
+        android:padding="@dimen/big_padding"
+        app:layout_constraintTop_toBottomOf="@+id/date_linear_layout" />
 
+    <LinearLayout
+        android:id="@+id/income_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/big_padding"
+        app:layout_constraintTop_toBottomOf="@+id/skater_list_text">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="@string/course_amount_description" />
+
+        <TextView
+            android:id="@+id/course_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:gravity="center_vertical|end" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/expense_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/big_padding"
+        app:layout_constraintTop_toBottomOf="@+id/income_linear_layout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="@string/expense_amount_description" />
+
+        <TextView
+            android:id="@+id/expense_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:gravity="center_vertical|end" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/fill_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/big_padding"
+        app:layout_constraintTop_toBottomOf="@+id/expense_linear_layout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="@string/fill_amount_description" />
+
+        <TextView
+            android:id="@+id/fill_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:gravity="center_vertical|end" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/trip_linear_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/big_padding"
+        app:layout_constraintTop_toBottomOf="@+id/fill_linear_layout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:text="@string/trip_amount_description" />
+
+        <TextView
+            android:id="@+id/trip_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:gravity="center_vertical|end" />
+    </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_overview"
@@ -15,8 +148,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_print_24px"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_print_24px" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
