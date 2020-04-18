@@ -16,7 +16,7 @@ import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.guillaumetousignant.payingcamel.NewCourseActivity
 import com.guillaumetousignant.payingcamel.database.course.Course
-import java.util.*
+import java.util.UUID
 
 class OverviewFragment : Fragment(R.layout.fragment_overview) {
 

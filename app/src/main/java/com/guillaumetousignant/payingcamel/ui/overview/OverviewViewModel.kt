@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 //import androidx.lifecycle.MutableLiveData
 //import androidx.lifecycle.ViewModel
 import android.app.Application
+import android.icu.util.Calendar
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import com.guillaumetousignant.payingcamel.database.course.CourseRepository
 import com.guillaumetousignant.payingcamel.database.course.Course
 import com.guillaumetousignant.payingcamel.database.CoachRoomDatabase
@@ -29,10 +31,25 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
     // - Repository is completely separated from the UI through the ViewModel.
     val allCourses: LiveData<List<Course>>
 
+    val startCalendar: MutableLiveData<Calendar>
+    val endCalendar: MutableLiveData<Calendar>
+
     init {
         val courseDao = CoachRoomDatabase.getDatabase(application, scope).courseDao()
         repository = CourseRepository(courseDao)
         allCourses = repository.allCourses
+
+        val startCalendarTemp: Calendar = Calendar.getInstance()
+        startCalendarTemp.set(Calendar.MILLISECOND, 0)
+        startCalendarTemp.set(Calendar.SECOND, 0)
+        startCalendarTemp.set(Calendar.MINUTE, 0)
+        startCalendarTemp.set(Calendar.HOUR_OF_DAY, 0)
+        startCalendarTemp.add(Calendar.DAY_OF_MONTH, 1)
+        val endCalendarTemp: Calendar = startCalendarTemp.clone() as Calendar
+        endCalendarTemp.set(Calendar.DAY_OF_YEAR, 1)
+
+        startCalendar = MutableLiveData(startCalendarTemp)
+        endCalendar = MutableLiveData(endCalendarTemp)
     }
 
     /**
