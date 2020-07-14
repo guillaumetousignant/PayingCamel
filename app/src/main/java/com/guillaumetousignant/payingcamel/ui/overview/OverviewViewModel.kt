@@ -39,14 +39,13 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
         repository = CourseRepository(courseDao)
         allCourses = repository.allCourses
 
-        val startCalendarTemp: Calendar = Calendar.getInstance()
-        startCalendarTemp.set(Calendar.MILLISECOND, 0)
-        startCalendarTemp.set(Calendar.SECOND, 0)
-        startCalendarTemp.set(Calendar.MINUTE, 0)
-        startCalendarTemp.set(Calendar.HOUR_OF_DAY, 0)
-        startCalendarTemp.add(Calendar.DAY_OF_MONTH, 1)
-        val endCalendarTemp: Calendar = startCalendarTemp.clone() as Calendar
-        endCalendarTemp.set(Calendar.DAY_OF_YEAR, 1)
+        val endCalendarTemp: Calendar = Calendar.getInstance()
+        endCalendarTemp.set(Calendar.MILLISECOND, 999)
+        endCalendarTemp.set(Calendar.SECOND, 59)
+        endCalendarTemp.set(Calendar.MINUTE, 59)
+        endCalendarTemp.set(Calendar.HOUR_OF_DAY, 23)
+        val startCalendarTemp: Calendar = endCalendarTemp.clone() as Calendar
+        startCalendarTemp.set(Calendar.DAY_OF_YEAR, 1)
 
         startCalendar = MutableLiveData(startCalendarTemp)
         endCalendar = MutableLiveData(endCalendarTemp)

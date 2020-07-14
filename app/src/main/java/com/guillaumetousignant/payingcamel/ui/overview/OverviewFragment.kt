@@ -11,11 +11,15 @@ import com.google.android.material.snackbar.Snackbar
 import android.content.Intent
 import android.app.Activity
 import android.graphics.Color
+import android.icu.text.NumberFormat
 import android.icu.util.Calendar
 import android.widget.TextView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.guillaumetousignant.payingcamel.NewCourseActivity
 import com.guillaumetousignant.payingcamel.database.course.Course
+import com.guillaumetousignant.payingcamel.ui.pickers.DatePickerFragment
+import java.text.DateFormat
 import java.util.UUID
 
 class OverviewFragment : Fragment(R.layout.fragment_overview) {
@@ -44,6 +48,25 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         expenseAmountText = view.findViewById(R.id.expense_amount)
         fillAmountText = view.findViewById(R.id.fill_amount)
         distanceAmountText = view.findViewById(R.id.trip_amount)
+
+        val startObserver = Observer<Calendar> { calendar ->
+            // Update the UI, in this case, a TextView.
+            val dateFormat = DateFormat.getDateInstance(DateFormat.LONG) // CHECK add locale
+            //getTimeInstance
+
+            startDateText.text = dateFormat.format(calendar.time)
+        }
+
+        val endObserver = Observer<Calendar> { calendar ->
+            // Update the UI, in this case, a TextView.
+            val dateFormat = DateFormat.getDateInstance(DateFormat.LONG) // CHECK add locale
+            //getTimeInstance
+
+            endDateText.text = dateFormat.format(calendar.time)
+        }
+
+        overviewViewModel.startCalendar.observe(viewLifecycleOwner, startObserver)
+        overviewViewModel.endCalendar.observe(viewLifecycleOwner, endObserver)
 
         val fabOverview: FloatingActionButton = view.findViewById(R.id.fab_overview)
         fabOverview.setOnClickListener {
@@ -84,6 +107,18 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
                 Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
             }
+        }
+    }
+
+    fun showStartDatePickerDialog(v: View) {
+        fragmentManager?.let{
+            DatePickerFragment(overviewViewModel.startCalendar).show(it, "StartDatePicker")
+        }
+    }
+
+    fun showEndDatePickerDialog(v: View) {
+        fragmentManager?.let {
+            DatePickerFragment(overviewViewModel.endCalendar).show(it, "EndDatePicker")
         }
     }
 
