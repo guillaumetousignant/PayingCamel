@@ -14,7 +14,7 @@ import com.guillaumetousignant.payingcamel.R
 import com.guillaumetousignant.payingcamel.database.skater.Skater
 import com.guillaumetousignant.payingcamel.database.skater.SkaterListAdapter
 
-class SkatersPickerFragment(val skater: MutableLiveData<Skater?>, private val allSkaters: LiveData<List<Skater>>) : DialogFragment() {
+class SkatersPickerFragment(val skaters: MutableLiveData<List<Skater>>, private val allSkaters: LiveData<List<Skater>>) : DialogFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,7 +22,7 @@ class SkatersPickerFragment(val skater: MutableLiveData<Skater?>, private val al
         savedInstanceState: Bundle?
     ): View {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.skater_picker_dialog, container, false)
+        return inflater.inflate(R.layout.skaters_picker_dialog, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -30,7 +30,7 @@ class SkatersPickerFragment(val skater: MutableLiveData<Skater?>, private val al
 
         val recyclerView: RecyclerView = view.findViewById(R.id.skater_picker_dialog_recyclerview)
         val adapter = SkaterListAdapter(context) {
-            skater.postValue(it)
+            skaters.postValue(it)
             dismiss()
         }
         recyclerView.adapter = adapter
