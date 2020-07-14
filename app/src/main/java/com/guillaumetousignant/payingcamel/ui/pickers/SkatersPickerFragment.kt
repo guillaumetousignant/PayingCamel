@@ -28,9 +28,9 @@ class SkatersPickerFragment(val skaters: MutableLiveData<List<Skater>>, private 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val recyclerView: RecyclerView = view.findViewById(R.id.skater_picker_dialog_recyclerview)
+        val recyclerView: RecyclerView = view.findViewById(R.id.skaters_picker_dialog_recyclerview)
         val adapter = SkaterListAdapter(context) {
-            skaters.postValue(it)
+            //skaters.postValue(it) // CHECK Post list
             dismiss()
         }
         recyclerView.adapter = adapter
