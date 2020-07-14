@@ -35,7 +35,7 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
     val allCourses: LiveData<List<Course>>
     val allSkaters: LiveData<List<Skater>>
 
-    val skater: MutableLiveData<Skater?> // Make plural!
+    val skaters: MutableLiveData<List<Skater>> // Make plural!
     val startCalendar: MutableLiveData<Calendar>
     val endCalendar: MutableLiveData<Calendar>
 
@@ -48,7 +48,7 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
         skaterRepository = SkaterRepository(skaterDao)
         allSkaters = skaterRepository.allSkaters
 
-        skater = MutableLiveData(null)
+        skaters = MutableLiveData(emptyList())
 
         val endCalendarTemp: Calendar = Calendar.getInstance()
         endCalendarTemp.set(Calendar.MILLISECOND, 999)

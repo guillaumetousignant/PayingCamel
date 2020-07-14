@@ -19,7 +19,7 @@ import com.guillaumetousignant.payingcamel.NewCourseActivity
 import com.guillaumetousignant.payingcamel.database.course.Course
 import com.guillaumetousignant.payingcamel.database.skater.Skater
 import com.guillaumetousignant.payingcamel.ui.pickers.DatePickerFragment
-import com.guillaumetousignant.payingcamel.ui.pickers.SkaterPickerFragment
+import com.guillaumetousignant.payingcamel.ui.pickers.SkatersPickerFragment
 import java.text.DateFormat
 import java.util.UUID
 
@@ -50,10 +50,16 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         fillAmountText = view.findViewById(R.id.fill_amount)
         distanceAmountText = view.findViewById(R.id.trip_amount)
 
-        val skaterObserver = Observer<Skater?> { skater ->
+        val skatersObserver = Observer<List<Skater>> { skaters ->
             // Update the UI, in this case, a TextView.
-            skater?.let{
-                skaterListText.text = "%s %s".format(it.first_name, it.last_name)
+            if (skaters.isEmpty()) {
+                skaterListText.text = getString(R.string.hint_selected_skaters)
+            } else{
+                val builder = StringBuilder()
+                for (skater in skaters) {
+                    builder.append("%s %s, ".format(skater.first_name, skater.last_name))
+                }
+                skaterListText.text = builder.toString().dropLast(2)
             }
         }
 
@@ -73,7 +79,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
             endDateText.text = dateFormat.format(calendar.time)
         }
 
-        overviewViewModel.skater.observe(viewLifecycleOwner, skaterObserver)
+        overviewViewModel.skaters.observe(viewLifecycleOwner, skatersObserver)
         overviewViewModel.startCalendar.observe(viewLifecycleOwner, startObserver)
         overviewViewModel.endCalendar.observe(viewLifecycleOwner, endObserver)
 
@@ -86,7 +92,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         }
 
         skaterListText.setOnClickListener {
-            SkaterPickerFragment(overviewViewModel.skater, overviewViewModel.allSkaters).show(childFragmentManager, "SkaterPicker")
+            SkatersPickerFragment(overviewViewModel.skaters, overviewViewModel.allSkaters).show(childFragmentManager, "SkatersPicker")
         }
 
         val fabOverview: FloatingActionButton = view.findViewById(R.id.fab_overview)
