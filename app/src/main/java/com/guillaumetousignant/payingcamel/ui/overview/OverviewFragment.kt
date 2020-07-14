@@ -17,7 +17,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.guillaumetousignant.payingcamel.NewCourseActivity
 import com.guillaumetousignant.payingcamel.database.course.Course
+import com.guillaumetousignant.payingcamel.database.skater.Skater
 import com.guillaumetousignant.payingcamel.ui.pickers.DatePickerFragment
+import com.guillaumetousignant.payingcamel.ui.pickers.SkaterPickerFragment
 import java.text.DateFormat
 import java.util.UUID
 
@@ -48,6 +50,13 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         fillAmountText = view.findViewById(R.id.fill_amount)
         distanceAmountText = view.findViewById(R.id.trip_amount)
 
+        val skaterObserver = Observer<Skater?> { skater ->
+            // Update the UI, in this case, a TextView.
+            skater?.let{
+                skaterListText.text = "%s %s".format(it.first_name, it.last_name)
+            }
+        }
+
         val startObserver = Observer<Calendar> { calendar ->
             // Update the UI, in this case, a TextView.
             val dateFormat = DateFormat.getDateInstance(DateFormat.LONG) // CHECK add locale
@@ -64,14 +73,20 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
             endDateText.text = dateFormat.format(calendar.time)
         }
 
+        overviewViewModel.skater.observe(viewLifecycleOwner, skaterObserver)
         overviewViewModel.startCalendar.observe(viewLifecycleOwner, startObserver)
         overviewViewModel.endCalendar.observe(viewLifecycleOwner, endObserver)
+
         startDateText.setOnClickListener {
             DatePickerFragment(overviewViewModel.startCalendar).show(childFragmentManager, "StartDatePicker")
         }
 
         endDateText.setOnClickListener {
             DatePickerFragment(overviewViewModel.endCalendar).show(childFragmentManager, "EndDatePicker")
+        }
+
+        skaterListText.setOnClickListener {
+            SkaterPickerFragment(overviewViewModel.skater, overviewViewModel.allSkaters).show(childFragmentManager, "SkaterPicker")
         }
 
         val fabOverview: FloatingActionButton = view.findViewById(R.id.fab_overview)

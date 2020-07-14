@@ -40,7 +40,6 @@
         android:clickable="true"
         android:focusable="false"
         android:hint="@string/hint_selected_skaters"
-        android:onClick="showSkaterPickerDialog"
         android:padding="@dimen/big_padding"
         app:layout_constraintTop_toBottomOf="@+id/date_linear_layout" />
 

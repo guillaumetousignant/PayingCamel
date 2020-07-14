@@ -10,6 +10,8 @@ import androidx.lifecycle.MutableLiveData
 import com.guillaumetousignant.payingcamel.database.course.CourseRepository
 import com.guillaumetousignant.payingcamel.database.course.Course
 import com.guillaumetousignant.payingcamel.database.CoachRoomDatabase
+import com.guillaumetousignant.payingcamel.database.skater.Skater
+import com.guillaumetousignant.payingcamel.database.skater.SkaterRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -25,12 +27,15 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
     private val scope = CoroutineScope(coroutineContext)
 
     private val repository: CourseRepository
+    private val skaterRepository: SkaterRepository
     // Using LiveData and caching what getAlphabetizedWords returns has several benefits:
     // - We can put an observer on the data (instead of polling for changes) and only update the
     //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
     val allCourses: LiveData<List<Course>>
+    val allSkaters: LiveData<List<Skater>>
 
+    val skater: MutableLiveData<Skater?> // Make plural!
     val startCalendar: MutableLiveData<Calendar>
     val endCalendar: MutableLiveData<Calendar>
 
@@ -38,6 +43,12 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
         val courseDao = CoachRoomDatabase.getDatabase(application, scope).courseDao()
         repository = CourseRepository(courseDao)
         allCourses = repository.allCourses
+
+        val skaterDao = CoachRoomDatabase.getDatabase(application, scope).skaterDao()
+        skaterRepository = SkaterRepository(skaterDao)
+        allSkaters = skaterRepository.allSkaters
+
+        skater = MutableLiveData(null)
 
         val endCalendarTemp: Calendar = Calendar.getInstance()
         endCalendarTemp.set(Calendar.MILLISECOND, 999)
