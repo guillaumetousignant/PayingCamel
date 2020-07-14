@@ -11,7 +11,6 @@ import com.google.android.material.snackbar.Snackbar
 import android.content.Intent
 import android.app.Activity
 import android.graphics.Color
-import android.icu.text.NumberFormat
 import android.icu.util.Calendar
 import android.widget.TextView
 import androidx.lifecycle.Observer
@@ -67,6 +66,13 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
         overviewViewModel.startCalendar.observe(viewLifecycleOwner, startObserver)
         overviewViewModel.endCalendar.observe(viewLifecycleOwner, endObserver)
+        startDateText.setOnClickListener {
+            DatePickerFragment(overviewViewModel.startCalendar).show(childFragmentManager, "StartDatePicker")
+        }
+
+        endDateText.setOnClickListener {
+            DatePickerFragment(overviewViewModel.endCalendar).show(childFragmentManager, "EndDatePicker")
+        }
 
         val fabOverview: FloatingActionButton = view.findViewById(R.id.fab_overview)
         fabOverview.setOnClickListener {
@@ -107,18 +113,6 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
                 Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
             }
-        }
-    }
-
-    fun showStartDatePickerDialog(v: View) {
-        fragmentManager?.let{
-            DatePickerFragment(overviewViewModel.startCalendar).show(it, "StartDatePicker")
-        }
-    }
-
-    fun showEndDatePickerDialog(v: View) {
-        fragmentManager?.let {
-            DatePickerFragment(overviewViewModel.endCalendar).show(it, "EndDatePicker")
         }
     }
 

@@ -19,8 +19,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:ems="10"
-            android:focusable="false"
-            android:onClick="showStartDatePickerDialog" />
+            android:focusable="false" />
 
         <TextView
             android:id="@+id/end_date"
@@ -30,8 +29,7 @@
             android:clickable="true"
             android:ems="10"
             android:focusable="false"
-            android:gravity="center_vertical|end"
-            android:onClick="showEndDatePickerDialog" />
+            android:gravity="center_vertical|end" />
     </LinearLayout>
 
 
