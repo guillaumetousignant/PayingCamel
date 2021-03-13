@@ -83,6 +83,16 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
             overviewViewModel.fetchCourses()
         }
 
+        val courseObserver = Observer<List<Course>> { courseList ->
+            var amountTemp = 0
+            courseList?.let {
+                for (course in it) {
+                    amountTemp += course.amount
+                }
+            }
+            overviewViewModel.amount.postValue(amountTemp)
+        }
+
         val amountObserver = Observer<Int> { amount ->
             NumberFormat.getCurrencyInstance().format((amount.toDouble()/100))
             courseAmountText.text = NumberFormat.getCurrencyInstance().format((amount.toDouble()/100))
@@ -92,10 +102,10 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         overviewViewModel.startCalendar.observe(viewLifecycleOwner, startObserver)
         overviewViewModel.endCalendar.observe(viewLifecycleOwner, endObserver)
         overviewViewModel.amount.observe(viewLifecycleOwner, amountObserver)
+        overviewViewModel.courses.observe(viewLifecycleOwner, courseObserver)
 
         startDateText.setOnClickListener {
             DatePickerFragment(overviewViewModel.startCalendar).show(childFragmentManager, "StartDatePicker")
-
         }
 
         endDateText.setOnClickListener {

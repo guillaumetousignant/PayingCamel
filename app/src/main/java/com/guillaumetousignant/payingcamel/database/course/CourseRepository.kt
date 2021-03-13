@@ -13,11 +13,15 @@ class CourseRepository(private val courseDao: CourseDao) {
     // Observed LiveData will notify the observer when the data has changed.
     val allCourses: LiveData<List<Course>> = courseDao.getDescCourses()
 
-    fun getDatedCourses(startCalendar: Calendar, endCalendar: Calendar): LiveData<List<Course>> {
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getDatedCourses(startCalendar: Calendar, endCalendar: Calendar): List<Course> {
         return courseDao.getDatedCourses(startCalendar, endCalendar)
     }
 
-    fun getDatedSkatersCourses(startCalendar: Calendar, endCalendar: Calendar, skaters: List<Skater>): LiveData<List<Course>> {
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getDatedSkatersCourses(startCalendar: Calendar, endCalendar: Calendar, skaters: List<Skater>): List<Course> {
         return courseDao.getDatedSkatersCourses(startCalendar, endCalendar, skaters.map{it.uuid})
     }
 

@@ -17,10 +17,10 @@ interface CourseDao {
     fun getDescCourses(): LiveData<List<Course>>
 
     @Query("SELECT * from course_table WHERE start_time >= :startCalendar AND end_time <= :endCalendar ORDER BY start_time ASC")
-    fun getDatedCourses(startCalendar: Calendar, endCalendar: Calendar): LiveData<List<Course>>
+    fun getDatedCourses(startCalendar: Calendar, endCalendar: Calendar): List<Course>
 
     @Query("SELECT * from course_table WHERE start_time >= :startCalendar AND end_time <= :endCalendar AND skater IN (:skaters) ORDER BY start_time ASC")
-    fun getDatedSkatersCourses(startCalendar: Calendar, endCalendar: Calendar, skaters: List<UUID>): LiveData<List<Course>>
+    fun getDatedSkatersCourses(startCalendar: Calendar, endCalendar: Calendar, skaters: List<UUID>): List<Course>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insert(course: Course)

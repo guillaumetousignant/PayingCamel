@@ -1,8 +1,6 @@
 package com.guillaumetousignant.payingcamel.ui.overview
 
 import androidx.lifecycle.LiveData
-//import androidx.lifecycle.MutableLiveData
-//import androidx.lifecycle.ViewModel
 import android.app.Application
 import android.icu.util.Calendar
 import androidx.lifecycle.AndroidViewModel
@@ -68,20 +66,13 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
         fetchCourses()
     }
 
-    fun fetchCourses() {
+    fun fetchCourses() = scope.launch(Dispatchers.IO) {
         if (skaters.value?.isEmpty() != false) {
-            courses.postValue(repository.getDatedCourses(startCalendar.value ?: Calendar.getInstance(), endCalendar.value ?: Calendar.getInstance()).value)
+            courses.postValue(repository.getDatedCourses(startCalendar.value ?: Calendar.getInstance(), endCalendar.value ?: Calendar.getInstance()))
         }
         else {
-            courses.postValue(repository.getDatedSkatersCourses(startCalendar.value ?: Calendar.getInstance(), endCalendar.value ?: Calendar.getInstance(), skaters.value ?: emptyList()).value)
+            courses.postValue(repository.getDatedSkatersCourses(startCalendar.value ?: Calendar.getInstance(), endCalendar.value ?: Calendar.getInstance(), skaters.value ?: emptyList()))
         }
-        var amountTemp = 0
-        courses.value?.let {
-            for (course in it) {
-                amountTemp += course.amount
-            }
-        }
-        amount.postValue(amountTemp)
     }
 
     /**
