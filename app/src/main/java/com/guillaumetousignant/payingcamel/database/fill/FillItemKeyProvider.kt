@@ -10,7 +10,7 @@ class FillItemKeyProvider internal constructor() :
     private var fillList: List<Fill> = emptyList()
 
     override fun getKey(i: Int): String? {
-        return fillList.getOrNull(i)?.toString()
+        return fillList.getOrNull(i)?.uuid?.toString()
     }
 
     fun getKeys(i: List<Int>): List<String?> {

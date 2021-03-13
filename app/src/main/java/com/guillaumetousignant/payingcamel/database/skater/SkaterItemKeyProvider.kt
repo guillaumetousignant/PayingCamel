@@ -10,7 +10,7 @@ class SkaterItemKeyProvider internal constructor() :
     private var skaterList: List<Skater> = emptyList()
 
     override fun getKey(i: Int): String? {
-        return skaterList.getOrNull(i)?.uuid.toString()
+        return skaterList.getOrNull(i)?.uuid?.toString()
     }
 
     fun getKeys(i: List<Int>): List<String?> {

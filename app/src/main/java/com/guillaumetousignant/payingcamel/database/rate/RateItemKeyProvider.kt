@@ -10,7 +10,7 @@ class RateItemKeyProvider internal constructor() :
     private var rateList: List<Rate> = emptyList()
 
     override fun getKey(i: Int): String? {
-        return rateList.getOrNull(i)?.uuid.toString()
+        return rateList.getOrNull(i)?.uuid?.toString()
     }
 
     fun getKeys(i: List<Int>): List<String?> {
