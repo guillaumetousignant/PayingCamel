@@ -1,7 +1,9 @@
 package com.guillaumetousignant.payingcamel.database.fill
 
+import android.icu.util.Calendar
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.guillaumetousignant.payingcamel.database.expense.Expense
 
 @Dao
 interface FillDao {
@@ -13,9 +15,11 @@ interface FillDao {
     @Query("SELECT * from fill_table ORDER BY start_time DESC")
     fun getDescFills(): LiveData<List<Fill>>
 
+    @Query("SELECT * from fill_table WHERE start_time >= :startCalendar AND start_time <= :endCalendar ORDER BY start_time ASC")
+    fun getDatedFills(startCalendar: Calendar, endCalendar: Calendar): List<Fill>
+
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insert(fill: Fill)
-
 
     @Query("DELETE FROM fill_table")
     fun deleteAll()

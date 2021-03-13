@@ -18,7 +18,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.guillaumetousignant.payingcamel.NewCourseActivity
 import com.guillaumetousignant.payingcamel.database.course.Course
+import com.guillaumetousignant.payingcamel.database.expense.Expense
+import com.guillaumetousignant.payingcamel.database.fill.Fill
 import com.guillaumetousignant.payingcamel.database.skater.Skater
+import com.guillaumetousignant.payingcamel.database.trip.Trip
 import com.guillaumetousignant.payingcamel.ui.pickers.DatePickerFragment
 import com.guillaumetousignant.payingcamel.ui.pickers.SkatersPickerFragment
 import java.text.DateFormat
@@ -63,6 +66,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
                 skaterListText.text = builder.toString().dropLast(2)
             }
             overviewViewModel.fetchCourses()
+            overviewViewModel.fetchTrips()
         }
 
         val startObserver = Observer<Calendar> { calendar ->
@@ -72,6 +76,9 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
             startDateText.text = dateFormat.format(calendar.time)
             overviewViewModel.fetchCourses()
+            overviewViewModel.fetchTrips()
+            overviewViewModel.fetchExpenses()
+            overviewViewModel.fetchFills()
         }
 
         val endObserver = Observer<Calendar> { calendar ->
@@ -81,6 +88,9 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
             endDateText.text = dateFormat.format(calendar.time)
             overviewViewModel.fetchCourses()
+            overviewViewModel.fetchTrips()
+            overviewViewModel.fetchExpenses()
+            overviewViewModel.fetchFills()
         }
 
         val courseObserver = Observer<List<Course>> { courseList ->
@@ -93,9 +103,50 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
             overviewViewModel.amount.postValue(amountTemp)
         }
 
+        val tripObserver = Observer<List<Trip>> { tripList ->
+            var tripAmountTemp = 0.0
+            tripList?.let {
+                for (trip in it) {
+                    tripAmountTemp += trip.distance
+                }
+            }
+            overviewViewModel.tripsAmount.postValue(tripAmountTemp)
+        }
+
+        val expenseObserver = Observer<List<Expense>> { expenseList ->
+            var expensesAmountTemp = 0
+            expenseList?.let {
+                for (expense in it) {
+                    expensesAmountTemp += expense.amount
+                }
+            }
+            overviewViewModel.expensesAmount.postValue(expensesAmountTemp)
+        }
+
+        val fillObserver = Observer<List<Fill>> { fillList ->
+            var fillsAmountTemp = 0
+            fillList?.let {
+                for (fill in it) {
+                    fillsAmountTemp += fill.amount
+                }
+            }
+            overviewViewModel.fillsAmount.postValue(fillsAmountTemp)
+        }
+
         val amountObserver = Observer<Int> { amount ->
-            NumberFormat.getCurrencyInstance().format((amount.toDouble()/100))
             courseAmountText.text = NumberFormat.getCurrencyInstance().format((amount.toDouble()/100))
+        }
+
+        val tripAmountObserver = Observer<Double> { tripsAmount ->
+            distanceAmountText.text = "%s %s".format(NumberFormat.getNumberInstance().format(tripsAmount), getString(R.string.distance_unit))
+        }
+
+        val expenseAmountObserver = Observer<Int> { expenseAmount ->
+            expenseAmountText.text = NumberFormat.getCurrencyInstance().format((expenseAmount.toDouble()/100))
+        }
+
+        val fillAmountObserver = Observer<Int> { fillAmount ->
+            fillAmountText.text = NumberFormat.getCurrencyInstance().format((fillAmount.toDouble()/100))
         }
 
         overviewViewModel.skaters.observe(viewLifecycleOwner, skatersObserver)
@@ -103,6 +154,12 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         overviewViewModel.endCalendar.observe(viewLifecycleOwner, endObserver)
         overviewViewModel.amount.observe(viewLifecycleOwner, amountObserver)
         overviewViewModel.courses.observe(viewLifecycleOwner, courseObserver)
+        overviewViewModel.tripsAmount.observe(viewLifecycleOwner, tripAmountObserver)
+        overviewViewModel.trips.observe(viewLifecycleOwner, tripObserver)
+        overviewViewModel.expensesAmount.observe(viewLifecycleOwner, expenseAmountObserver)
+        overviewViewModel.expenses.observe(viewLifecycleOwner, expenseObserver)
+        overviewViewModel.fillsAmount.observe(viewLifecycleOwner, fillAmountObserver)
+        overviewViewModel.fills.observe(viewLifecycleOwner, fillObserver)
 
         startDateText.setOnClickListener {
             DatePickerFragment(overviewViewModel.startCalendar).show(childFragmentManager, "StartDatePicker")
