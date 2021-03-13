@@ -47,7 +47,7 @@ class SkatersFragment : Fragment(R.layout.fragment_skaters) {
         val adapter = SkaterListAdapter(context) {}
         recyclerView.adapter = adapter
         keyProvider = SkaterItemKeyProvider()
-        selectionTracker = SelectionTracker.Builder<String>(
+        selectionTracker = SelectionTracker.Builder(
             "skaterSelection",
             recyclerView,
             keyProvider,
@@ -61,7 +61,7 @@ class SkatersFragment : Fragment(R.layout.fragment_skaters) {
 
         selectionTracker.addObserver(SkaterSelectionObserver())
 
-        skatersViewModel.allSkaters.observe(viewLifecycleOwner, Observer { skaters ->
+        skatersViewModel.allSkaters.observe(viewLifecycleOwner, { skaters ->
             // Update the cached copy of the words in the adapter.
             skaters?.let { adapter.setSkaters(it)
                 keyProvider.setSkaters(it)}

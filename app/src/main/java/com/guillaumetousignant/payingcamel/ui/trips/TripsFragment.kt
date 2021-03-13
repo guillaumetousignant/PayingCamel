@@ -48,7 +48,7 @@ class TripsFragment : Fragment(R.layout.fragment_trips) {
         val adapter = TripListAdapter(context) {}
         recyclerView.adapter = adapter
         keyProvider = TripItemKeyProvider()
-        selectionTracker = SelectionTracker.Builder<String>(
+        selectionTracker = SelectionTracker.Builder(
             "tripSelection",
             recyclerView,
             keyProvider,
@@ -62,7 +62,7 @@ class TripsFragment : Fragment(R.layout.fragment_trips) {
 
         selectionTracker.addObserver(TripSelectionObserver())
 
-        tripsViewModel.allTrips.observe(viewLifecycleOwner, Observer { expenses ->
+        tripsViewModel.allTrips.observe(viewLifecycleOwner, { expenses ->
             // Update the cached copy of the words in the adapter.
             expenses?.let { adapter.setTrips(it)
                 keyProvider.setTrips(it)}

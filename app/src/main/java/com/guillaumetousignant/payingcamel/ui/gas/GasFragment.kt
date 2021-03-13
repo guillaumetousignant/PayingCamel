@@ -48,7 +48,7 @@ class GasFragment : Fragment(R.layout.fragment_gas) {
         val adapter = FillListAdapter(context) {}
         recyclerView.adapter = adapter
         keyProvider = FillItemKeyProvider()
-        selectionTracker = SelectionTracker.Builder<String>(
+        selectionTracker = SelectionTracker.Builder(
             "fillSelection",
             recyclerView,
             keyProvider,
@@ -62,7 +62,7 @@ class GasFragment : Fragment(R.layout.fragment_gas) {
 
         selectionTracker.addObserver(FillSelectionObserver())
 
-        gasViewModel.allFills.observe(viewLifecycleOwner, Observer { fills ->
+        gasViewModel.allFills.observe(viewLifecycleOwner, { fills ->
             // Update the cached copy of the words in the adapter.
             fills?.let { adapter.setFills(it)
                 keyProvider.setFills(it)}

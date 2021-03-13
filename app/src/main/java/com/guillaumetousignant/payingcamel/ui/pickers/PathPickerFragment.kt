@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.guillaumetousignant.payingcamel.R
@@ -36,7 +35,7 @@ class PathPickerFragment(val path: MutableLiveData<Path?>, private val allPaths:
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
-        allPaths.observe(this, Observer { paths ->
+        allPaths.observe(this, { paths ->
             // Update the cached copy of the words in the adapter.
             paths?.let { adapter.setPaths(it) }
         })

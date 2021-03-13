@@ -7,10 +7,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
-import android.database.Cursor
 import android.net.Uri
 import android.provider.OpenableColumns
-import android.util.Log
 import android.view.View
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.AndroidViewModel

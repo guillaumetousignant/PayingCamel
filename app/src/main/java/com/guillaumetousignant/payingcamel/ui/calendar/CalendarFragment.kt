@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.guillaumetousignant.payingcamel.R
 
 import android.widget.CalendarView
@@ -54,19 +53,19 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         }
 
         // REMOVE  if removed, first thing added from the main view will fail if nothing from the database is used (no rate etc)
-        calendarViewModel.allCourses.observe(viewLifecycleOwner, Observer { /*courses ->*/
+        calendarViewModel.allCourses.observe(viewLifecycleOwner, { /*courses ->*/
             // Update the cached copy of the words in the adapter.
             //courses?.let { adapter.setCourses(it) }
         })
-        calendarViewModel.allTrips.observe(viewLifecycleOwner, Observer { /*trips ->*/
+        calendarViewModel.allTrips.observe(viewLifecycleOwner, { /*trips ->*/
             // Update the cached copy of the words in the adapter.
             //trips?.let { adapter.setTrips(it) }
         })
-        calendarViewModel.allExpenses.observe(viewLifecycleOwner, Observer { /*expenses ->*/
+        calendarViewModel.allExpenses.observe(viewLifecycleOwner, { /*expenses ->*/
             // Update the cached copy of the words in the adapter.
             //expenses?.let { adapter.setExpenses(it) }
         })
-        calendarViewModel.allFills.observe(viewLifecycleOwner, Observer { /*fills ->*/
+        calendarViewModel.allFills.observe(viewLifecycleOwner, { /*fills ->*/
             // Update the cached copy of the words in the adapter.
             //fills?.let { adapter.setFills(it) }
         })

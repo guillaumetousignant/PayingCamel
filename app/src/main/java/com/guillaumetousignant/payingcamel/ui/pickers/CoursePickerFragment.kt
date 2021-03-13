@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.guillaumetousignant.payingcamel.R
@@ -36,7 +35,7 @@ class CoursePickerFragment(val course: MutableLiveData<Course?>, private val all
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
-        allCourses.observe(this, Observer { courses ->
+        allCourses.observe(this, { courses ->
             // Update the cached copy of the words in the adapter.
             courses?.let { adapter.setCourses(it) }
         })

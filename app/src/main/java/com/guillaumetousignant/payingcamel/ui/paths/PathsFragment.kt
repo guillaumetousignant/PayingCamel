@@ -47,7 +47,7 @@ class PathsFragment : Fragment(R.layout.fragment_paths) {
         val adapter = PathListAdapter(context) {}
         recyclerView.adapter = adapter
         keyProvider = PathItemKeyProvider()
-        selectionTracker = SelectionTracker.Builder<String>(
+        selectionTracker = SelectionTracker.Builder(
             "pathSelection",
             recyclerView,
             keyProvider,
@@ -61,7 +61,7 @@ class PathsFragment : Fragment(R.layout.fragment_paths) {
 
         selectionTracker.addObserver(PathSelectionObserver())
 
-        pathsViewModel.allPaths.observe(viewLifecycleOwner, Observer { paths ->
+        pathsViewModel.allPaths.observe(viewLifecycleOwner, { paths ->
             // Update the cached copy of the words in the adapter.
             paths?.let { adapter.setPaths(it)
                 keyProvider.setPaths(it)}

@@ -10,15 +10,9 @@ import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.guillaumetousignant.payingcamel.R
 import com.guillaumetousignant.payingcamel.ui.helpers.FlipAnimator
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.guillaumetousignant.payingcamel.ui.helpers.CircleTransform
-import com.bumptech.glide.Glide
-import android.text.TextUtils
-import android.util.SparseBooleanArray
 import android.widget.ImageView
 import androidx.recyclerview.selection.SelectionTracker
 import java.util.Locale
-import android.view.HapticFeedbackConstants
 import androidx.cardview.widget.CardView
 
 class CourseListAdapter internal constructor(

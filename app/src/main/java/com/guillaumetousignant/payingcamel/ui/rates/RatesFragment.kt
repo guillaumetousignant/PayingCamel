@@ -46,7 +46,7 @@ class RatesFragment : Fragment(R.layout.fragment_rates) {
         val adapter = RateListAdapter(context) {}
         recyclerView.adapter = adapter
         keyProvider = RateItemKeyProvider()
-        selectionTracker = SelectionTracker.Builder<String>(
+        selectionTracker = SelectionTracker.Builder(
             "rateSelection",
             recyclerView,
             keyProvider,
@@ -60,7 +60,7 @@ class RatesFragment : Fragment(R.layout.fragment_rates) {
 
         selectionTracker.addObserver(RateSelectionObserver())
 
-        ratesViewModel.allRates.observe(viewLifecycleOwner, Observer { rates ->
+        ratesViewModel.allRates.observe(viewLifecycleOwner, { rates ->
             // Update the cached copy of the words in the adapter.
             rates?.let { adapter.setRates(it)
                 keyProvider.setRates(it)}

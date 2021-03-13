@@ -10,7 +10,7 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation
 import kotlin.math.min
 import java.security.MessageDigest
 
-class CircleTransform() : BitmapTransformation() {
+class CircleTransform : BitmapTransformation() {
 
     private val idBytes = javaClass.name.toByteArray()
 

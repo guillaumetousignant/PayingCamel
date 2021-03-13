@@ -49,7 +49,7 @@ class ExpensesFragment : Fragment(R.layout.fragment_expenses) {
         val adapter = ExpenseListAdapter(context) {}
         recyclerView.adapter = adapter
         keyProvider = ExpenseItemKeyProvider()
-        selectionTracker = SelectionTracker.Builder<String>(
+        selectionTracker = SelectionTracker.Builder(
             "expenseSelection",
             recyclerView,
             keyProvider,
@@ -63,7 +63,7 @@ class ExpensesFragment : Fragment(R.layout.fragment_expenses) {
 
         selectionTracker.addObserver(ExpenseSelectionObserver())
 
-        expensesViewModel.allExpenses.observe(viewLifecycleOwner, Observer { expenses ->
+        expensesViewModel.allExpenses.observe(viewLifecycleOwner, { expenses ->
             // Update the cached copy of the words in the adapter.
             expenses?.let { adapter.setExpenses(it)
                 keyProvider.setExpenses(it)}
