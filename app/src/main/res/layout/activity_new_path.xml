@@ -31,14 +31,28 @@
         android:padding="@dimen/big_padding"
         android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/path_edit_distance"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/hint_distance"
-        android:inputType="numberDecimal"
-        android:padding="@dimen/big_padding" />
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/path_edit_distance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="@string/hint_distance"
+            android:inputType="numberDecimal"
+            android:padding="@dimen/big_padding" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="4"
+            android:text="@string/distance_unit" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
