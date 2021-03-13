@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/list_margin_bottom"
     app:cardCornerRadius="@dimen/list_corner_radius"
-    android:background="@drawable/bg_list_row">
+    android:background="@drawable/bg_list_row"
+    android:id="@+id/cardView">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +36,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:src="@drawable/ic_svg_done_24px"
-                    android:tint="@color/colorBackground"/>
+                    app:tint="@color/colorBackground"/>
             </RelativeLayout>
 
             <RelativeLayout

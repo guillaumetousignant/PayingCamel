@@ -19,6 +19,7 @@ import android.widget.ImageView
 import androidx.recyclerview.selection.SelectionTracker
 import java.util.Locale
 import android.view.HapticFeedbackConstants
+import androidx.cardview.widget.CardView
 
 class CourseListAdapter internal constructor(
     val context: Context?,
@@ -32,6 +33,7 @@ class CourseListAdapter internal constructor(
     var tracker: SelectionTracker<String>? = null
 
     inner class CourseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val courseCardView: CardView = itemView.findViewById(R.id.cardView)
         val courseItemView: TextView = itemView.findViewById(R.id.textView)
         val iconText: TextView = itemView.findViewById(R.id.icon_text)
         val imgProfile: ImageView = itemView.findViewById(R.id.icon_profile)
@@ -71,7 +73,7 @@ class CourseListAdapter internal constructor(
         val selected = tracker?.isSelected(holder.uuid)?:false
         holder.bind(current, position, selected)
 
-        holder.courseItemView.setOnClickListener {
+        holder.courseCardView.setOnClickListener {
             listener(current)
         }
     }

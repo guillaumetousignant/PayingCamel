@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +27,7 @@ class RateListAdapter internal constructor(
     var tracker: SelectionTracker<String>? = null
 
     inner class RateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val rateCardView: CardView = itemView.findViewById(R.id.cardView)
         val rateItemView: TextView = itemView.findViewById(R.id.textView)
         val iconText: TextView = itemView.findViewById(R.id.icon_text)
         val imgProfile: ImageView = itemView.findViewById(R.id.icon_profile)
@@ -64,7 +66,7 @@ class RateListAdapter internal constructor(
         val selected = tracker?.isSelected(holder.uuid)?:false
         holder.bind(current, position, selected)
 
-        holder.rateItemView.setOnClickListener {
+        holder.rateCardView.setOnClickListener {
             listener(current)
         }
     }

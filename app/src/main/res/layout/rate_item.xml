@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/list_margin_bottom"
-    app:cardCornerRadius="@dimen/list_corner_radius">
+    app:cardCornerRadius="@dimen/list_corner_radius"
+    android:id="@+id/cardView">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,14 +28,14 @@
                 <ImageView
                     android:layout_width="@dimen/fab_size_mini"
                     android:layout_height="@dimen/fab_size_mini"
-                    android:src="@drawable/circle_shape_accent" />
+                    android:src="@drawable/circle_shape_accent"/>
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:src="@drawable/ic_svg_done_24px"
-                    android:tint="@color/colorBackground"/>
+                    app:tint="@color/colorBackground"/>
             </RelativeLayout>
 
             <RelativeLayout

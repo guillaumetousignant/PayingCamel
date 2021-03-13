@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.selection.ItemDetailsLookup
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +27,7 @@ class ExpenseListAdapter internal constructor(
     var tracker: SelectionTracker<String>? = null
 
     inner class ExpenseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val expenseCardView: CardView = itemView.findViewById(R.id.cardView)
         val expenseItemView: TextView = itemView.findViewById(R.id.textView)
         val iconText: TextView = itemView.findViewById(R.id.icon_text)
         val imgProfile: ImageView = itemView.findViewById(R.id.icon_profile)
@@ -65,7 +67,7 @@ class ExpenseListAdapter internal constructor(
         val selected = tracker?.isSelected(holder.uuid)?:false
         holder.bind(current, position, selected)
 
-        holder.expenseItemView.setOnClickListener {
+        holder.expenseCardView.setOnClickListener {
             listener(current)
         }
     }
