@@ -32,17 +32,17 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
     // - We can put an observer on the data (instead of polling for changes) and only update the
     //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
-    val allCourses: LiveData<List<Course>>
     val allSkaters: LiveData<List<Skater>>
 
     val skaters: MutableLiveData<List<Skater>> // Make plural!
     val startCalendar: MutableLiveData<Calendar>
     val endCalendar: MutableLiveData<Calendar>
+    val courses: MutableLiveData<List<Course>> = MutableLiveData(emptyList())
+    val amount: MutableLiveData<Int> = MutableLiveData(0)
 
     init {
         val courseDao = CoachRoomDatabase.getDatabase(application, scope).courseDao()
         repository = CourseRepository(courseDao)
-        allCourses = repository.allCourses
 
         val skaterDao = CoachRoomDatabase.getDatabase(application, scope).skaterDao()
         skaterRepository = SkaterRepository(skaterDao)
@@ -64,6 +64,24 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
 
         startCalendar = MutableLiveData(startCalendarTemp)
         endCalendar = MutableLiveData(endCalendarTemp)
+
+        fetchCourses()
+    }
+
+    fun fetchCourses() {
+        if (skaters.value?.isEmpty() != false) {
+            courses.postValue(repository.getDatedCourses(startCalendar.value ?: Calendar.getInstance(), endCalendar.value ?: Calendar.getInstance()).value)
+        }
+        else {
+            courses.postValue(repository.getDatedSkatersCourses(startCalendar.value ?: Calendar.getInstance(), endCalendar.value ?: Calendar.getInstance(), skaters.value ?: emptyList()).value)
+        }
+        var amountTemp = 0
+        courses.value?.let {
+            for (course in it) {
+                amountTemp += course.amount
+            }
+        }
+        amount.postValue(amountTemp)
     }
 
     /**

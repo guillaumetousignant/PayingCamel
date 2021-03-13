@@ -1,7 +1,10 @@
 package com.guillaumetousignant.payingcamel.database.course
 
+import android.icu.util.Calendar
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.guillaumetousignant.payingcamel.database.skater.Skater
+import java.util.*
 
 @Dao
 interface CourseDao {
@@ -13,9 +16,14 @@ interface CourseDao {
     @Query("SELECT * from course_table ORDER BY start_time DESC")
     fun getDescCourses(): LiveData<List<Course>>
 
+    @Query("SELECT * from course_table WHERE start_time >= :startCalendar AND end_time <= :endCalendar ORDER BY start_time ASC")
+    fun getDatedCourses(startCalendar: Calendar, endCalendar: Calendar): LiveData<List<Course>>
+
+    @Query("SELECT * from course_table WHERE start_time >= :startCalendar AND end_time <= :endCalendar AND skater IN (:skaters) ORDER BY start_time ASC")
+    fun getDatedSkatersCourses(startCalendar: Calendar, endCalendar: Calendar, skaters: List<UUID>): LiveData<List<Course>>
+
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insert(course: Course)
-
 
     @Query("DELETE FROM course_table")
     fun deleteAll()

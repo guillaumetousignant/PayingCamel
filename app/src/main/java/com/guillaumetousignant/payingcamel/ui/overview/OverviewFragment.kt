@@ -11,6 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import android.content.Intent
 import android.app.Activity
 import android.graphics.Color
+import android.icu.text.NumberFormat
 import android.icu.util.Calendar
 import android.widget.TextView
 import androidx.lifecycle.Observer
@@ -61,6 +62,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
                 }
                 skaterListText.text = builder.toString().dropLast(2)
             }
+            overviewViewModel.fetchCourses()
         }
 
         val startObserver = Observer<Calendar> { calendar ->
@@ -69,6 +71,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
             //getTimeInstance
 
             startDateText.text = dateFormat.format(calendar.time)
+            overviewViewModel.fetchCourses()
         }
 
         val endObserver = Observer<Calendar> { calendar ->
@@ -77,14 +80,22 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
             //getTimeInstance
 
             endDateText.text = dateFormat.format(calendar.time)
+            overviewViewModel.fetchCourses()
+        }
+
+        val amountObserver = Observer<Int> { amount ->
+            NumberFormat.getCurrencyInstance().format((amount.toDouble()/100))
+            courseAmountText.text = NumberFormat.getCurrencyInstance().format((amount.toDouble()/100))
         }
 
         overviewViewModel.skaters.observe(viewLifecycleOwner, skatersObserver)
         overviewViewModel.startCalendar.observe(viewLifecycleOwner, startObserver)
         overviewViewModel.endCalendar.observe(viewLifecycleOwner, endObserver)
+        overviewViewModel.amount.observe(viewLifecycleOwner, amountObserver)
 
         startDateText.setOnClickListener {
             DatePickerFragment(overviewViewModel.startCalendar).show(childFragmentManager, "StartDatePicker")
+
         }
 
         endDateText.setOnClickListener {
