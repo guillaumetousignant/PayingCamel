@@ -10,7 +10,7 @@ class PathItemKeyProvider internal constructor() :
     private var pathList: List<Path> = emptyList()
 
     override fun getKey(i: Int): String? {
-        return pathList[i].uuid.toString()
+        return pathList.getOrNull(i)?.toString()
     }
 
     fun getKeys(i: List<Int>): List<String?> {

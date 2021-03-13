@@ -10,7 +10,7 @@ class TripItemKeyProvider internal constructor() :
     private var tripList: List<Trip> = emptyList()
 
     override fun getKey(i: Int): String? {
-        return tripList[i].uuid.toString()
+        return tripList.getOrNull(i)?.uuid.toString()
     }
 
     fun getKeys(i: List<Int>): List<String?> {

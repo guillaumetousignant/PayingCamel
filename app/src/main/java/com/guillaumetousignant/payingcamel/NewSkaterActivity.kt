@@ -45,40 +45,42 @@ class NewSkaterActivity : AppCompatActivity(R.layout.activity_new_skater) {
                 true
             }
             R.id.new_word_save_button -> {
-                if (TextUtils.isEmpty(firstNameView.text)) {
-                    val view = findViewById<View>(android.R.id.content)
+                when {
+                    TextUtils.isEmpty(firstNameView.text) -> {
+                        val view = findViewById<View>(android.R.id.content)
 
-                    Snackbar.make(view, R.string.missing_first_name, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show()
-                }
-                else if (TextUtils.isEmpty(lastNameView.text)) {
-                    val view = findViewById<View>(android.R.id.content)
-
-                    Snackbar.make(view, R.string.missing_last_name, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show()
-                }
-                else {
-                    val replyIntent = Intent()
-
-                    val note = if (TextUtils.isEmpty(editNoteView.text)) {
-                        null
-                    } else {
-                        editNoteView.text.toString()
+                        Snackbar.make(view, R.string.missing_first_name, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
                     }
-                    val email = if (TextUtils.isEmpty(editEmailView.text)) {
-                        null
-                    } else {
-                        editEmailView.text.toString()
+                    TextUtils.isEmpty(lastNameView.text) -> {
+                        val view = findViewById<View>(android.R.id.content)
+
+                        Snackbar.make(view, R.string.missing_last_name, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
                     }
+                    else -> {
+                        val replyIntent = Intent()
 
-                    replyIntent.putExtra(EXTRA_FIRST_NAME, firstNameView.text.toString())
-                    replyIntent.putExtra(EXTRA_LAST_NAME, lastNameView.text.toString())
-                    replyIntent.putExtra(EXTRA_NOTE, note)
-                    replyIntent.putExtra(EXTRA_EMAIL, email)
-                    replyIntent.putExtra(EXTRA_ACTIVE, activeCheckbox.isChecked)
+                        val note = if (TextUtils.isEmpty(editNoteView.text)) {
+                            null
+                        } else {
+                            editNoteView.text.toString()
+                        }
+                        val email = if (TextUtils.isEmpty(editEmailView.text)) {
+                            null
+                        } else {
+                            editEmailView.text.toString()
+                        }
 
-                    setResult(Activity.RESULT_OK, replyIntent)
-                    finish()
+                        replyIntent.putExtra(EXTRA_FIRST_NAME, firstNameView.text.toString())
+                        replyIntent.putExtra(EXTRA_LAST_NAME, lastNameView.text.toString())
+                        replyIntent.putExtra(EXTRA_NOTE, note)
+                        replyIntent.putExtra(EXTRA_EMAIL, email)
+                        replyIntent.putExtra(EXTRA_ACTIVE, activeCheckbox.isChecked)
+
+                        setResult(Activity.RESULT_OK, replyIntent)
+                        finish()
+                    }
                 }
 
                 true

@@ -130,34 +130,40 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         var uri1: Uri? = null
         var uri2: Uri? = null
 
-        if (inFileName0?.endsWith("-wal.pcbackup") == true) {
-            uri2 = inUri0
-        }
-        else if (inFileName0?.endsWith("-shm.pcbackup") == true) {
-            uri1 = inUri0
-        }
-        else if (inFileName0?.endsWith(".pcbackup") == true) {
-            uri0 = inUri0
-        }
-
-        if (inFileName1?.endsWith("-wal.pcbackup") == true) {
-            uri2 = inUri1
-        }
-        else if (inFileName1?.endsWith("-shm.pcbackup") == true) {
-            uri1 = inUri1
-        }
-        else if (inFileName1?.endsWith(".pcbackup") == true) {
-            uri0 = inUri1
+        when {
+            inFileName0?.endsWith("-wal.pcbackup") == true -> {
+                uri2 = inUri0
+            }
+            inFileName0?.endsWith("-shm.pcbackup") == true -> {
+                uri1 = inUri0
+            }
+            inFileName0?.endsWith(".pcbackup") == true -> {
+                uri0 = inUri0
+            }
         }
 
-        if (inFileName2?.endsWith("-wal.pcbackup") == true) {
-            uri2 = inUri2
+        when {
+            inFileName1?.endsWith("-wal.pcbackup") == true -> {
+                uri2 = inUri1
+            }
+            inFileName1?.endsWith("-shm.pcbackup") == true -> {
+                uri1 = inUri1
+            }
+            inFileName1?.endsWith(".pcbackup") == true -> {
+                uri0 = inUri1
+            }
         }
-        else if (inFileName2?.endsWith("-shm.pcbackup") == true) {
-            uri1 = inUri2
-        }
-        else if (inFileName2?.endsWith(".pcbackup") == true) {
-            uri0 = inUri2
+
+        when {
+            inFileName2?.endsWith("-wal.pcbackup") == true -> {
+                uri2 = inUri2
+            }
+            inFileName2?.endsWith("-shm.pcbackup") == true -> {
+                uri1 = inUri2
+            }
+            inFileName2?.endsWith(".pcbackup") == true -> {
+                uri0 = inUri2
+            }
         }
 
         if ((uri0 != null) && (uri1 != null) && (uri2 != null)){

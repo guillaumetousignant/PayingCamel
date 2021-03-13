@@ -189,45 +189,47 @@ class NewCourseActivity : AppCompatActivity(R.layout.activity_new_course) {
                 true
             }
             R.id.new_word_save_button -> {
-                if (newCourseViewModel.startCalendar.value?.compareTo(newCourseViewModel.endCalendar.value)?:0 > 0) {
-                    val view = findViewById<View>(android.R.id.content)
+                when {
+                    newCourseViewModel.startCalendar.value?.compareTo(newCourseViewModel.endCalendar.value)?:0 > 0 -> {
+                        val view = findViewById<View>(android.R.id.content)
 
-                    Snackbar.make(view, R.string.end_before_start, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show()
-                }
-                else if (TextUtils.isEmpty(amountView.text)) {
-                    val view = findViewById<View>(android.R.id.content)
-
-                    Snackbar.make(view, R.string.empty_amount, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show()
-                }
-                else {
-                    val replyIntent = Intent()
-                    val name = if (TextUtils.isEmpty(editCourseView.text)) {
-                        null
-                    } else {
-                        editCourseView.text.toString()
+                        Snackbar.make(view, R.string.end_before_start, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
                     }
-                    val note = if (TextUtils.isEmpty(editNoteView.text)) {
-                        null
-                    } else {
-                        editNoteView.text.toString()
+                    TextUtils.isEmpty(amountView.text) -> {
+                        val view = findViewById<View>(android.R.id.content)
+
+                        Snackbar.make(view, R.string.empty_amount, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
                     }
-                    val replaceable =
-                        String.format("[%s,.]", NumberFormat.getCurrencyInstance().currency.symbol)
-                    val cleanString = amountView.text.toString().replace(replaceable.toRegex(), "").replace("\\s".toRegex(), "")
+                    else -> {
+                        val replyIntent = Intent()
+                        val name = if (TextUtils.isEmpty(editCourseView.text)) {
+                            null
+                        } else {
+                            editCourseView.text.toString()
+                        }
+                        val note = if (TextUtils.isEmpty(editNoteView.text)) {
+                            null
+                        } else {
+                            editNoteView.text.toString()
+                        }
+                        val replaceable =
+                            String.format("[%s,.]", NumberFormat.getCurrencyInstance().currency.symbol)
+                        val cleanString = amountView.text.toString().replace(replaceable.toRegex(), "").replace("\\s".toRegex(), "")
 
-                    replyIntent.putExtra(EXTRA_NAME, name)
-                    replyIntent.putExtra(EXTRA_SKATER, newCourseViewModel.skater.value?.uuid)
-                    replyIntent.putExtra(EXTRA_START, newCourseViewModel.startCalendar.value)
-                    replyIntent.putExtra(EXTRA_END, newCourseViewModel.endCalendar.value)
-                    replyIntent.putExtra(EXTRA_RATE, newCourseViewModel.rate.value?.amount)
-                    replyIntent.putExtra(EXTRA_AMOUNT, cleanString.toInt())
-                    replyIntent.putExtra(EXTRA_NOTE, note)
-                    replyIntent.putExtra(EXTRA_PAID, paidCheckbox.isChecked)
+                        replyIntent.putExtra(EXTRA_NAME, name)
+                        replyIntent.putExtra(EXTRA_SKATER, newCourseViewModel.skater.value?.uuid)
+                        replyIntent.putExtra(EXTRA_START, newCourseViewModel.startCalendar.value)
+                        replyIntent.putExtra(EXTRA_END, newCourseViewModel.endCalendar.value)
+                        replyIntent.putExtra(EXTRA_RATE, newCourseViewModel.rate.value?.amount)
+                        replyIntent.putExtra(EXTRA_AMOUNT, cleanString.toInt())
+                        replyIntent.putExtra(EXTRA_NOTE, note)
+                        replyIntent.putExtra(EXTRA_PAID, paidCheckbox.isChecked)
 
-                    setResult(Activity.RESULT_OK, replyIntent)
-                    finish()
+                        setResult(Activity.RESULT_OK, replyIntent)
+                        finish()
+                    }
                 }
 
                 true

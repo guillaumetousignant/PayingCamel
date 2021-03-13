@@ -10,7 +10,7 @@ class CourseItemKeyProvider internal constructor() :
     private var courseList: List<Course> = emptyList()
 
     override fun getKey(i: Int): String? {
-        return courseList[i].uuid.toString()
+        return courseList.getOrNull(i)?.uuid.toString()
     }
 
     fun getKeys(i: List<Int>): List<String?> {

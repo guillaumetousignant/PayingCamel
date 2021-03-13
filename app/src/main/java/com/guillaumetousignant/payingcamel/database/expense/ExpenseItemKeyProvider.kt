@@ -10,7 +10,7 @@ class ExpenseItemKeyProvider internal constructor() :
     private var expenseList: List<Expense> = emptyList()
 
     override fun getKey(i: Int): String? {
-        return expenseList[i].uuid.toString()
+        return expenseList.getOrNull(i)?.uuid.toString()
     }
 
     fun getKeys(i: List<Int>): List<String?> {
