@@ -29,7 +29,8 @@
         android:hint="@string/hint_first_name"
         android:inputType="textPersonName|textAutoComplete|textCapWords"
         android:padding="@dimen/big_padding"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:autofillHints=".AUTOFILL_HINT_PERSON_NAME_GIVEN" />
 
     <EditText
         android:id="@+id/edit_last_name"
@@ -39,7 +40,8 @@
         android:hint="@string/hint_last_name"
         android:inputType="textPersonName|textAutoComplete|textCapWords"
         android:padding="@dimen/big_padding"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:autofillHints=".AUTOFILL_HINT_PERSON_NAME_FAMILY" />
 
     <EditText
         android:id="@+id/edit_email"
@@ -49,7 +51,8 @@
         android:hint="@string/hint_email"
         android:inputType="textEmailAddress"
         android:padding="@dimen/big_padding"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:autofillHints=".	AUTOFILL_HINT_EMAIL_ADDRESS" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -78,6 +81,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/hint_note"
         android:inputType="textLongMessage|textCapSentences|textAutoComplete|textImeMultiLine"
-        android:padding="@dimen/big_padding" />
+        android:padding="@dimen/big_padding"
+        android:autofillHints="text" />
 
 </LinearLayout>

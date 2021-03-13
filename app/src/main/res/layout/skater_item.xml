@@ -29,14 +29,16 @@
                 <ImageView
                     android:layout_width="@dimen/fab_size_mini"
                     android:layout_height="@dimen/fab_size_mini"
-                    android:src="@drawable/circle_shape_accent" />
+                    android:src="@drawable/circle_shape_accent"
+                    android:contentDescription="@string/description_selection_icon_background" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:src="@drawable/ic_svg_done_24px"
-                    app:tint="@color/colorBackground"/>
+                    app:tint="@color/colorBackground"
+                    android:contentDescription="@string/description_selection_icon_icon" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -47,7 +49,8 @@
                 <ImageView
                     android:id="@+id/icon_profile"
                     android:layout_width="@dimen/fab_size_mini"
-                    android:layout_height="@dimen/fab_size_mini" />
+                    android:layout_height="@dimen/fab_size_mini"
+                    android:contentDescription="@string/description_selection_icon" />
 
                 <TextView
                     android:id="@+id/icon_text"

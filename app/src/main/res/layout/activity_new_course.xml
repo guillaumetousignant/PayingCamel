@@ -29,7 +29,8 @@
         android:hint="@string/hint_title"
         android:inputType="textCapSentences|textAutoComplete"
         android:padding="@dimen/big_padding"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:autofillHints="text" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -114,7 +115,8 @@
         android:ems="10"
         android:hint="@string/hint_amount"
         android:inputType="numberDecimal"
-        android:padding="@dimen/big_padding" />
+        android:padding="@dimen/big_padding"
+        android:autofillHints="money" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -143,6 +145,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/hint_note"
         android:inputType="textLongMessage|textCapSentences|textAutoComplete|textImeMultiLine"
-        android:padding="@dimen/big_padding" />
+        android:padding="@dimen/big_padding"
+        android:autofillHints="text" />
 
 </LinearLayout>

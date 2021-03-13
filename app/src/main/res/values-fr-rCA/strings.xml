@@ -76,4 +76,16 @@
     <string name="course_amount_description">Revenus</string>
     <string name="trip_amount_description">Distance totale</string>
     <string name="fill_amount_description">Dépenses pleins</string>
+    <string name="description_selection_icon_background">Fond de l\'icône</string>
+    <string name="description_selection_icon_icon">État de l\'icône de sélection</string>
+    <string name="description_selection_icon">Icône de sélection</string>
+    <string name="description_expenses_fab">Ajouter une dépense</string>
+    <string name="description_gas_fab">Ajouter un plein</string>
+    <string name="description_overview_fab">Imprimer le bilan</string>
+    <string name="description_paths_fab">Ajouter un trajet</string>
+    <string name="description_rates_fab">Ajouter un taux</string>
+    <string name="description_skaters_fab">Ajouter une patineuse</string>
+    <string name="description_trips_fab">Ajouter un déplacement</string>
+    <string name="should_not_show_up">Ceci ne devrait jamais être affiché</string>
+    <string name="description_skaters_picker_fab">Confirmer la sélection</string>
 </resources>

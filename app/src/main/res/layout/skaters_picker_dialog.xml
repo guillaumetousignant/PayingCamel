@@ -23,6 +23,7 @@
         android:tint="@color/colorAccent"
         app:borderWidth="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/description_skaters_picker_fab" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

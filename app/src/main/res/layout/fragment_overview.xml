@@ -147,6 +147,7 @@
         android:layout_margin="@dimen/fab_margin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_print_24px" />
+        app:srcCompat="@drawable/ic_print_24px"
+        android:contentDescription="@string/description_overview_fab"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

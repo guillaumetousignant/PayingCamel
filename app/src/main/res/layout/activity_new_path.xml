@@ -29,7 +29,8 @@
         android:hint="@string/hint_title"
         android:inputType="textCapSentences|textAutoComplete"
         android:padding="@dimen/big_padding"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:autofillHints="text"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,7 +45,8 @@
             android:ems="10"
             android:hint="@string/hint_distance"
             android:inputType="numberDecimal"
-            android:padding="@dimen/big_padding" />
+            android:padding="@dimen/big_padding"
+            android:autofillHints="distance"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -68,7 +70,8 @@
             android:hint="@string/hint_from"
             android:inputType="textCapSentences|textAutoComplete"
             android:padding="@dimen/big_padding"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:autofillHints=".AUTOFILL_HINT_POSTAL_ADDRESS_LOCALITY" />
 
         <EditText
             android:id="@+id/path_edit_to"
@@ -79,7 +82,8 @@
             android:hint="@string/hint_to"
             android:inputType="textCapSentences|textAutoComplete"
             android:padding="@dimen/big_padding"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:autofillHints=".AUTOFILL_HINT_POSTAL_ADDRESS_LOCALITY" />
     </LinearLayout>
 
     <EditText
@@ -88,6 +92,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/hint_note"
         android:inputType="textLongMessage|textCapSentences|textAutoComplete|textImeMultiLine"
-        android:padding="@dimen/big_padding" />
+        android:padding="@dimen/big_padding"
+        android:autofillHints="text" />
 
 </LinearLayout>

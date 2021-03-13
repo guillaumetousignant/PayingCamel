@@ -76,4 +76,16 @@
     <string name="expense_amount_description">Expenses</string>
     <string name="trip_amount_description">Total distance</string>
     <string name="fill_amount_description">Fill expenses</string>
+    <string name="description_selection_icon_background">Icon background</string>
+    <string name="description_selection_icon_icon">Selection icon state</string>
+    <string name="description_selection_icon">Selection icon</string>
+    <string name="description_expenses_fab">Add an expense</string>
+    <string name="description_gas_fab">Add a fill</string>
+    <string name="description_overview_fab">Print overview</string>
+    <string name="description_paths_fab">Add a path</string>
+    <string name="description_rates_fab">Add a rate</string>
+    <string name="description_skaters_fab">Add a skater</string>
+    <string name="description_trips_fab">Add a trip</string>
+    <string name="should_not_show_up">This should never show up</string>
+    <string name="description_skaters_picker_fab">Confirm selection</string>
 </resources>
