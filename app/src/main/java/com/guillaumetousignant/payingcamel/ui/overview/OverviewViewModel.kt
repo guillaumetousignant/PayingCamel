@@ -55,8 +55,12 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
         endCalendarTemp.set(Calendar.SECOND, 59)
         endCalendarTemp.set(Calendar.MINUTE, 59)
         endCalendarTemp.set(Calendar.HOUR_OF_DAY, 23)
-        val startCalendarTemp: Calendar = endCalendarTemp.clone() as Calendar
+        val startCalendarTemp: Calendar = Calendar.getInstance()
         startCalendarTemp.set(Calendar.DAY_OF_YEAR, 1)
+        endCalendarTemp.set(Calendar.MILLISECOND, 0)
+        endCalendarTemp.set(Calendar.SECOND, 0)
+        endCalendarTemp.set(Calendar.MINUTE, 0)
+        endCalendarTemp.set(Calendar.HOUR_OF_DAY, 24)
 
         startCalendar = MutableLiveData(startCalendarTemp)
         endCalendar = MutableLiveData(endCalendarTemp)

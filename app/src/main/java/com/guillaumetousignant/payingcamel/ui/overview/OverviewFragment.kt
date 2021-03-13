@@ -54,7 +54,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
             // Update the UI, in this case, a TextView.
             if (skaters.isEmpty()) {
                 skaterListText.text = getString(R.string.hint_selected_skaters)
-            } else{
+            } else {
                 val builder = StringBuilder()
                 for (skater in skaters) {
                     builder.append("%s %s, ".format(skater.first_name, skater.last_name))
