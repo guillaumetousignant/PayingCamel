@@ -88,4 +88,5 @@
     <string name="description_trips_fab">Ajouter un déplacement</string>
     <string name="should_not_show_up">Ceci ne devrait jamais être affiché</string>
     <string name="description_skaters_picker_fab">Confirmer la sélection</string>
+    <string name="description_courses_fab">Ajouter un cours</string>
 </resources>

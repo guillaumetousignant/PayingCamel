@@ -88,4 +88,5 @@
     <string name="description_trips_fab">Add a trip</string>
     <string name="should_not_show_up">This should never show up</string>
     <string name="description_skaters_picker_fab">Confirm selection</string>
+    <string name="description_courses_fab">Add a course</string>
 </resources>
