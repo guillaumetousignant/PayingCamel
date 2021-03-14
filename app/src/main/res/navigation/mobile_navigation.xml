@@ -12,6 +12,12 @@
         tools:layout="@layout/fragment_calendar" />
 
     <fragment
+        android:id="@+id/nav_courses"
+        android:name="com.guillaumetousignant.payingcamel.ui.courses.CoursesFragment"
+        android:label="@string/menu_courses"
+        tools:layout="@layout/fragment_courses" />
+
+    <fragment
         android:id="@+id/nav_skaters"
         android:name="com.guillaumetousignant.payingcamel.ui.skaters.SkatersFragment"
         android:label="@string/menu_skaters"
