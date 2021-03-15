@@ -39,6 +39,18 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    bundle {
+        language {
+            enableSplit = true
+        }
+        density {
+            enableSplit = true
+        }
+        abi {
+            enableSplit = true
+        }
+    }
 }
 
 dependencies {
