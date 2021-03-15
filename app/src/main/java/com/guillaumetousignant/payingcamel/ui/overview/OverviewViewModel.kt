@@ -83,7 +83,7 @@ class OverviewViewModel(application: Application) : AndroidViewModel(application
         startCalendarTemp.set(Calendar.MILLISECOND, 0)
         startCalendarTemp.set(Calendar.SECOND, 0)
         startCalendarTemp.set(Calendar.MINUTE, 0)
-        startCalendarTemp.set(Calendar.HOUR_OF_DAY, 24)
+        startCalendarTemp.set(Calendar.HOUR_OF_DAY, 0)
 
         startCalendar = MutableLiveData(startCalendarTemp)
         endCalendar = MutableLiveData(endCalendarTemp)
