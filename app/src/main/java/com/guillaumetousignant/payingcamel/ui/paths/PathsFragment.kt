@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
@@ -29,7 +31,6 @@ import java.util.*
 
 class PathsFragment : Fragment(R.layout.fragment_paths) {
 
-    private val newPathActivityRequestCode = 6
     private lateinit var pathsViewModel: PathsViewModel
     private lateinit var selectionTracker: SelectionTracker<String>
     private lateinit var keyProvider: PathItemKeyProvider
@@ -68,42 +69,38 @@ class PathsFragment : Fragment(R.layout.fragment_paths) {
 
         val fabPaths: FloatingActionButton = view.findViewById(R.id.fab_paths)
         fabPaths.setOnClickListener { /*fabView ->*/
-            /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()*/
-
             val intent = Intent(activity, NewPathActivity::class.java)
-            startActivityForResult(intent, newPathActivityRequestCode)
+            startPathForResult.launch(intent)
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intentData)
-
-        if (requestCode == newPathActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.let { data ->
-                val path = Path(
-                    UUID.randomUUID(),
-                    data.getDoubleExtra(NewPathActivity.EXTRA_DISTANCE, 0.0),
-                    data.getStringExtra(NewPathActivity.EXTRA_FROM),
-                    data.getStringExtra(NewPathActivity.EXTRA_TO),
-                    data.getStringExtra(NewPathActivity.EXTRA_NAME),
-                    data.getStringExtra(NewPathActivity.EXTRA_NOTE),
-                    getRandomMaterialColor(getString(R.string.icon_color_type))
-                )
-                pathsViewModel.insert(path)
-                Unit
+    private val startPathForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                result.data?.let { data ->
+                    val path = Path(
+                        UUID.randomUUID(),
+                        data.getDoubleExtra(NewPathActivity.EXTRA_DISTANCE, 0.0),
+                        data.getStringExtra(NewPathActivity.EXTRA_FROM),
+                        data.getStringExtra(NewPathActivity.EXTRA_TO),
+                        data.getStringExtra(NewPathActivity.EXTRA_NAME),
+                        data.getStringExtra(NewPathActivity.EXTRA_NOTE),
+                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                    )
+                    pathsViewModel.insert(path)
+                }
             }
-        }
-        else if (requestCode == newPathActivityRequestCode && resultCode == Activity.RESULT_CANCELED) {
-            /* view?.let{
-                 Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
-                     .setAction("Action", null).show()
-             }*/
-        }
-        else {
-            view?.let{
-                Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            Activity.RESULT_CANCELED -> {
+                view?.let{
+                    Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
+            }
+            else -> {
+                view?.let{
+                    Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
             }
         }
     }

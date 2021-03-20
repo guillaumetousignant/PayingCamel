@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
@@ -30,7 +32,6 @@ import java.util.*
 
 class TripsFragment : Fragment(R.layout.fragment_trips) {
 
-    private val newTripActivityRequestCode = 3
     private lateinit var tripsViewModel: TripsViewModel
     private lateinit var selectionTracker: SelectionTracker<String>
     private lateinit var keyProvider: TripItemKeyProvider
@@ -74,42 +75,41 @@ class TripsFragment : Fragment(R.layout.fragment_trips) {
 
             val intent = Intent(activity, NewTripActivity::class.java)
             intent.putExtra(NewTripActivity.EXTRA_CALENDAR, Calendar.getInstance())
-            startActivityForResult(intent, newTripActivityRequestCode)
+            startTripForResult.launch(intent)
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intentData)
-
-        if (requestCode == newTripActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.let { data ->
-                val trip = Trip(
-                    UUID.randomUUID(),
-                    data.getStringExtra(NewTripActivity.EXTRA_PATH),
-                    data.getStringExtra(NewTripActivity.EXTRA_FROM),
-                    data.getStringExtra(NewTripActivity.EXTRA_TO),
-                    data.getDoubleExtra(NewTripActivity.EXTRA_DISTANCE, 0.0),
-                    data.getSerializableExtra(NewTripActivity.EXTRA_START) as Calendar,
-                    data.getSerializableExtra(NewTripActivity.EXTRA_COURSE) as UUID?,
-                    data.getSerializableExtra(NewTripActivity.EXTRA_SKATER) as UUID?,
-                    data.getStringExtra(NewTripActivity.EXTRA_NAME),
-                    data.getStringExtra(NewTripActivity.EXTRA_NOTE),
-                    getRandomMaterialColor(getString(R.string.icon_color_type))
-                )
-                tripsViewModel.insert(trip)
-                Unit
+    private val startTripForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                result.data?.let { data ->
+                    val trip = Trip(
+                        UUID.randomUUID(),
+                        data.getStringExtra(NewTripActivity.EXTRA_PATH),
+                        data.getStringExtra(NewTripActivity.EXTRA_FROM),
+                        data.getStringExtra(NewTripActivity.EXTRA_TO),
+                        data.getDoubleExtra(NewTripActivity.EXTRA_DISTANCE, 0.0),
+                        data.getSerializableExtra(NewTripActivity.EXTRA_START) as Calendar,
+                        data.getSerializableExtra(NewTripActivity.EXTRA_COURSE) as UUID?,
+                        data.getSerializableExtra(NewTripActivity.EXTRA_SKATER) as UUID?,
+                        data.getStringExtra(NewTripActivity.EXTRA_NAME),
+                        data.getStringExtra(NewTripActivity.EXTRA_NOTE),
+                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                    )
+                    tripsViewModel.insert(trip)
+                }
             }
-        }
-        else if (requestCode == newTripActivityRequestCode && resultCode == Activity.RESULT_CANCELED) {
-            /* view?.let{
-                 Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
-                     .setAction("Action", null).show()
-             }*/
-        }
-        else {
-            view?.let{
-                Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            Activity.RESULT_CANCELED -> {
+                view?.let{
+                    Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
+            }
+            else -> {
+                view?.let{
+                    Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
             }
         }
     }

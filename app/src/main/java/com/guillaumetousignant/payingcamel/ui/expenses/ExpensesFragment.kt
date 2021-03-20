@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
@@ -30,7 +32,6 @@ import java.util.*
 
 class ExpensesFragment : Fragment(R.layout.fragment_expenses) {
 
-    private val newExpenseActivityRequestCode = 4
     private lateinit var expensesViewModel: ExpensesViewModel
     private lateinit var selectionTracker: SelectionTracker<String>
     private lateinit var keyProvider: ExpenseItemKeyProvider
@@ -70,44 +71,40 @@ class ExpensesFragment : Fragment(R.layout.fragment_expenses) {
 
         val fabExpenses: FloatingActionButton = view.findViewById(R.id.fab_expenses)
         fabExpenses.setOnClickListener { /*fabView ->*/
-            /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()*/
-
             val intent = Intent(activity, NewExpenseActivity::class.java)
             intent.putExtra(NewExpenseActivity.EXTRA_CALENDAR, Calendar.getInstance())
-            startActivityForResult(intent, newExpenseActivityRequestCode)
+            startExpenseForResult.launch(intent)
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intentData)
-
-        if (requestCode == newExpenseActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.let { data ->
-                val expense = Expense(
-                    UUID.randomUUID(),
-                    data.getIntExtra(NewExpenseActivity.EXTRA_AMOUNT, 0),
-                    data.getSerializableExtra(NewExpenseActivity.EXTRA_START) as Calendar,
-                    data.getSerializableExtra(NewExpenseActivity.EXTRA_COURSE) as UUID?,
-                    data.getSerializableExtra(NewExpenseActivity.EXTRA_SKATER) as UUID?,
-                    data.getStringExtra(NewExpenseActivity.EXTRA_NAME),
-                    data.getStringExtra(NewExpenseActivity.EXTRA_NOTE),
-                    getRandomMaterialColor(getString(R.string.icon_color_type))
-                )
-                expensesViewModel.insert(expense)
-                Unit
+    private val startExpenseForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                result.data?.let { data ->
+                    val expense = Expense(
+                        UUID.randomUUID(),
+                        data.getIntExtra(NewExpenseActivity.EXTRA_AMOUNT, 0),
+                        data.getSerializableExtra(NewExpenseActivity.EXTRA_START) as Calendar,
+                        data.getSerializableExtra(NewExpenseActivity.EXTRA_COURSE) as UUID?,
+                        data.getSerializableExtra(NewExpenseActivity.EXTRA_SKATER) as UUID?,
+                        data.getStringExtra(NewExpenseActivity.EXTRA_NAME),
+                        data.getStringExtra(NewExpenseActivity.EXTRA_NOTE),
+                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                    )
+                    expensesViewModel.insert(expense)
+                }
             }
-        }
-        else if (requestCode == newExpenseActivityRequestCode && resultCode == Activity.RESULT_CANCELED) {
-            /* view?.let{
-                 Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
-                     .setAction("Action", null).show()
-             }*/
-        }
-        else {
-            view?.let{
-                Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            Activity.RESULT_CANCELED -> {
+                view?.let{
+                    Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
+            }
+            else -> {
+                view?.let{
+                    Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
             }
         }
     }

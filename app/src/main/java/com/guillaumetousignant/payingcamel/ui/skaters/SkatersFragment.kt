@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
@@ -29,7 +31,6 @@ import java.util.*
 
 class SkatersFragment : Fragment(R.layout.fragment_skaters) {
 
-    private val newSkaterActivityRequestCode = 2
     private lateinit var skatersViewModel: SkatersViewModel
     private lateinit var selectionTracker: SelectionTracker<String>
     private lateinit var keyProvider: SkaterItemKeyProvider
@@ -68,42 +69,38 @@ class SkatersFragment : Fragment(R.layout.fragment_skaters) {
 
         val fabSkaters: FloatingActionButton = view.findViewById(R.id.fab_skaters)
         fabSkaters.setOnClickListener { /*fabView ->*/
-            /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()*/
-
             val intent = Intent(activity, NewSkaterActivity::class.java)
-            startActivityForResult(intent, newSkaterActivityRequestCode)
+            startSkaterForResult.launch(intent)
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intentData)
-
-        if (requestCode == newSkaterActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.let { data ->
-                val skater = Skater(
-                    UUID.randomUUID(),
-                    data.getStringExtra(NewSkaterActivity.EXTRA_FIRST_NAME) ?: "",
-                    data.getStringExtra(NewSkaterActivity.EXTRA_LAST_NAME) ?: "",
-                    data.getStringExtra(NewSkaterActivity.EXTRA_NOTE),
-                    data.getStringExtra(NewSkaterActivity.EXTRA_EMAIL),
-                    data.getBooleanExtra(NewSkaterActivity.EXTRA_ACTIVE, true),
-                    getRandomMaterialColor(getString(R.string.icon_color_type))
-                )
-                skatersViewModel.insert(skater)
-                Unit
+    private val startSkaterForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                result.data?.let { data ->
+                    val skater = Skater(
+                        UUID.randomUUID(),
+                        data.getStringExtra(NewSkaterActivity.EXTRA_FIRST_NAME) ?: "",
+                        data.getStringExtra(NewSkaterActivity.EXTRA_LAST_NAME) ?: "",
+                        data.getStringExtra(NewSkaterActivity.EXTRA_NOTE),
+                        data.getStringExtra(NewSkaterActivity.EXTRA_EMAIL),
+                        data.getBooleanExtra(NewSkaterActivity.EXTRA_ACTIVE, true),
+                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                    )
+                    skatersViewModel.insert(skater)
+                }
             }
-        }
-        else if (requestCode == newSkaterActivityRequestCode && resultCode == Activity.RESULT_CANCELED) {
-            /* view?.let{
-                 Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
-                     .setAction("Action", null).show()
-             }*/
-        }
-        else {
-            view?.let{
-                Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            Activity.RESULT_CANCELED -> {
+                view?.let{
+                    Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
+            }
+            else -> {
+                view?.let{
+                    Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
             }
         }
     }

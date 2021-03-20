@@ -90,4 +90,6 @@
     <string name="description_skaters_picker_fab">Confirmer la sélection</string>
     <string name="description_courses_fab">Ajouter un cours</string>
     <string name="menu_courses">Cours</string>
+    <string name="database_backed_up">Base de données sauvegardée</string>
+    <string name="database_restored">Base de données restaurée</string>
 </resources>

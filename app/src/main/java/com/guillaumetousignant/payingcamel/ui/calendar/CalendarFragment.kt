@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import com.guillaumetousignant.payingcamel.R
 
 import android.widget.CalendarView
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.snackbar.Snackbar
@@ -29,10 +31,6 @@ import java.util.*
 
 class CalendarFragment : Fragment(R.layout.fragment_calendar) {
 
-    private val newCourseActivityRequestCode = 1
-    private val newTripActivityRequestCode = 3
-    private val newExpenseActivityRequestCode = 4
-    private val newFillActivityRequestCode = 5
     private lateinit var calendarViewModel: CalendarViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -97,13 +95,13 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         courseText.setOnClickListener {
             val intent = Intent(activity, NewCourseActivity::class.java)
             intent.putExtra(NewCourseActivity.EXTRA_CALENDAR, calendarViewModel.calendar)
-            startActivityForResult(intent, newCourseActivityRequestCode)
+            startCourseForResult.launch(intent)
         }
         speedDialView.setOnChangeListener(object : SpeedDialView.OnChangeListener {
             override fun onMainActionSelected(): Boolean {
                 val intent = Intent(activity, NewCourseActivity::class.java)
                 intent.putExtra(NewCourseActivity.EXTRA_CALENDAR, calendarViewModel.calendar)
-                startActivityForResult(intent, newCourseActivityRequestCode)
+                startCourseForResult.launch(intent)
 
                 return false // True to keep the Speed Dial open
             }
@@ -123,7 +121,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                 R.id.fab_calendar_trip -> {
                     val intent = Intent(activity, NewTripActivity::class.java)
                     intent.putExtra(NewTripActivity.EXTRA_CALENDAR, calendarViewModel.calendar)
-                    startActivityForResult(intent, newTripActivityRequestCode)
+                    startTripForResult.launch(intent)
 
                     speedDialView.close() // To close the Speed Dial with animation
                     return@OnActionSelectedListener true // false will close it without animation
@@ -131,7 +129,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                 R.id.fab_calendar_expense -> {
                     val intent = Intent(activity, NewExpenseActivity::class.java)
                     intent.putExtra(NewExpenseActivity.EXTRA_CALENDAR, calendarViewModel.calendar)
-                    startActivityForResult(intent, newExpenseActivityRequestCode)
+                    startExpenseForResult.launch(intent)
 
                     speedDialView.close() // To close the Speed Dial with animation
                     return@OnActionSelectedListener true // false will close it without animation
@@ -139,7 +137,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                 R.id.fab_calendar_fill -> {
                     val intent = Intent(activity, NewFillActivity::class.java)
                     intent.putExtra(NewFillActivity.EXTRA_CALENDAR, calendarViewModel.calendar)
-                    startActivityForResult(intent, newFillActivityRequestCode)
+                    startFillForResult.launch(intent)
 
                     speedDialView.close() // To close the Speed Dial with animation
                     return@OnActionSelectedListener true // false will close it without animation
@@ -149,104 +147,133 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         })
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intentData)
+    private val startCourseForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                result.data?.let { data ->
+                    val course = Course(
+                        UUID.randomUUID(),
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_SKATER) as UUID?,
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_START) as Calendar,
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_END) as Calendar,
+                        data.getIntExtra(NewCourseActivity.EXTRA_RATE, 0),
+                        data.getIntExtra(NewCourseActivity.EXTRA_AMOUNT, 0),
+                        data.getStringExtra(NewCourseActivity.EXTRA_NAME),
+                        data.getStringExtra(NewCourseActivity.EXTRA_NOTE),
+                        data.getBooleanExtra(NewCourseActivity.EXTRA_PAID, false),
+                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                    )
+                    calendarViewModel.insert(course)
+                }
+            }
+            Activity.RESULT_CANCELED -> {
+                view?.let{
+                    Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
+            }
+            else -> {
+                view?.let{
+                    Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
+            }
+        }
+    }
 
-        if (requestCode == newCourseActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.let { data ->
-                val course = Course(
-                    UUID.randomUUID(),
-                    data.getSerializableExtra(NewCourseActivity.EXTRA_SKATER) as UUID?,
-                    data.getSerializableExtra(NewCourseActivity.EXTRA_START) as Calendar,
-                    data.getSerializableExtra(NewCourseActivity.EXTRA_END) as Calendar,
-                    data.getIntExtra(NewCourseActivity.EXTRA_RATE, 0),
-                    data.getIntExtra(NewCourseActivity.EXTRA_AMOUNT, 0),
-                    data.getStringExtra(NewCourseActivity.EXTRA_NAME),
-                    data.getStringExtra(NewCourseActivity.EXTRA_NOTE),
-                    data.getBooleanExtra(NewCourseActivity.EXTRA_PAID, false),
-                    getRandomMaterialColor(getString(R.string.icon_color_type))
-                )
-                calendarViewModel.insert(course)
-                Unit
+    private val startTripForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                result.data?.let { data ->
+                    val trip = Trip(
+                        UUID.randomUUID(),
+                        data.getStringExtra(NewTripActivity.EXTRA_PATH),
+                        data.getStringExtra(NewTripActivity.EXTRA_FROM),
+                        data.getStringExtra(NewTripActivity.EXTRA_TO),
+                        data.getDoubleExtra(NewTripActivity.EXTRA_DISTANCE, 0.0),
+                        data.getSerializableExtra(NewTripActivity.EXTRA_START) as Calendar,
+                        data.getSerializableExtra(NewTripActivity.EXTRA_COURSE) as UUID?,
+                        data.getSerializableExtra(NewTripActivity.EXTRA_SKATER) as UUID?,
+                        data.getStringExtra(NewTripActivity.EXTRA_NAME),
+                        data.getStringExtra(NewTripActivity.EXTRA_NOTE),
+                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                    )
+                    calendarViewModel.insert(trip)
+                }
+            }
+            Activity.RESULT_CANCELED -> {
+                view?.let{
+                    Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
+            }
+            else -> {
+                view?.let{
+                    Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
             }
         }
-        else if (requestCode == newCourseActivityRequestCode && resultCode == Activity.RESULT_CANCELED) {
-            /* view?.let{
-                 Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
-                     .setAction("Action", null).show()
-             }*/
-        }
-        else if (requestCode == newTripActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.let { data ->
-                val trip = Trip(
-                    UUID.randomUUID(),
-                    data.getStringExtra(NewTripActivity.EXTRA_PATH),
-                    data.getStringExtra(NewTripActivity.EXTRA_FROM),
-                    data.getStringExtra(NewTripActivity.EXTRA_TO),
-                    data.getDoubleExtra(NewTripActivity.EXTRA_DISTANCE, 0.0),
-                    data.getSerializableExtra(NewTripActivity.EXTRA_START) as Calendar,
-                    data.getSerializableExtra(NewTripActivity.EXTRA_COURSE) as UUID?,
-                    data.getSerializableExtra(NewTripActivity.EXTRA_SKATER) as UUID?,
-                    data.getStringExtra(NewTripActivity.EXTRA_NAME),
-                    data.getStringExtra(NewTripActivity.EXTRA_NOTE),
-                    getRandomMaterialColor(getString(R.string.icon_color_type))
-                )
-                calendarViewModel.insert(trip)
-                Unit
+    }
+
+    private val startExpenseForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                result.data?.let { data ->
+                    val expense = Expense(
+                        UUID.randomUUID(),
+                        data.getIntExtra(NewExpenseActivity.EXTRA_AMOUNT, 0),
+                        data.getSerializableExtra(NewExpenseActivity.EXTRA_START) as Calendar,
+                        data.getSerializableExtra(NewExpenseActivity.EXTRA_COURSE) as UUID?,
+                        data.getSerializableExtra(NewExpenseActivity.EXTRA_SKATER) as UUID?,
+                        data.getStringExtra(NewExpenseActivity.EXTRA_NAME),
+                        data.getStringExtra(NewExpenseActivity.EXTRA_NOTE),
+                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                    )
+                    calendarViewModel.insert(expense)
+                }
+            }
+            Activity.RESULT_CANCELED -> {
+                view?.let{
+                    Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
+            }
+            else -> {
+                view?.let{
+                    Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
             }
         }
-        else if (requestCode == newTripActivityRequestCode && resultCode == Activity.RESULT_CANCELED) {
-            /* view?.let{
-                 Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
-                     .setAction("Action", null).show()
-             }*/
-        }
-        else if (requestCode == newExpenseActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.let { data ->
-                val expense = Expense(
-                    UUID.randomUUID(),
-                    data.getIntExtra(NewExpenseActivity.EXTRA_AMOUNT, 0),
-                    data.getSerializableExtra(NewExpenseActivity.EXTRA_START) as Calendar,
-                    data.getSerializableExtra(NewExpenseActivity.EXTRA_COURSE) as UUID?,
-                    data.getSerializableExtra(NewExpenseActivity.EXTRA_SKATER) as UUID?,
-                    data.getStringExtra(NewExpenseActivity.EXTRA_NAME),
-                    data.getStringExtra(NewExpenseActivity.EXTRA_NOTE),
-                    getRandomMaterialColor(getString(R.string.icon_color_type))
-                )
-                calendarViewModel.insert(expense)
-                Unit
+    }
+
+    private val startFillForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                result.data?.let { data ->
+                    val fill = Fill(
+                        UUID.randomUUID(),
+                        data.getIntExtra(NewFillActivity.EXTRA_AMOUNT, 0),
+                        data.getSerializableExtra(NewFillActivity.EXTRA_START) as Calendar,
+                        data.getStringExtra(NewFillActivity.EXTRA_NAME),
+                        data.getStringExtra(NewFillActivity.EXTRA_NOTE),
+                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                    )
+                    calendarViewModel.insert(fill)
+                }
             }
-        }
-        else if (requestCode == newExpenseActivityRequestCode && resultCode == Activity.RESULT_CANCELED) {
-            /* view?.let{
-                 Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
-                     .setAction("Action", null).show()
-             }*/
-        }
-        else if (requestCode == newFillActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.let { data ->
-                val fill = Fill(
-                    UUID.randomUUID(),
-                    data.getIntExtra(NewFillActivity.EXTRA_AMOUNT, 0),
-                    data.getSerializableExtra(NewFillActivity.EXTRA_START) as Calendar,
-                    data.getStringExtra(NewFillActivity.EXTRA_NAME),
-                    data.getStringExtra(NewFillActivity.EXTRA_NOTE),
-                    getRandomMaterialColor(getString(R.string.icon_color_type))
-                )
-                calendarViewModel.insert(fill)
-                Unit
+            Activity.RESULT_CANCELED -> {
+                view?.let{
+                    Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
             }
-        }
-        else if (requestCode == newFillActivityRequestCode && resultCode == Activity.RESULT_CANCELED) {
-            /* view?.let{
-                 Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
-                     .setAction("Action", null).show()
-             }*/
-        }
-        else {
-            view?.let{
-                Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            else -> {
+                view?.let{
+                    Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
             }
         }
     }

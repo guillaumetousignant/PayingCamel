@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
@@ -29,7 +31,6 @@ import java.util.*
 
 class RatesFragment : Fragment(R.layout.fragment_rates) {
 
-    private val newRateActivityRequestCode = 7
     private lateinit var ratesViewModel: RatesViewModel
     private lateinit var selectionTracker: SelectionTracker<String>
     private lateinit var keyProvider: RateItemKeyProvider
@@ -67,41 +68,37 @@ class RatesFragment : Fragment(R.layout.fragment_rates) {
 
         val fabRates: FloatingActionButton = view.findViewById(R.id.fab_rates)
         fabRates.setOnClickListener { /*fabView ->*/
-            /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()*/
-
             val intent = Intent(activity, NewRateActivity::class.java)
-            startActivityForResult(intent, newRateActivityRequestCode)
+            startRateForResult.launch(intent)
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intentData)
-
-        if (requestCode == newRateActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.let { data ->
-                val rate = Rate(
-                    UUID.randomUUID(),
-                    data.getIntExtra(NewRateActivity.EXTRA_AMOUNT, 0),
-                    data.getStringExtra(NewRateActivity.EXTRA_NAME),
-                    data.getStringExtra(NewRateActivity.EXTRA_NOTE),
-                    data.getSerializableExtra(NewRateActivity.EXTRA_SKATER) as UUID?,
-                    getRandomMaterialColor(getString(R.string.icon_color_type))
-                )
-                ratesViewModel.insert(rate)
-                Unit
+    private val startRateForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                result.data?.let { data ->
+                    val rate = Rate(
+                        UUID.randomUUID(),
+                        data.getIntExtra(NewRateActivity.EXTRA_AMOUNT, 0),
+                        data.getStringExtra(NewRateActivity.EXTRA_NAME),
+                        data.getStringExtra(NewRateActivity.EXTRA_NOTE),
+                        data.getSerializableExtra(NewRateActivity.EXTRA_SKATER) as UUID?,
+                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                    )
+                    ratesViewModel.insert(rate)
+                }
             }
-        }
-        else if (requestCode == newRateActivityRequestCode && resultCode == Activity.RESULT_CANCELED) {
-            /* view?.let{
-                 Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
-                     .setAction("Action", null).show()
-             }*/
-        }
-        else {
-            view?.let{
-                Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            Activity.RESULT_CANCELED -> {
+                view?.let{
+                    Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
+            }
+            else -> {
+                view?.let{
+                    Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
             }
         }
     }

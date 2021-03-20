@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
@@ -30,7 +32,6 @@ import java.util.*
 
 class CoursesFragment : Fragment(R.layout.fragment_courses) {
 
-    private val newCourseActivityRequestCode = 1
     private lateinit var coursesViewModel: CoursesViewModel
     private lateinit var selectionTracker: SelectionTracker<String>
     private lateinit var keyProvider: CourseItemKeyProvider
@@ -69,46 +70,42 @@ class CoursesFragment : Fragment(R.layout.fragment_courses) {
 
         val fabCourses: FloatingActionButton = view.findViewById(R.id.fab_courses)
         fabCourses.setOnClickListener { /*fabView ->*/
-            /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()*/
-
             val intent = Intent(activity, NewCourseActivity::class.java)
             intent.putExtra(NewCourseActivity.EXTRA_CALENDAR, Calendar.getInstance())
-            startActivityForResult(intent, newCourseActivityRequestCode)
+            startCourseForResult.launch(intent)
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intentData)
-
-        if (requestCode == newCourseActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.let { data ->
-                val course = Course(
-                    UUID.randomUUID(),
-                    data.getSerializableExtra(NewCourseActivity.EXTRA_SKATER) as UUID?,
-                    data.getSerializableExtra(NewCourseActivity.EXTRA_START) as Calendar,
-                    data.getSerializableExtra(NewCourseActivity.EXTRA_END) as Calendar,
-                    data.getIntExtra(NewCourseActivity.EXTRA_RATE, 0),
-                    data.getIntExtra(NewCourseActivity.EXTRA_AMOUNT, 0),
-                    data.getStringExtra(NewCourseActivity.EXTRA_NAME),
-                    data.getStringExtra(NewCourseActivity.EXTRA_NOTE),
-                    data.getBooleanExtra(NewCourseActivity.EXTRA_PAID, false),
-                    getRandomMaterialColor(getString(R.string.icon_color_type))
-                )
-                coursesViewModel.insert(course)
-                Unit
+    private val startCourseForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                result.data?.let { data ->
+                    val course = Course(
+                        UUID.randomUUID(),
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_SKATER) as UUID?,
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_START) as Calendar,
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_END) as Calendar,
+                        data.getIntExtra(NewCourseActivity.EXTRA_RATE, 0),
+                        data.getIntExtra(NewCourseActivity.EXTRA_AMOUNT, 0),
+                        data.getStringExtra(NewCourseActivity.EXTRA_NAME),
+                        data.getStringExtra(NewCourseActivity.EXTRA_NOTE),
+                        data.getBooleanExtra(NewCourseActivity.EXTRA_PAID, false),
+                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                    )
+                    coursesViewModel.insert(course)
+                }
             }
-        }
-        else if (requestCode == newCourseActivityRequestCode && resultCode == Activity.RESULT_CANCELED) {
-            /* view?.let{
-                 Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
-                     .setAction("Action", null).show()
-             }*/
-        }
-        else {
-            view?.let{
-                Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            Activity.RESULT_CANCELED -> {
+                view?.let{
+                    Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
+            }
+            else -> {
+                view?.let{
+                    Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
             }
         }
     }

@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.view.ActionMode
 import androidx.fragment.app.Fragment
@@ -69,42 +71,38 @@ class GasFragment : Fragment(R.layout.fragment_gas) {
 
         val fabGas: FloatingActionButton = view.findViewById(R.id.fab_gas)
         fabGas.setOnClickListener { /*fabView ->*/
-            /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()*/
-
             val intent = Intent(activity, NewFillActivity::class.java)
             intent.putExtra(NewFillActivity.EXTRA_CALENDAR, Calendar.getInstance())
-            startActivityForResult(intent, newFillActivityRequestCode)
+            startFillForResult.launch(intent)
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intentData)
-
-        if (requestCode == newFillActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.let { data ->
-                val fill = Fill(
-                    UUID.randomUUID(),
-                    data.getIntExtra(NewFillActivity.EXTRA_AMOUNT, 0),
-                    data.getSerializableExtra(NewFillActivity.EXTRA_START) as Calendar,
-                    data.getStringExtra(NewFillActivity.EXTRA_NAME),
-                    data.getStringExtra(NewFillActivity.EXTRA_NOTE),
-                    getRandomMaterialColor(getString(R.string.icon_color_type))
-                )
-                gasViewModel.insert(fill)
-                Unit
+    private val startFillForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                result.data?.let { data ->
+                    val fill = Fill(
+                        UUID.randomUUID(),
+                        data.getIntExtra(NewFillActivity.EXTRA_AMOUNT, 0),
+                        data.getSerializableExtra(NewFillActivity.EXTRA_START) as Calendar,
+                        data.getStringExtra(NewFillActivity.EXTRA_NAME),
+                        data.getStringExtra(NewFillActivity.EXTRA_NOTE),
+                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                    )
+                    gasViewModel.insert(fill)
+                }
             }
-        }
-        else if (requestCode == newFillActivityRequestCode && resultCode == Activity.RESULT_CANCELED) {
-            /* view?.let{
-                 Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
-                     .setAction("Action", null).show()
-             }*/
-        }
-        else {
-            view?.let{
-                Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            Activity.RESULT_CANCELED -> {
+                view?.let{
+                    Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
+            }
+            else -> {
+                view?.let{
+                    Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
             }
         }
     }
