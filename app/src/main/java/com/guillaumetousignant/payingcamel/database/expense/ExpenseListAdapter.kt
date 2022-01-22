@@ -45,7 +45,7 @@ class ExpenseListAdapter internal constructor(
         fun bind(expense: Expense, position: Int, isActivated: Boolean = false) {
             expenseItemView.text = String.format(context?.getString(R.string.title_default)?:"%s", expense.name?:context?.getString(R.string.name_empty)?:"(...)")
             itemView.isActivated = isActivated
-            iconText.text = expense.name?.substring(0,1)?.toUpperCase(Locale.getDefault())?:"-"
+            iconText.text = expense.name?.substring(0,1)?.uppercase(Locale.getDefault())?:"-"
             uuid = expense.uuid.toString()
 
             applyIconAnimation(this, position, uuid)

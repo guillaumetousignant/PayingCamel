@@ -45,7 +45,7 @@ class FillListAdapter internal constructor(
         fun bind(fill: Fill, position: Int, isActivated: Boolean = false) {
             fillItemView.text = String.format(context?.getString(R.string.title_default)?:"%s", fill.name?:context?.getString(R.string.name_empty)?:"(...)")
             itemView.isActivated = isActivated
-            iconText.text = fill.name?.substring(0,1)?.toUpperCase(Locale.getDefault())?:"-"
+            iconText.text = fill.name?.substring(0,1)?.uppercase(Locale.getDefault())?:"-"
             uuid = fill.uuid.toString()
 
             applyIconAnimation(this, position, uuid)

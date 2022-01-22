@@ -11,7 +11,7 @@ class BackupRepository(private val backupDao: BackupDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun checkpoint(supportSQLiteQuery: SupportSQLiteQuery?) {
+    suspend fun checkpoint(supportSQLiteQuery: SupportSQLiteQuery) {
         backupDao.checkpoint(supportSQLiteQuery)
     }
 }

@@ -45,7 +45,7 @@ class TripListAdapter internal constructor(
         fun bind(trip: Trip, position: Int, isActivated: Boolean = false) {
             tripItemView.text = String.format(context?.getString(R.string.title_default)?:"%s", trip.name?:context?.getString(R.string.name_empty)?:"(...)")
             itemView.isActivated = isActivated
-            iconText.text = trip.name?.substring(0,1)?.toUpperCase(Locale.getDefault())?:"-"
+            iconText.text = trip.name?.substring(0,1)?.uppercase(Locale.getDefault())?:"-"
             uuid = trip.uuid.toString()
 
             applyIconAnimation(this, position, uuid)

@@ -45,7 +45,7 @@ class CourseListAdapter internal constructor(
         fun bind(course: Course, position: Int, isActivated: Boolean = false) {
             courseItemView.text = course.name?:"(...)"
             itemView.isActivated = isActivated
-            iconText.text = course.name?.substring(0,1)?.toUpperCase(Locale.getDefault())?:"-"
+            iconText.text = course.name?.substring(0,1)?.uppercase(Locale.getDefault())?:"-"
             uuid = course.uuid.toString()
 
             applyIconAnimation(this, position, uuid)

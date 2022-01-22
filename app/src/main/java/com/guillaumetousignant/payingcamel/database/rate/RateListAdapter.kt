@@ -45,7 +45,7 @@ class RateListAdapter internal constructor(
         fun bind(rate: Rate, position: Int, isActivated: Boolean = false) {
             rateItemView.text = String.format(context?.getString(R.string.title_default)?:"%s", rate.name?:context?.getString(R.string.name_empty)?:"(...)")
             itemView.isActivated = isActivated
-            iconText.text = rate.name?.substring(0,1)?.toUpperCase(Locale.getDefault())?:"-"
+            iconText.text = rate.name?.substring(0,1)?.uppercase(Locale.getDefault())?:"-"
             uuid = rate.uuid.toString()
 
             applyIconAnimation(this, position, uuid)

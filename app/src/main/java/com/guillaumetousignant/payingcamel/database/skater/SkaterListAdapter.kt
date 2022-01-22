@@ -51,7 +51,7 @@ class SkaterListAdapter internal constructor(
         fun bind(skater: Skater, position: Int, isActivated: Boolean = false) {
             skaterItemView.text = String.format(context?.getString(R.string.skater_name_default)?:"%s %s", skater.first_name, skater.last_name)
             itemView.isActivated = isActivated
-            iconText.text = skater.first_name.substring(0,1).toUpperCase(Locale.getDefault())
+            iconText.text = skater.first_name.substring(0,1).uppercase(Locale.getDefault())
             uuid = skater.uuid.toString()
 
             applyIconAnimation(this, position, uuid)

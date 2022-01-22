@@ -45,7 +45,7 @@ class PathListAdapter internal constructor(
         fun bind(path: Path, position: Int, isActivated: Boolean = false) {
             pathItemView.text = String.format(context?.getString(R.string.title_default)?:"%s", path.name?:context?.getString(R.string.name_empty)?:"(...)")
             itemView.isActivated = isActivated
-            iconText.text = path.name?.substring(0,1)?.toUpperCase(Locale.getDefault())?:"-"
+            iconText.text = path.name?.substring(0,1)?.uppercase(Locale.getDefault())?:"-"
             uuid = path.uuid.toString()
 
             applyIconAnimation(this, position, uuid)

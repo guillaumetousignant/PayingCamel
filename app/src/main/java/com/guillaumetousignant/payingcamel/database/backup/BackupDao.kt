@@ -12,5 +12,5 @@ interface BackupDao {
     // we are notified whenever any of the database contents have changed.
 
     @RawQuery
-    fun checkpoint(supportSQLiteQuery: SupportSQLiteQuery?): Int
+    fun checkpoint(supportSQLiteQuery: SupportSQLiteQuery): Int
 }
