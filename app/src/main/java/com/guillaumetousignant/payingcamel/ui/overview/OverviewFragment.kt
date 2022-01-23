@@ -14,6 +14,8 @@ import android.graphics.Color
 import android.icu.text.NumberFormat
 import android.icu.util.Calendar
 import android.widget.TextView
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.guillaumetousignant.payingcamel.NewCourseActivity
@@ -28,8 +30,6 @@ import java.text.DateFormat
 import java.util.UUID
 
 class OverviewFragment : Fragment(R.layout.fragment_overview) {
-
-    private val printActivityRequestCode = 10
     private lateinit var overviewViewModel: OverviewViewModel
 
     private lateinit var startDateText: TextView
@@ -180,37 +180,36 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
-        super.onActivityResult(requestCode, resultCode, intentData)
-
-        if (requestCode == printActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.let { data ->
-                val course = Course(
-                    UUID.randomUUID(),
-                    data.getSerializableExtra(NewCourseActivity.EXTRA_SKATER) as UUID?,
-                    data.getSerializableExtra(NewCourseActivity.EXTRA_START) as Calendar,
-                    data.getSerializableExtra(NewCourseActivity.EXTRA_END) as Calendar,
-                    data.getIntExtra(NewCourseActivity.EXTRA_RATE, 0),
-                    data.getIntExtra(NewCourseActivity.EXTRA_AMOUNT, 0),
-                    data.getStringExtra(NewCourseActivity.EXTRA_NAME),
-                    data.getStringExtra(NewCourseActivity.EXTRA_NOTE),
-                    data.getBooleanExtra(NewCourseActivity.EXTRA_PAID, false),
-                    getRandomMaterialColor(getString(R.string.icon_color_type))
-                )
-                overviewViewModel.insert(course)
-                Unit
+    private val startPrintForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+        when (result.resultCode) {
+            Activity.RESULT_OK -> {
+                result.data?.let { data ->
+                    val course = Course(
+                        UUID.randomUUID(),
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_SKATER) as UUID?,
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_START) as Calendar,
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_END) as Calendar,
+                        data.getIntExtra(NewCourseActivity.EXTRA_RATE, 0),
+                        data.getIntExtra(NewCourseActivity.EXTRA_AMOUNT, 0),
+                        data.getStringExtra(NewCourseActivity.EXTRA_NAME),
+                        data.getStringExtra(NewCourseActivity.EXTRA_NOTE),
+                        data.getBooleanExtra(NewCourseActivity.EXTRA_PAID, false),
+                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                    )
+                    overviewViewModel.insert(course)
+                }
             }
-        }
-        else if (requestCode == printActivityRequestCode && resultCode == Activity.RESULT_CANCELED) {
-           /* view?.let{
+            Activity.RESULT_CANCELED -> {
+                /* view?.let{
                 Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
             }*/
-        }
-        else {
-            view?.let{
-                Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            }
+            else -> {
+                view?.let{
+                    Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
             }
         }
     }

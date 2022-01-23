@@ -7,6 +7,16 @@
         app:title="@string/settings_notifications_title"/>
 
     <Preference
+        app:key="sign_in"
+        app:title="@string/settings_sign_in_title"
+        app:summary="@string/settings_sign_in_summary"/>
+
+    <Preference
+        app:key="sign_out"
+        app:title="@string/settings_sign_out_title"
+        app:summary="@string/settings_sign_out_summary"/>
+
+    <Preference
         app:key="backup"
         app:title="@string/settings_backup_title"
         app:summary="@string/settings_backup_summary"/>

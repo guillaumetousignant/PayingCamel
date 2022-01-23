@@ -20,8 +20,8 @@
     <string name="settings_feedback_summary">Rapporter problèmes techniques ou suggérer de nouvelles fonctionnalités</string>
     <string name="nav_header_desc">En-tête de navigation</string>
     <string name="course_default_name">Cours</string>
-    <string name="skater_name_default">%s %s</string>
-    <string name="calendar_toast">Date sélectionnée : %d-%d-%d</string>
+    <string name="skater_name_default">%1$s %2$s</string>
+    <string name="calendar_toast">Date sélectionnée : %1$d-%2$d-%3$d</string>
     <string name="button_save">Enregistrer</string>
     <string name="empty_not_saved">Mot non sauvegardé parce que vide.</string>
     <string name="new_course_dialog_title">Nouveau cours</string>
@@ -92,5 +92,15 @@
     <string name="menu_courses">Cours</string>
     <string name="database_backed_up">Base de données sauvegardée</string>
     <string name="database_restored">Base de données restaurée</string>
-    <string name="failed_sign_in">Échec de la connexion</string>
+    <string name="failed_sign_in">Échec de la connexion avec message \"%s\"</string>
+    <string name="already_signed_in">Utilisateur déjà connecté</string>
+    <string name="signed_out">Déconnecté</string>
+    <string name="failed_sign_out">Erreur de déconnexion</string>
+    <string name="signed_in">Utilisateur %s connecté</string>
+    <string name="settings_sign_in_title">Connecter</string>
+    <string name="settings_sign_in_summary">Se connecter à un compte Google pour sauvegarder la base de données</string>
+    <string name="settings_sign_out_title">Déconnecter</string>
+    <string name="settings_sign_out_summary">Se déconnecter d\'un compte Google</string>
+    <string name="not_signed_in">Aucun utilisateur connecté</string>
+    <string name="no_sign_in_client">Aucun client de connexion</string>
 </resources>

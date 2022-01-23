@@ -148,11 +148,11 @@ class NewExpenseActivity : AppCompatActivity(R.layout.activity_new_expense) {
         return super.onCreateOptionsMenu(menu)
     }
 
-    fun showStartTimePickerDialog(v: View) {
+    fun showStartTimePickerDialog(@Suppress("UNUSED_PARAMETER") v: View) {
         TimePickerFragment(newExpenseViewModel.startCalendar).show(supportFragmentManager, "StartTimePicker")
     }
 
-    fun showStartDatePickerDialog(v: View) {
+    fun showStartDatePickerDialog(@Suppress("UNUSED_PARAMETER") v: View) {
         DatePickerFragment(newExpenseViewModel.startCalendar).show(supportFragmentManager, "StartDatePicker")
     }
 

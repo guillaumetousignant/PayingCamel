@@ -21,8 +21,8 @@
     <string name="settings_feedback_title">Send feedback</string>
     <string name="settings_feedback_summary">Report technical issues or suggest new features</string>
     <string name="course_default_name">Course</string>
-    <string name="skater_name_default">%s %s</string>
-    <string name="calendar_toast">Selected date is: %d-%d-%d</string>
+    <string name="skater_name_default">%1$s %2$s</string>
+    <string name="calendar_toast">Selected date is: %1$d-%2$d-%3$d</string>
     <string name="button_save">Save</string>
     <string name="empty_not_saved">Word not saved because it is empty.</string>
     <string name="new_course_dialog_title">New course</string>
@@ -94,5 +94,15 @@
     <string name="menu_courses">Courses</string>
     <string name="database_backed_up">Database backed up</string>
     <string name="database_restored">Database restored</string>
-    <string name="failed_sign_in">Sign in failed</string>
+    <string name="failed_sign_in">Sign in failed with message \"%s\"</string>
+    <string name="already_signed_in">User already signed-in</string>
+    <string name="signed_out">Signed out</string>
+    <string name="failed_sign_out">Sign-out error</string>
+    <string name="signed_in">User %s signed-in</string>
+    <string name="settings_sign_in_title">Sign-in</string>
+    <string name="settings_sign_in_summary">Sign-in to a Google account for database backup</string>
+    <string name="settings_sign_out_title">Sign-out</string>
+    <string name="settings_sign_out_summary">Sign-out of a Google account</string>
+    <string name="not_signed_in">No user signed-in</string>
+    <string name="no_sign_in_client">No sign-in client</string>
 </resources>

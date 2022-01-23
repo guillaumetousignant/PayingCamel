@@ -153,23 +153,23 @@ class NewTripActivity : AppCompatActivity(R.layout.activity_new_trip) {
         return super.onCreateOptionsMenu(menu)
     }
 
-    fun showStartTimePickerDialog(v: View) {
+    fun showStartTimePickerDialog(@Suppress("UNUSED_PARAMETER") v: View) {
         TimePickerFragment(newTripViewModel.startCalendar).show(supportFragmentManager, "TripStartTimePicker")
     }
 
-    fun showStartDatePickerDialog(v: View) {
+    fun showStartDatePickerDialog(@Suppress("UNUSED_PARAMETER") v: View) {
         DatePickerFragment(newTripViewModel.startCalendar).show(supportFragmentManager, "TripStartDatePicker")
     }
 
-    fun showSkaterPickerDialog(v: View) {
+    fun showSkaterPickerDialog(@Suppress("UNUSED_PARAMETER") v: View) {
         SkaterPickerFragment(newTripViewModel.skater, newTripViewModel.allSkaters).show(supportFragmentManager, "TripSkaterPicker")
     }
 
-    fun showCoursePickerDialog(v: View) {
+    fun showCoursePickerDialog(@Suppress("UNUSED_PARAMETER") v: View) {
         CoursePickerFragment(newTripViewModel.course, newTripViewModel.allCourses).show(supportFragmentManager, "TripCoursePicker")
     }
 
-    fun showPathPickerDialog(v: View) {
+    fun showPathPickerDialog(@Suppress("UNUSED_PARAMETER") v: View) {
         PathPickerFragment(newTripViewModel.path, newTripViewModel.allPaths).show(supportFragmentManager, "TripPathPicker")
     }
 

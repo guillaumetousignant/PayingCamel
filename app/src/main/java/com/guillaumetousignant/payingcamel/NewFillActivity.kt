@@ -148,11 +148,11 @@ class NewFillActivity : AppCompatActivity(R.layout.activity_new_fill) {
         return super.onCreateOptionsMenu(menu)
     }
 
-    fun showStartTimePickerDialog(v: View) {
+    fun showStartTimePickerDialog(@Suppress("UNUSED_PARAMETER") v: View) {
         TimePickerFragment(newFillViewModel.startCalendar).show(supportFragmentManager, "StartTimePicker")
     }
 
-    fun showStartDatePickerDialog(v: View) {
+    fun showStartDatePickerDialog(@Suppress("UNUSED_PARAMETER") v: View) {
         DatePickerFragment(newFillViewModel.startCalendar).show(supportFragmentManager, "StartDatePicker")
     }
 

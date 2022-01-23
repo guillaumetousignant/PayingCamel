@@ -244,27 +244,27 @@ class NewCourseActivity : AppCompatActivity(R.layout.activity_new_course) {
         return super.onCreateOptionsMenu(menu)
     }
 
-    fun showStartTimePickerDialog(v: View) {
+    fun showStartTimePickerDialog(@Suppress("UNUSED_PARAMETER") v: View) {
         TimePickerFragment(newCourseViewModel.startCalendar).show(supportFragmentManager, "StartTimePicker")
     }
 
-    fun showStartDatePickerDialog(v: View) {
+    fun showStartDatePickerDialog(@Suppress("UNUSED_PARAMETER") v: View) {
         DatePickerFragment(newCourseViewModel.startCalendar).show(supportFragmentManager, "StartDatePicker")
     }
 
-    fun showEndTimePickerDialog(v: View) {
+    fun showEndTimePickerDialog(@Suppress("UNUSED_PARAMETER") v: View) {
         TimePickerFragment(newCourseViewModel.endCalendar).show(supportFragmentManager, "EndTimePicker")
     }
 
-    fun showEndDatePickerDialog(v: View) {
+    fun showEndDatePickerDialog(@Suppress("UNUSED_PARAMETER") v: View) {
         DatePickerFragment(newCourseViewModel.endCalendar).show(supportFragmentManager, "EndDatePicker")
     }
 
-    fun showSkaterPickerDialog(v: View) {
+    fun showSkaterPickerDialog(@Suppress("UNUSED_PARAMETER") v: View) {
         SkaterPickerFragment(newCourseViewModel.skater, newCourseViewModel.allSkaters).show(supportFragmentManager, "SkaterPicker")
     }
 
-    fun showRatePickerDialog(v: View) {
+    fun showRatePickerDialog(@Suppress("UNUSED_PARAMETER") v: View) {
         RatePickerFragment(newCourseViewModel.rate, newCourseViewModel.allRates).show(supportFragmentManager, "RatePicker")
     }
 

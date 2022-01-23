@@ -134,7 +134,7 @@ class NewRateActivity : AppCompatActivity(R.layout.activity_new_rate) {
         return super.onCreateOptionsMenu(menu)
     }
 
-    fun showSkaterPickerDialog(v: View) {
+    fun showSkaterPickerDialog(@Suppress("UNUSED_PARAMETER") v: View) {
         SkaterPickerFragment(newRateViewModel.skater, newRateViewModel.allSkaters).show(supportFragmentManager, "RateSkaterPicker")
     }
 
