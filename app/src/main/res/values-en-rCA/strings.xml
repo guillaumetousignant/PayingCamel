@@ -63,10 +63,10 @@
     <string name="action_delete">Delete</string>
     <string name="title_default">%s</string>
     <string name="name_empty">No title</string>
-    <string name="settings_backup_title">Backup Database</string>
-    <string name="settings_backup_summary">Saves database file for safekeeping</string>
-    <string name="settings_restore_title">Restore Database</string>
-    <string name="settings_restore_summary">Restores database from file</string>
+    <string name="settings_backup_title">Backup Database to Files</string>
+    <string name="settings_backup_summary">Saves database to files on the device</string>
+    <string name="settings_restore_title">Restore Database from Files</string>
+    <string name="settings_restore_summary">Restores database from files stored on the device</string>
     <string name="restore_too_few_files">Three files must be selected</string>
     <string name="restore_wrong_files">The three files should be: database, wal, shm.</string>
     <string name="icon_attribution_title">Icon</string>
@@ -103,4 +103,9 @@
     <string name="settings_sign_out_summary">Sign-out of a Google account</string>
     <string name="not_signed_in">No user signed-in</string>
     <string name="no_sign_in_client">No sign-in client</string>
+    <string name="settings_backup_drive_title">Backup Database to Cloud</string>
+    <string name="settings_backup_drive_summary">Saves database to Google Drive</string>
+    <string name="settings_restore_drive_title">Restore Database from Cloud</string>
+    <string name="settings_restore_drive_summary">Restores database from files stored on Google Drive</string>
+    <string name="no_internet_permission">Need internet permission to access Google Drive</string>
 </resources>

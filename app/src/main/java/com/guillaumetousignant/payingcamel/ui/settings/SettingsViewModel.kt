@@ -14,6 +14,7 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.AndroidViewModel
 import androidx.sqlite.db.SimpleSQLiteQuery
 import com.google.android.material.snackbar.Snackbar
+import com.google.api.client.http.FileContent
 import com.guillaumetousignant.payingcamel.MainActivity
 import com.guillaumetousignant.payingcamel.R
 import com.guillaumetousignant.payingcamel.database.CoachRoomDatabase
@@ -25,6 +26,7 @@ import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.coroutines.CoroutineContext
+import com.google.api.services.drive.Drive
 
 
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
@@ -227,6 +229,71 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }*/
 
 
+    }
+
+    /**
+     * Launching a new coroutine to insert the data in a non-blocking way
+     */
+    fun backupDrive(drive: Drive, context: Context) = scope.launch(Dispatchers.IO) {
+        repository.checkpoint(SimpleSQLiteQuery("pragma wal_checkpoint(full)"))
+
+        val inFile = context.getDatabasePath("coach_database")
+        val inFile1 = context.getDatabasePath("coach_database-shm")
+        val inFile2 = context.getDatabasePath("coach_database-wal")
+
+        val current = LocalDateTime.now()
+        val formatter = DateTimeFormatter.BASIC_ISO_DATE
+        val formatted = current.format(formatter)
+
+        var increment = 0
+        var increment1 = 0
+        var increment2 = 0
+        var outPath = "PayingCamelDatabase_$formatted.pcbackup"
+        var outPath1 = "PayingCamelDatabase_$formatted-shm.pcbackup"
+        var outPath2 = "PayingCamelDatabase_$formatted-wal.pcbackup"
+
+        var pageToken: String?
+        do {
+            val result = drive.files().list().apply {
+            spaces = "appDataFolder"
+            fields = "nextPageToken, files(id, name)"
+            pageToken = this.pageToken
+            }.execute()
+            for (file in result.files) {
+                if (file.name == outPath) {
+                    ++increment
+                    outPath = "PayingCamelDatabase_${formatted}_${increment}.pcbackup"
+                }
+                if (file.name == outPath1) {
+                    ++increment1
+                    outPath1 = "PayingCamelDatabase_${formatted}_${increment1}-shm.pcbackup"
+                }
+                if (file.name == outPath2) {
+                    ++increment2
+                    outPath2 = "PayingCamelDatabase_${formatted}_${increment2}-wal.pcbackup"
+                }
+            }
+        } while (pageToken != null)
+
+        val maxIncrement = maxOf(increment, increment1, increment2)
+        outPath = "PayingCamelDatabase_${formatted}_${maxIncrement}.pcbackup"
+        outPath1 = "PayingCamelDatabase_${formatted}_${maxIncrement}-shm.pcbackup"
+        outPath2 = "PayingCamelDatabase_${formatted}_${maxIncrement}-wal.pcbackup"
+
+        val gFile = com.google.api.services.drive.model.File()
+        gFile.name = outPath
+        val gFile1 = com.google.api.services.drive.model.File()
+        gFile1.name = outPath1
+        val gFile2 = com.google.api.services.drive.model.File()
+        gFile2.name = outPath2
+
+        val fileContent = FileContent("application/x-sqlite3", inFile)
+        val fileContent1 = FileContent("application/x-sqlite3", inFile1)
+        val fileContent2 = FileContent("application/x-sqlite3", inFile2)
+
+        drive.Files().create(gFile,fileContent).execute()
+        drive.Files().create(gFile1,fileContent1).execute()
+        drive.Files().create(gFile2,fileContent2).execute()
     }
 
     override fun onCleared() {

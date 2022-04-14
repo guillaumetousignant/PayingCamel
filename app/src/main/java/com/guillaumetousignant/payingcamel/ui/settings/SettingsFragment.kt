@@ -1,10 +1,13 @@
 package com.guillaumetousignant.payingcamel.ui.settings
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -14,6 +17,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.Scopes
 import com.google.android.gms.common.api.Scope
 import com.google.android.material.snackbar.Snackbar
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
+import com.google.api.client.http.javanet.NetHttpTransport
+import com.google.api.client.json.gson.GsonFactory
+import com.google.api.services.drive.Drive
 import com.guillaumetousignant.payingcamel.R
 
 
@@ -111,6 +118,19 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                 // take appropriate actions
                 // return "true" to indicate you handled the click
                 googleSignOut()
+
+                true
+            }
+            "backup_drive" -> {
+                // user clicked "backup_drive" button
+                // take appropriate actions
+                // return "true" to indicate you handled the click
+                googleDriveBackup()
+
+                true
+            }
+            "restore_drive" -> {
+                googleDriveRestore()
 
                 true
             }
@@ -254,5 +274,59 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                     }
                 }
             }
+    }
+
+    private fun getDriveService() : Drive? {
+        context?.let {
+            GoogleSignIn.getLastSignedInAccount(it)?.let { googleAccount ->
+                googleAccount.idToken
+                val credential = GoogleAccountCredential.usingOAuth2(
+                    it, listOf(Scopes.DRIVE_FILE)
+                )
+                credential.selectedAccount = googleAccount.account
+                return Drive.Builder(
+                    NetHttpTransport(),
+                    GsonFactory.getDefaultInstance(),
+                    credential
+                )
+                    .setApplicationName(getString(R.string.app_name))
+                    .build()
+            }
+        }
+        return null
+    }
+
+    private fun googleDriveBackup() {
+        val drive = getDriveService()
+        drive?.let {
+            context?.let { the_context ->
+                if (ContextCompat.checkSelfPermission(the_context, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
+                    settingsViewModel.backupDrive(it, the_context)
+                }
+                else {
+                    view?.let {
+                        Snackbar.make(it, R.string.no_internet_permission, Snackbar.LENGTH_SHORT)
+                            .setAction("Action", null).show()
+                    }
+                }
+            }
+        } ?:run {
+            view?.let {
+                Snackbar.make(it, R.string.not_signed_in, Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show()
+            }
+        }
+    }
+    
+    private fun googleDriveRestore() {
+        val drive = getDriveService()
+        drive?.let {
+
+        } ?:run {
+            view?.let {
+                Snackbar.make(it, R.string.not_signed_in, Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show()
+            }
+        }
     }
 }

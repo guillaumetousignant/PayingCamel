@@ -17,6 +17,16 @@
         app:summary="@string/settings_sign_out_summary"/>
 
     <Preference
+        app:key="backup_drive"
+        app:title="@string/settings_backup_drive_title"
+        app:summary="@string/settings_backup_drive_summary"/>
+
+    <Preference
+        app:key="restore_drive"
+        app:title="@string/settings_restore_drive_title"
+        app:summary="@string/settings_restore_drive_summary"/>
+
+    <Preference
         app:key="backup"
         app:title="@string/settings_backup_title"
         app:summary="@string/settings_backup_summary"/>
