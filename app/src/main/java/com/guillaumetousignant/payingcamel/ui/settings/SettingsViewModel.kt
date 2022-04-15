@@ -255,9 +255,9 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         var pageToken: String?
         do {
             val result = drive.files().list().apply {
-            spaces = "appDataFolder"
-            fields = "nextPageToken, files(id, name)"
-            pageToken = this.pageToken
+                spaces = "appDataFolder"
+                fields = "nextPageToken, files(id, name)"
+                pageToken = this.pageToken
             }.execute()
             for (file in result.files) {
                 if (file.name == outPath) {
@@ -282,18 +282,21 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
         val gFile = com.google.api.services.drive.model.File()
         gFile.name = outPath
+        gFile.parents = listOf("appDataFolder")
         val gFile1 = com.google.api.services.drive.model.File()
         gFile1.name = outPath1
+        gFile1.parents = listOf("appDataFolder")
         val gFile2 = com.google.api.services.drive.model.File()
         gFile2.name = outPath2
+        gFile2.parents = listOf("appDataFolder")
 
         val fileContent = FileContent("application/x-sqlite3", inFile)
         val fileContent1 = FileContent("application/x-sqlite3", inFile1)
         val fileContent2 = FileContent("application/x-sqlite3", inFile2)
 
-        drive.Files().create(gFile,fileContent).execute()
-        drive.Files().create(gFile1,fileContent1).execute()
-        drive.Files().create(gFile2,fileContent2).execute()
+        drive.Files().create(gFile,fileContent).setFields("id").execute()
+        drive.Files().create(gFile1,fileContent1).setFields("id").execute()
+        drive.Files().create(gFile2,fileContent2).setFields("id").execute()
     }
 
     override fun onCleared() {
