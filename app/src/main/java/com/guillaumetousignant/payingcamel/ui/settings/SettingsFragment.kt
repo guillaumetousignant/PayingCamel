@@ -14,17 +14,19 @@ import androidx.preference.PreferenceFragmentCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.Scopes
 import com.google.android.gms.common.api.Scope
 import com.google.android.material.snackbar.Snackbar
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.drive.Drive
+import com.google.api.services.drive.DriveScopes
 import com.guillaumetousignant.payingcamel.R
 
 
 class SettingsFragment : PreferenceFragmentCompat() { // Changed
+
+    private val RC_REQUEST_PERMISSION_SUCCESS_CONTINUE_FILE_CREATION = 1234567
 
     private lateinit var settingsViewModel: SettingsViewModel
 
@@ -125,7 +127,19 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                 // user clicked "backup_drive" button
                 // take appropriate actions
                 // return "true" to indicate you handled the click
-                googleDriveBackup()
+                context?.let{
+                    if (!GoogleSignIn.hasPermissions(
+                            GoogleSignIn.getLastSignedInAccount(it),
+                            Scope(DriveScopes.DRIVE_APPDATA))) {
+                        GoogleSignIn.requestPermissions(
+                            this,
+                            RC_REQUEST_PERMISSION_SUCCESS_CONTINUE_FILE_CREATION,
+                            GoogleSignIn.getLastSignedInAccount(it),
+                            Scope(DriveScopes.DRIVE_APPDATA)) // This is the old way of doing things! uses onActivityResult, which sucks
+                    } else {
+                        googleDriveBackup()
+                    }
+                }
 
                 true
             }
@@ -220,9 +234,7 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
             .requestProfile()
-            .requestScopes(Scope(Scopes.DRIVE_FILE))
             .build()
-
 
         /**
          * Build a GoogleSignInClient with the options specified by gso.
@@ -281,7 +293,7 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
             GoogleSignIn.getLastSignedInAccount(it)?.let { googleAccount ->
                 googleAccount.idToken
                 val credential = GoogleAccountCredential.usingOAuth2(
-                    it, listOf(Scopes.DRIVE_FILE)
+                    it, listOf(DriveScopes.DRIVE_APPDATA)
                 )
                 credential.selectedAccount = googleAccount.account
                 return Drive.Builder(
@@ -302,12 +314,13 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
             context?.let { the_context ->
                 if (ContextCompat.checkSelfPermission(the_context, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
                     settingsViewModel.backupDrive(it, the_context)
-                }
-                else {
-                    view?.let {
-                        Snackbar.make(it, R.string.no_internet_permission, Snackbar.LENGTH_SHORT)
+                    view?.let{ theView ->
+                        Snackbar.make(theView, R.string.database_backed_up, Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show()
                     }
+                }
+                else {
+                    backupInternetResultLauncher.launch(Manifest.permission.INTERNET)
                 }
             }
         } ?:run {
@@ -326,6 +339,52 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
             view?.let {
                 Snackbar.make(it, R.string.not_signed_in, Snackbar.LENGTH_SHORT)
                     .setAction("Action", null).show()
+            }
+        }
+    }
+
+    private val backupInternetResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        // Handle Permission granted/rejected
+        if (isGranted) {
+            // Permission is granted
+            val drive = getDriveService()
+            drive?.let {
+                context?.let { the_context ->
+                    settingsViewModel.backupDrive(it, the_context)
+                    view?.let{ theView ->
+                        Snackbar.make(theView, R.string.database_backed_up, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
+                    }
+                }
+            } ?:run {
+                view?.let {
+                    Snackbar.make(it, R.string.not_signed_in, Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null).show()
+                }
+            }
+        } else {
+            // Permission is denied
+            view?.let {
+                Snackbar.make(it, R.string.no_internet_permission, Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show()
+            }
+        }
+    }
+
+    @Deprecated("This is deprecated, but there is no replacement for requestPermissions by Google yet.")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == RC_REQUEST_PERMISSION_SUCCESS_CONTINUE_FILE_CREATION) {
+            if(resultCode == Activity.RESULT_OK) {
+                googleDriveBackup()
+            }
+            else {
+                // Permission is denied
+                view?.let {
+                    Snackbar.make(it, R.string.no_drive_permission, Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null).show()
+                }
             }
         }
     }

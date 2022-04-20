@@ -108,4 +108,5 @@
     <string name="settings_restore_drive_title">Restaurer base de données à partir du cloud</string>
     <string name="settings_restore_drive_summary">Restaure la base de données à partir de Google Drive</string>
     <string name="no_internet_permission">Besoin de la permission internet pour accéder à Google Drive</string>
+    <string name="no_drive_permission">Besoin de la permission Google Drive pour accéder à Google Drive</string>
 </resources>
