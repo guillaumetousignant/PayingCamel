@@ -295,6 +295,102 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         drive.Files().create(gFile2,fileContent2).setFields("id").execute()
     }
 
+    fun restoreDrive(drive: Drive, context: Context) = scope.launch(Dispatchers.IO) {
+        /*repository.checkpoint(SimpleSQLiteQuery("pragma wal_checkpoint(full)"))
+
+        val inUri0 = clipData.getItemAt(0).uri
+        val inUri1 = clipData.getItemAt(1).uri
+        val inUri2 = clipData.getItemAt(2).uri
+
+        val outStream = context.getDatabasePath("coach_database").outputStream()
+        val outStream1 = context.getDatabasePath("coach_database-shm").outputStream()
+        val outStream2 = context.getDatabasePath("coach_database-wal").outputStream()
+
+        val inFileName0 = getFileName(inUri0, context)
+        val inFileName1 = getFileName(inUri1, context)
+        val inFileName2 = getFileName(inUri2, context)
+
+        var uri0: Uri? = null
+        var uri1: Uri? = null
+        var uri2: Uri? = null
+
+        when {
+            inFileName0?.endsWith("-wal.pcbackup") == true -> {
+                uri2 = inUri0
+            }
+            inFileName0?.endsWith("-shm.pcbackup") == true -> {
+                uri1 = inUri0
+            }
+            inFileName0?.endsWith(".pcbackup") == true -> {
+                uri0 = inUri0
+            }
+        }
+
+        when {
+            inFileName1?.endsWith("-wal.pcbackup") == true -> {
+                uri2 = inUri1
+            }
+            inFileName1?.endsWith("-shm.pcbackup") == true -> {
+                uri1 = inUri1
+            }
+            inFileName1?.endsWith(".pcbackup") == true -> {
+                uri0 = inUri1
+            }
+        }
+
+        when {
+            inFileName2?.endsWith("-wal.pcbackup") == true -> {
+                uri2 = inUri2
+            }
+            inFileName2?.endsWith("-shm.pcbackup") == true -> {
+                uri1 = inUri2
+            }
+            inFileName2?.endsWith(".pcbackup") == true -> {
+                uri0 = inUri2
+            }
+        }
+
+        if ((uri0 != null) && (uri1 != null) && (uri2 != null)){
+            val inStream = context.contentResolver.openInputStream(uri0)
+            val inStream1 = context.contentResolver.openInputStream(uri1)
+            val inStream2 = context.contentResolver.openInputStream(uri2)
+
+            inStream.use { input ->
+                outStream.use { output ->
+                    input?.copyTo(output)
+                }
+            }
+
+            inStream1.use { input ->
+                outStream1.use { output ->
+                    input?.copyTo(output)
+                }
+            }
+
+            inStream2.use { input ->
+                outStream2.use { output ->
+                    input?.copyTo(output)
+                }
+            }
+
+            val intent = Intent(context, MainActivity::class.java)
+            intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
+            intent.addFlags(FLAG_ACTIVITY_CLEAR_TASK)
+            context.startActivity(intent)
+            if (context is Activity) {
+                context.finish()
+            }
+
+            Runtime.getRuntime().exit(0)
+        }
+        else {
+            (context as Activity).findViewById<View>(android.R.id.content).rootView?.let{
+                Snackbar.make(it, R.string.restore_wrong_files, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+            }
+        }*/
+    }
+
     override fun onCleared() {
     super.onCleared()
     parentJob.cancel()

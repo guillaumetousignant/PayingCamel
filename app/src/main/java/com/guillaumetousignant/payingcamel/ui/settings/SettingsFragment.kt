@@ -21,12 +21,14 @@ import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.DriveScopes
+import com.google.api.services.drive.DriveRequest
 import com.guillaumetousignant.payingcamel.R
 
 
 class SettingsFragment : PreferenceFragmentCompat() { // Changed
 
     private val RC_REQUEST_PERMISSION_SUCCESS_CONTINUE_FILE_CREATION = 1234567
+    private val RC_REQUEST_PERMISSION_SUCCESS_CONTINUE_FILE_RESTORATION = 1234568
 
     private lateinit var settingsViewModel: SettingsViewModel
 
@@ -144,7 +146,19 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                 true
             }
             "restore_drive" -> {
-                googleDriveRestore()
+                context?.let{
+                    if (!GoogleSignIn.hasPermissions(
+                            GoogleSignIn.getLastSignedInAccount(it),
+                            Scope(DriveScopes.DRIVE_APPDATA))) {
+                        GoogleSignIn.requestPermissions(
+                            this,
+                            RC_REQUEST_PERMISSION_SUCCESS_CONTINUE_FILE_RESTORATION,
+                            GoogleSignIn.getLastSignedInAccount(it),
+                            Scope(DriveScopes.DRIVE_APPDATA)) // This is the old way of doing things! uses onActivityResult, which sucks
+                    } else {
+                        googleDriveRestore()
+                    }
+                }
 
                 true
             }
@@ -311,9 +325,9 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
     private fun googleDriveBackup() {
         val drive = getDriveService()
         drive?.let {
-            context?.let { the_context ->
-                if (ContextCompat.checkSelfPermission(the_context, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
-                    settingsViewModel.backupDrive(it, the_context)
+            context?.let { theContext ->
+                if (ContextCompat.checkSelfPermission(theContext, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
+                    settingsViewModel.backupDrive(it, theContext)
                     view?.let{ theView ->
                         Snackbar.make(theView, R.string.database_backed_up, Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show()
@@ -334,7 +348,18 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
     private fun googleDriveRestore() {
         val drive = getDriveService()
         drive?.let {
-
+            context?.let { theContext ->
+                if (ContextCompat.checkSelfPermission(theContext, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
+                    settingsViewModel.restoreDrive(it, theContext)
+                    view?.let{ theView ->
+                        Snackbar.make(theView, R.string.database_restored, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
+                    }
+                }
+                else {
+                    restoreInternetResultLauncher.launch(Manifest.permission.INTERNET)
+                }
+            }
         } ?:run {
             view?.let {
                 Snackbar.make(it, R.string.not_signed_in, Snackbar.LENGTH_SHORT)
@@ -349,10 +374,38 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
             // Permission is granted
             val drive = getDriveService()
             drive?.let {
-                context?.let { the_context ->
-                    settingsViewModel.backupDrive(it, the_context)
+                context?.let { theContext ->
+                    settingsViewModel.backupDrive(it, theContext)
                     view?.let{ theView ->
                         Snackbar.make(theView, R.string.database_backed_up, Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
+                    }
+                }
+            } ?:run {
+                view?.let {
+                    Snackbar.make(it, R.string.not_signed_in, Snackbar.LENGTH_SHORT)
+                        .setAction("Action", null).show()
+                }
+            }
+        } else {
+            // Permission is denied
+            view?.let {
+                Snackbar.make(it, R.string.no_internet_permission, Snackbar.LENGTH_SHORT)
+                    .setAction("Action", null).show()
+            }
+        }
+    }
+
+    private val restoreInternetResultLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+        // Handle Permission granted/rejected
+        if (isGranted) {
+            // Permission is granted
+            val drive = getDriveService()
+            drive?.let {
+                context?.let { theContext ->
+                    settingsViewModel.restoreDrive(it, theContext)
+                    view?.let{ theView ->
+                        Snackbar.make(theView, R.string.database_restored, Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show()
                     }
                 }
@@ -375,15 +428,29 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == RC_REQUEST_PERMISSION_SUCCESS_CONTINUE_FILE_CREATION) {
-            if(resultCode == Activity.RESULT_OK) {
-                googleDriveBackup()
+        when (requestCode) {
+            RC_REQUEST_PERMISSION_SUCCESS_CONTINUE_FILE_CREATION -> {
+                if(resultCode == Activity.RESULT_OK) {
+                    googleDriveBackup()
+                }
+                else {
+                    // Permission is denied
+                    view?.let {
+                        Snackbar.make(it, R.string.no_drive_permission, Snackbar.LENGTH_SHORT)
+                            .setAction("Action", null).show()
+                    }
+                }
             }
-            else {
-                // Permission is denied
-                view?.let {
-                    Snackbar.make(it, R.string.no_drive_permission, Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null).show()
+            RC_REQUEST_PERMISSION_SUCCESS_CONTINUE_FILE_RESTORATION -> {
+                if(resultCode == Activity.RESULT_OK) {
+                    googleDriveRestore()
+                }
+                else {
+                    // Permission is denied
+                    view?.let {
+                        Snackbar.make(it, R.string.no_drive_permission, Snackbar.LENGTH_SHORT)
+                            .setAction("Action", null).show()
+                    }
                 }
             }
         }
