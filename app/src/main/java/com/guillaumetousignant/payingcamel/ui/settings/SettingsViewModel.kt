@@ -205,30 +205,6 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                     .setAction("Action", null).show()
             }
         }
-
-        /*val inStream = context.contentResolver.openInputStream(inPath)
-        //val inStream1 = context.contentResolver.openInputStream(Uri.withAppendedPath(inPath, "-shm.pcbackup"))
-        //val inStream2 = context.contentResolver.openInputStream(Uri.withAppendedPath(inPath, "-wal.pcbackup"))
-
-        inStream.use { input ->
-            outStream.use { output ->
-                input?.copyTo(output)
-            }
-        }*/
-
-        /*inStream1.use { input ->
-            outStream1.use { output ->
-                input?.copyTo(output)
-            }
-        }
-
-        inStream2.use { input ->
-            outStream2.use { output ->
-                input?.copyTo(output)
-            }
-        }*/
-
-
     }
 
     /**
@@ -242,15 +218,14 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         val inFile2 = context.getDatabasePath("coach_database-wal")
 
         val current = LocalDateTime.now()
-        val formatter = DateTimeFormatter.BASIC_ISO_DATE
+        val formatter = DateTimeFormatter.ISO_DATE_TIME
         val formatted = current.format(formatter)
 
         var increment = 0
-        var increment1 = 0
-        var increment2 = 0
-        var outPath = "PayingCamelDatabase_$formatted.pcbackup"
-        var outPath1 = "PayingCamelDatabase_$formatted-shm.pcbackup"
-        var outPath2 = "PayingCamelDatabase_$formatted-wal.pcbackup"
+        val prefix = "PayingCamelDatabase_$formatted"
+        var outPath = "$prefix.pcbackup"
+        var outPath1 = "$prefix-shm.pcbackup"
+        var outPath2 = "$prefix-wal.pcbackup"
 
         var pageToken: String?
         do {
@@ -260,25 +235,46 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 pageToken = this.pageToken
             }.execute()
             for (file in result.files) {
-                if (file.name == outPath) {
-                    ++increment
-                    outPath = "PayingCamelDatabase_${formatted}_${increment}.pcbackup"
-                }
-                if (file.name == outPath1) {
-                    ++increment1
-                    outPath1 = "PayingCamelDatabase_${formatted}_${increment1}-shm.pcbackup"
-                }
-                if (file.name == outPath2) {
-                    ++increment2
-                    outPath2 = "PayingCamelDatabase_${formatted}_${increment2}-wal.pcbackup"
+                if (file.name.startsWith(prefix) && file.name.endsWith(".pcbackup")) {
+                    val endIndex = when {
+                        file.name.endsWith("-shm.pcbackup") -> {
+                            file.name.length - "-shm.pcbackup".length
+                        }
+                        file.name.endsWith("-wal.pcbackup") -> {
+                            file.name.length - "-wal.pcbackup".length
+                        }
+                        file.name.endsWith(".pcbackup") -> {
+                            file.name.length - ".pcbackup".length
+                        }
+                        else -> {
+                            -1
+                        }
+                    }
+
+                    if (endIndex != -1) {
+                        if (prefix.length == endIndex && increment <= 0) {
+                            increment = 1
+                        }
+                        else {
+                            try {
+                                val inc = file.name.substring(prefix.length, endIndex).toInt()
+                                if (inc >= increment) {
+                                    increment = inc + 1
+                                }
+                            } catch (nfe: NumberFormatException) {
+                                // not a valid int
+                            }
+                        }
+                    }
                 }
             }
         } while (pageToken != null)
 
-        val maxIncrement = maxOf(increment, increment1, increment2)
-        outPath = "PayingCamelDatabase_${formatted}_${maxIncrement}.pcbackup"
-        outPath1 = "PayingCamelDatabase_${formatted}_${maxIncrement}-shm.pcbackup"
-        outPath2 = "PayingCamelDatabase_${formatted}_${maxIncrement}-wal.pcbackup"
+        if (increment > 0) {
+            outPath = "PayingCamelDatabase_${formatted}_${increment}.pcbackup"
+            outPath1 = "PayingCamelDatabase_${formatted}_${increment}-shm.pcbackup"
+            outPath2 = "PayingCamelDatabase_${formatted}_${increment}-wal.pcbackup"
+        }
 
         val gFile = com.google.api.services.drive.model.File()
         gFile.name = outPath
