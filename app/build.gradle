@@ -1,12 +1,13 @@
+plugins {
+    id("com.google.devtools.ksp")
+}
+
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
 
-apply plugin: 'kotlin-kapt'
-
 android {
     compileSdk 34
-    buildToolsVersion '34.0.0'
     defaultConfig {
         applicationId "com.guillaumetousignant.payingcamel"
         minSdk 31
@@ -14,12 +15,10 @@ android {
         versionCode 113
         versionName '1.1.3'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        kapt {
-            arguments {
-                arg("room.schemaLocation", "$projectDir/schemas".toString())
-                arg("room.incremental", "true")
-                arg("room.expandProjection", "true")
-            }
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas".toString())
+            arg("room.incremental", "true")
+            arg("room.expandProjection", "true")
         }
     }
     buildTypes {
@@ -81,7 +80,7 @@ dependencies {
 
     // Room, added
     implementation 'androidx.room:room-runtime:2.5.2'
-    kapt 'androidx.room:room-compiler:2.5.2' // For Kotlin use kapt instead of annotationProcessor
+    ksp 'androidx.room:room-compiler:2.5.2' // For Kotlin use kapt instead of annotationProcessor // And then ksp instead of kapt
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation 'androidx.room:room-ktx:2.5.2'
     // optional - RxJava support for Room
