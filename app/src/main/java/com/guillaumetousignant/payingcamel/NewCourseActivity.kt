@@ -60,7 +60,7 @@ class NewCourseActivity : AppCompatActivity(R.layout.activity_new_course) {
         editNoteView = findViewById(R.id.edit_note)
         amountView = findViewById(R.id.amount_number)
 
-        val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR) as Calendar
+        val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR, Calendar::class.java)?:Calendar.getInstance()
         initCalendar.set(Calendar.MILLISECOND, 0)
         initCalendar.set(Calendar.SECOND, 0)
         initCalendar.set(Calendar.MINUTE, 0)
