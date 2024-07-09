@@ -32,7 +32,6 @@ import java.util.*
 
 class GasFragment : Fragment(R.layout.fragment_gas) {
 
-    private val newFillActivityRequestCode = 5
     private lateinit var gasViewModel: GasViewModel
     private lateinit var selectionTracker: SelectionTracker<String>
     private lateinit var keyProvider: FillItemKeyProvider
@@ -63,11 +62,13 @@ class GasFragment : Fragment(R.layout.fragment_gas) {
 
         selectionTracker.addObserver(FillSelectionObserver())
 
-        gasViewModel.allFills.observe(viewLifecycleOwner, { fills ->
+        gasViewModel.allFills.observe(viewLifecycleOwner) { fills ->
             // Update the cached copy of the words in the adapter.
-            fills?.let { adapter.setFills(it)
-                keyProvider.setFills(it)}
-        })
+            fills?.let {
+                adapter.setFills(it)
+                keyProvider.setFills(it)
+            }
+        }
 
         val fabGas: FloatingActionButton = view.findViewById(R.id.fab_gas)
         fabGas.setOnClickListener { /*fabView ->*/
@@ -84,10 +85,10 @@ class GasFragment : Fragment(R.layout.fragment_gas) {
                     val fill = Fill(
                         UUID.randomUUID(),
                         data.getIntExtra(NewFillActivity.EXTRA_AMOUNT, 0),
-                        data.getSerializableExtra(NewFillActivity.EXTRA_START) as Calendar,
+                        data.getSerializableExtra(NewFillActivity.EXTRA_START) as Calendar? ?:Calendar.getInstance(),
                         data.getStringExtra(NewFillActivity.EXTRA_NAME),
                         data.getStringExtra(NewFillActivity.EXTRA_NOTE),
-                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                        getRandomMaterialColor()
                     )
                     gasViewModel.insert(fill)
                 }
@@ -107,16 +108,12 @@ class GasFragment : Fragment(R.layout.fragment_gas) {
         }
     }
 
-    private fun getRandomMaterialColor(typeColor: String): Int {
-        var returnColor = Color.GRAY
-        val arrayId = resources.getIdentifier("mdcolor_$typeColor", "array", activity?.packageName)
+    private fun getRandomMaterialColor(): Int {
+        val colors = resources.obtainTypedArray(R.array.mdcolor_400)
+        val index = (Math.random() * colors.length()).toInt()
+        val returnColor = colors.getColor(index, Color.GRAY)
+        colors.recycle()
 
-        if (arrayId != 0) {
-            val colors = resources.obtainTypedArray(arrayId)
-            val index = (Math.random() * colors.length()).toInt()
-            returnColor = colors.getColor(index, Color.GRAY)
-            colors.recycle()
-        }
         return returnColor
     }
 

@@ -8,7 +8,6 @@ import com.guillaumetousignant.payingcamel.R
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 import com.google.android.material.snackbar.Snackbar
-import android.content.Intent
 import android.app.Activity
 import android.graphics.Color
 import android.icu.text.NumberFormat
@@ -44,7 +43,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         super.onViewCreated(view, savedInstanceState)
 
         overviewViewModel =
-            ViewModelProvider(this).get(OverviewViewModel::class.java)
+            ViewModelProvider(this)[OverviewViewModel::class.java]
 
         startDateText = view.findViewById(R.id.start_date)
         endDateText = view.findViewById(R.id.end_date)
@@ -95,7 +94,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
         val courseObserver = Observer<List<Course>> { courseList ->
             var amountTemp = 0
-            courseList?.let {
+            courseList.let {
                 for (course in it) {
                     amountTemp += course.amount
                 }
@@ -105,7 +104,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
         val tripObserver = Observer<List<Trip>> { tripList ->
             var tripAmountTemp = 0.0
-            tripList?.let {
+            tripList.let {
                 for (trip in it) {
                     tripAmountTemp += trip.distance
                 }
@@ -115,7 +114,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
         val expenseObserver = Observer<List<Expense>> { expenseList ->
             var expensesAmountTemp = 0
-            expenseList?.let {
+            expenseList.let {
                 for (expense in it) {
                     expensesAmountTemp += expense.amount
                 }
@@ -125,7 +124,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
 
         val fillObserver = Observer<List<Fill>> { fillList ->
             var fillsAmountTemp = 0
-            fillList?.let {
+            fillList.let {
                 for (fill in it) {
                     fillsAmountTemp += fill.amount
                 }
@@ -138,7 +137,7 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         }
 
         val tripAmountObserver = Observer<Double> { tripsAmount ->
-            distanceAmountText.text = "%s %s".format(NumberFormat.getNumberInstance().format(tripsAmount), getString(R.string.distance_unit))
+            distanceAmountText.text = getString(R.string.distance_format, NumberFormat.getNumberInstance().format(tripsAmount), getString(R.string.distance_unit))
         }
 
         val expenseAmountObserver = Observer<Int> { expenseAmount ->
@@ -187,14 +186,14 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
                     val course = Course(
                         UUID.randomUUID(),
                         data.getSerializableExtra(NewCourseActivity.EXTRA_SKATER) as UUID?,
-                        data.getSerializableExtra(NewCourseActivity.EXTRA_START) as Calendar,
-                        data.getSerializableExtra(NewCourseActivity.EXTRA_END) as Calendar,
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_START) as Calendar? ?:Calendar.getInstance(),
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_END) as Calendar? ?:Calendar.getInstance(),
                         data.getIntExtra(NewCourseActivity.EXTRA_RATE, 0),
                         data.getIntExtra(NewCourseActivity.EXTRA_AMOUNT, 0),
                         data.getStringExtra(NewCourseActivity.EXTRA_NAME),
                         data.getStringExtra(NewCourseActivity.EXTRA_NOTE),
                         data.getBooleanExtra(NewCourseActivity.EXTRA_PAID, false),
-                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                        getRandomMaterialColor()
                     )
                     overviewViewModel.insert(course)
                 }
@@ -214,16 +213,12 @@ class OverviewFragment : Fragment(R.layout.fragment_overview) {
         }
     }
 
-    private fun getRandomMaterialColor(typeColor: String): Int {
-        var returnColor = Color.GRAY
-        val arrayId = resources.getIdentifier("mdcolor_$typeColor", "array", activity?.packageName)
+    private fun getRandomMaterialColor(): Int {
+        val colors = resources.obtainTypedArray(R.array.mdcolor_400)
+        val index = (Math.random() * colors.length()).toInt()
+        val returnColor = colors.getColor(index, Color.GRAY)
+        colors.recycle()
 
-        if (arrayId != 0) {
-            val colors = resources.obtainTypedArray(arrayId)
-            val index = (Math.random() * colors.length()).toInt()
-            returnColor = colors.getColor(index, Color.GRAY)
-            colors.recycle()
-        }
         return returnColor
     }
 }

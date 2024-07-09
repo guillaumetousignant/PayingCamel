@@ -35,9 +35,9 @@ class SkaterPickerFragment(val skater: MutableLiveData<Skater?>, private val all
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
-        allSkaters.observe(this, { skaters ->
+        allSkaters.observe(this) { skaters ->
             // Update the cached copy of the words in the adapter.
             skaters?.let { adapter.setSkaters(it) }
-        })
+        }
     }
 }

@@ -60,13 +60,13 @@ class NewCourseActivity : AppCompatActivity(R.layout.activity_new_course) {
         editNoteView = findViewById(R.id.edit_note)
         amountView = findViewById(R.id.amount_number)
 
-        val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR, Calendar::class.java)?:Calendar.getInstance()
+        val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR) as Calendar? ?:Calendar.getInstance()
         initCalendar.set(Calendar.MILLISECOND, 0)
         initCalendar.set(Calendar.SECOND, 0)
         initCalendar.set(Calendar.MINUTE, 0)
         val factory = NewCourseViewModelFactory(application, initCalendar)
         newCourseViewModel =
-            ViewModelProvider(this, factory).get(NewCourseViewModel::class.java) // Added
+            ViewModelProvider(this, factory)[NewCourseViewModel::class.java] // Added
 
         setSupportActionBar(findViewById(R.id.new_course_toolbar))
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp) // set drawable icon
@@ -123,7 +123,7 @@ class NewCourseActivity : AppCompatActivity(R.layout.activity_new_course) {
         val skaterObserver = Observer<Skater?> { skater ->
             // Update the UI, in this case, a TextView.
             skater?.let{
-                skaterNameText.text = "%s %s".format(it.first_name, it.last_name)
+                skaterNameText.text = getString(R.string.skater_full_name, it.first_name, it.last_name)
             }
         }
 
@@ -190,7 +190,7 @@ class NewCourseActivity : AppCompatActivity(R.layout.activity_new_course) {
             }
             R.id.new_word_save_button -> {
                 when {
-                    newCourseViewModel.startCalendar.value?.compareTo(newCourseViewModel.endCalendar.value)?:0 > 0 -> {
+                    (newCourseViewModel.startCalendar.value?.compareTo(newCourseViewModel.endCalendar.value) ?: 0) > 0 -> {
                         val view = findViewById<View>(android.R.id.content)
 
                         Snackbar.make(view, R.string.end_before_start, Snackbar.LENGTH_LONG)

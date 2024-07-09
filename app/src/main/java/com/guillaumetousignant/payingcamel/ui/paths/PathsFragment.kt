@@ -41,7 +41,7 @@ class PathsFragment : Fragment(R.layout.fragment_paths) {
         super.onViewCreated(view, savedInstanceState)
 
         pathsViewModel =
-            ViewModelProvider(this).get(PathsViewModel::class.java)
+            ViewModelProvider(this)[PathsViewModel::class.java]
         val recyclerView: RecyclerView = view.findViewById(R.id.paths_recyclerview)
         //val adapter = CourseListAdapter(this)
         val adapter = PathListAdapter(context) {}
@@ -61,11 +61,13 @@ class PathsFragment : Fragment(R.layout.fragment_paths) {
 
         selectionTracker.addObserver(PathSelectionObserver())
 
-        pathsViewModel.allPaths.observe(viewLifecycleOwner, { paths ->
+        pathsViewModel.allPaths.observe(viewLifecycleOwner) { paths ->
             // Update the cached copy of the words in the adapter.
-            paths?.let { adapter.setPaths(it)
-                keyProvider.setPaths(it)}
-        })
+            paths?.let {
+                adapter.setPaths(it)
+                keyProvider.setPaths(it)
+            }
+        }
 
         val fabPaths: FloatingActionButton = view.findViewById(R.id.fab_paths)
         fabPaths.setOnClickListener { /*fabView ->*/
@@ -85,7 +87,7 @@ class PathsFragment : Fragment(R.layout.fragment_paths) {
                         data.getStringExtra(NewPathActivity.EXTRA_TO),
                         data.getStringExtra(NewPathActivity.EXTRA_NAME),
                         data.getStringExtra(NewPathActivity.EXTRA_NOTE),
-                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                        getRandomMaterialColor()
                     )
                     pathsViewModel.insert(path)
                 }
@@ -105,16 +107,12 @@ class PathsFragment : Fragment(R.layout.fragment_paths) {
         }
     }
 
-    private fun getRandomMaterialColor(typeColor: String): Int {
-        var returnColor = Color.GRAY
-        val arrayId = resources.getIdentifier("mdcolor_$typeColor", "array", activity?.packageName)
+    private fun getRandomMaterialColor(): Int {
+        val colors = resources.obtainTypedArray(R.array.mdcolor_400)
+        val index = (Math.random() * colors.length()).toInt()
+        val returnColor = colors.getColor(index, Color.GRAY)
+        colors.recycle()
 
-        if (arrayId != 0) {
-            val colors = resources.obtainTypedArray(arrayId)
-            val index = (Math.random() * colors.length()).toInt()
-            returnColor = colors.getColor(index, Color.GRAY)
-            colors.recycle()
-        }
         return returnColor
     }
 

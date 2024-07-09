@@ -42,7 +42,7 @@ class ExpensesFragment : Fragment(R.layout.fragment_expenses) {
         super.onViewCreated(view, savedInstanceState)
 
         expensesViewModel =
-            ViewModelProvider(this).get(ExpensesViewModel::class.java)
+            ViewModelProvider(this)[ExpensesViewModel::class.java]
 
         val recyclerView: RecyclerView = view.findViewById(R.id.expenses_recyclerview)
         //val adapter = CourseListAdapter(this)
@@ -63,11 +63,13 @@ class ExpensesFragment : Fragment(R.layout.fragment_expenses) {
 
         selectionTracker.addObserver(ExpenseSelectionObserver())
 
-        expensesViewModel.allExpenses.observe(viewLifecycleOwner, { expenses ->
+        expensesViewModel.allExpenses.observe(viewLifecycleOwner) { expenses ->
             // Update the cached copy of the words in the adapter.
-            expenses?.let { adapter.setExpenses(it)
-                keyProvider.setExpenses(it)}
-        })
+            expenses?.let {
+                adapter.setExpenses(it)
+                keyProvider.setExpenses(it)
+            }
+        }
 
         val fabExpenses: FloatingActionButton = view.findViewById(R.id.fab_expenses)
         fabExpenses.setOnClickListener { /*fabView ->*/
@@ -84,12 +86,12 @@ class ExpensesFragment : Fragment(R.layout.fragment_expenses) {
                     val expense = Expense(
                         UUID.randomUUID(),
                         data.getIntExtra(NewExpenseActivity.EXTRA_AMOUNT, 0),
-                        data.getSerializableExtra(NewExpenseActivity.EXTRA_START) as Calendar,
+                        data.getSerializableExtra(NewExpenseActivity.EXTRA_START) as Calendar? ?:Calendar.getInstance(),
                         data.getSerializableExtra(NewExpenseActivity.EXTRA_COURSE) as UUID?,
                         data.getSerializableExtra(NewExpenseActivity.EXTRA_SKATER) as UUID?,
                         data.getStringExtra(NewExpenseActivity.EXTRA_NAME),
                         data.getStringExtra(NewExpenseActivity.EXTRA_NOTE),
-                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                        getRandomMaterialColor()
                     )
                     expensesViewModel.insert(expense)
                 }
@@ -109,16 +111,12 @@ class ExpensesFragment : Fragment(R.layout.fragment_expenses) {
         }
     }
 
-    private fun getRandomMaterialColor(typeColor: String): Int {
-        var returnColor = Color.GRAY
-        val arrayId = resources.getIdentifier("mdcolor_$typeColor", "array", activity?.packageName)
+    private fun getRandomMaterialColor(): Int {
+        val colors = resources.obtainTypedArray(R.array.mdcolor_400)
+        val index = (Math.random() * colors.length()).toInt()
+        val returnColor = colors.getColor(index, Color.GRAY)
+        colors.recycle()
 
-        if (arrayId != 0) {
-            val colors = resources.obtainTypedArray(arrayId)
-            val index = (Math.random() * colors.length()).toInt()
-            returnColor = colors.getColor(index, Color.GRAY)
-            colors.recycle()
-        }
         return returnColor
     }
 

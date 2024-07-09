@@ -35,9 +35,9 @@ class RatePickerFragment(val rate: MutableLiveData<Rate?>, private val allRates:
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
-        allRates.observe(this, { rates ->
+        allRates.observe(this) { rates ->
             // Update the cached copy of the words in the adapter.
             rates?.let { adapter.setRates(it) }
-        })
+        }
     }
 }

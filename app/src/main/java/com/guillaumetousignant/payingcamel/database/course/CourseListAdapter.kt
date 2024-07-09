@@ -115,16 +115,9 @@ class CourseListAdapter internal constructor(
             resetIconYAxis(holder.iconFront)
             holder.iconFront.visibility = View.VISIBLE
             holder.iconFront.alpha = 1.0f
-            /*if (reverseAllAnimations && animationItemsIndex.get(
-                    position,
-                    false
-                ) || currentSelectedIndex === position
-            ) {*/
-                context?.let {
-                    FlipAnimator.flipView(it, holder.iconBack, holder.iconFront, false)
-                }
-                //resetCurrentIndex()
-            //}
+            context?.let {
+                FlipAnimator.flipView(it, holder.iconBack, holder.iconFront, false)
+            }
         }
     }
 

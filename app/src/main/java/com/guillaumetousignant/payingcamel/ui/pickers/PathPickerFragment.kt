@@ -35,9 +35,9 @@ class PathPickerFragment(val path: MutableLiveData<Path?>, private val allPaths:
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
-        allPaths.observe(this, { paths ->
+        allPaths.observe(this) { paths ->
             // Update the cached copy of the words in the adapter.
             paths?.let { adapter.setPaths(it) }
-        })
+        }
     }
 }

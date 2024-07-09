@@ -55,11 +55,13 @@ class SkatersPickerFragment(val skaters: MutableLiveData<List<Skater>>, private 
         adapter.tracker = selectionTracker
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
-        allSkaters.observe(this, { skaters ->
+        allSkaters.observe(this) { skaters ->
             // Update the cached copy of the words in the adapter.
-            skaters?.let { adapter.setSkaters(it)
-                           keyProvider.setSkaters(it)}
-        })
+            skaters?.let {
+                adapter.setSkaters(it)
+                keyProvider.setSkaters(it)
+            }
+        }
 
         val fabSkatersPicker: FloatingActionButton = view.findViewById(R.id.fab_skaters_picker)
         fabSkatersPicker.setOnClickListener { /*fabView ->*/

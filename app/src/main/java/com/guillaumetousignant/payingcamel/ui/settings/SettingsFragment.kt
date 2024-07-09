@@ -34,7 +34,7 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) { // Added
         settingsViewModel =
-            ViewModelProvider(this).get(SettingsViewModel::class.java)
+            ViewModelProvider(this)[SettingsViewModel::class.java]
         setPreferencesFromResource(R.xml.preference_screen, rootKey) // Added
     } // Added
 

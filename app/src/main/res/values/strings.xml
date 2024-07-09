@@ -62,7 +62,6 @@
     <string name="label_fill">Fill</string>
     <string name="label_course">Course</string>
     <string name="action_delete">Delete</string>
-    <string name="icon_color_type" translatable="false">400</string>
     <string name="title_default">%s</string>
     <string name="name_empty">No title</string>
     <string name="settings_backup_title">Backup Database to Files</string>
@@ -111,4 +110,6 @@
     <string name="settings_restore_drive_summary">Restores database from files stored on Google Drive</string>
     <string name="no_internet_permission">Need internet permission to access Google Drive</string>
     <string name="no_drive_permission">Need Google Drive permission to access Google Drive</string>
+    <string name="skater_full_name">%s %s</string>
+    <string name="distance_format">%s %s</string>
 </resources>

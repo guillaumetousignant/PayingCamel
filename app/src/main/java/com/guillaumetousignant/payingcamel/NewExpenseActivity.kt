@@ -41,13 +41,13 @@ class NewExpenseActivity : AppCompatActivity(R.layout.activity_new_expense) {
         editNoteView = findViewById(R.id.expense_edit_note)
         editAmountView = findViewById(R.id.expense_amount)
 
-        val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR) as Calendar
+        val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR) as Calendar? ?:Calendar.getInstance()
         initCalendar.set(Calendar.MILLISECOND, 0)
         initCalendar.set(Calendar.SECOND, 0)
         initCalendar.set(Calendar.MINUTE, 0)
         val factory = NewExpenseViewModelFactory(application, initCalendar)
         newExpenseViewModel =
-            ViewModelProvider(this, factory).get(NewExpenseViewModel::class.java) // Added
+            ViewModelProvider(this, factory)[NewExpenseViewModel::class.java] // Added
 
         setSupportActionBar(findViewById(R.id.new_expense_toolbar))
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp) // set drawable icon

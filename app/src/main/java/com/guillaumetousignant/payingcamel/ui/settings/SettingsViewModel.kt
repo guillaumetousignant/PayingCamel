@@ -403,7 +403,10 @@ fun getFileName(uri: Uri, context: Context): String? {
         val cursor = context.contentResolver.query(uri, null, null, null, null)
         cursor.use{
             if (cursor != null && cursor.moveToFirst()) {
-                result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME))
+                val columnIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                if (columnIndex >= 0) {
+                    result = cursor.getString(columnIndex)
+                }
             }
         }
     }

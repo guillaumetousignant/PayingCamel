@@ -41,7 +41,7 @@ class RatesFragment : Fragment(R.layout.fragment_rates) {
         super.onViewCreated(view, savedInstanceState)
 
         ratesViewModel =
-            ViewModelProvider(this).get(RatesViewModel::class.java)
+            ViewModelProvider(this)[RatesViewModel::class.java]
         val recyclerView: RecyclerView = view.findViewById(R.id.rates_recyclerview)
         val adapter = RateListAdapter(context) {}
         recyclerView.adapter = adapter
@@ -60,11 +60,13 @@ class RatesFragment : Fragment(R.layout.fragment_rates) {
 
         selectionTracker.addObserver(RateSelectionObserver())
 
-        ratesViewModel.allRates.observe(viewLifecycleOwner, { rates ->
+        ratesViewModel.allRates.observe(viewLifecycleOwner) { rates ->
             // Update the cached copy of the words in the adapter.
-            rates?.let { adapter.setRates(it)
-                keyProvider.setRates(it)}
-        })
+            rates?.let {
+                adapter.setRates(it)
+                keyProvider.setRates(it)
+            }
+        }
 
         val fabRates: FloatingActionButton = view.findViewById(R.id.fab_rates)
         fabRates.setOnClickListener { /*fabView ->*/
@@ -83,7 +85,7 @@ class RatesFragment : Fragment(R.layout.fragment_rates) {
                         data.getStringExtra(NewRateActivity.EXTRA_NAME),
                         data.getStringExtra(NewRateActivity.EXTRA_NOTE),
                         data.getSerializableExtra(NewRateActivity.EXTRA_SKATER) as UUID?,
-                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                        getRandomMaterialColor()
                     )
                     ratesViewModel.insert(rate)
                 }
@@ -103,16 +105,12 @@ class RatesFragment : Fragment(R.layout.fragment_rates) {
         }
     }
 
-    private fun getRandomMaterialColor(typeColor: String): Int {
-        var returnColor = Color.GRAY
-        val arrayId = resources.getIdentifier("mdcolor_$typeColor", "array", activity?.packageName)
+    private fun getRandomMaterialColor(): Int {
+        val colors = resources.obtainTypedArray(R.array.mdcolor_400)
+        val index = (Math.random() * colors.length()).toInt()
+        val returnColor = colors.getColor(index, Color.GRAY)
+        colors.recycle()
 
-        if (arrayId != 0) {
-            val colors = resources.obtainTypedArray(arrayId)
-            val index = (Math.random() * colors.length()).toInt()
-            returnColor = colors.getColor(index, Color.GRAY)
-            colors.recycle()
-        }
         return returnColor
     }
 

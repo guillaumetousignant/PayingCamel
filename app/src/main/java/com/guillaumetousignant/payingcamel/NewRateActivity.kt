@@ -37,7 +37,7 @@ class NewRateActivity : AppCompatActivity(R.layout.activity_new_rate) {
         skaterNameText = findViewById(R.id.rate_skater_name)
 
         newRateViewModel =
-            ViewModelProvider(this).get(NewRateViewModel::class.java)
+            ViewModelProvider(this)[NewRateViewModel::class.java]
 
         setSupportActionBar(findViewById(R.id.new_rate_toolbar))
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp) // set drawable icon
@@ -47,7 +47,7 @@ class NewRateActivity : AppCompatActivity(R.layout.activity_new_rate) {
         val skaterObserver = Observer<Skater?> { skater ->
             // Update the UI, in this case, a TextView.
             skater?.let{
-                skaterNameText.text = "%s %s".format(it.first_name, it.last_name)
+                skaterNameText.text = getString(R.string.skater_full_name, it.first_name, it.last_name)
             }
         }
 

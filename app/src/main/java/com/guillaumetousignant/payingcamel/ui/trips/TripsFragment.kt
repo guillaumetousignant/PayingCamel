@@ -42,7 +42,7 @@ class TripsFragment : Fragment(R.layout.fragment_trips) {
         super.onViewCreated(view, savedInstanceState)
 
         tripsViewModel =
-            ViewModelProvider(this).get(TripsViewModel::class.java)
+            ViewModelProvider(this)[TripsViewModel::class.java]
         val recyclerView: RecyclerView = view.findViewById(R.id.trips_recyclerview)
         //val adapter = CourseListAdapter(this)
         val adapter = TripListAdapter(context) {}
@@ -62,11 +62,13 @@ class TripsFragment : Fragment(R.layout.fragment_trips) {
 
         selectionTracker.addObserver(TripSelectionObserver())
 
-        tripsViewModel.allTrips.observe(viewLifecycleOwner, { expenses ->
+        tripsViewModel.allTrips.observe(viewLifecycleOwner) { expenses ->
             // Update the cached copy of the words in the adapter.
-            expenses?.let { adapter.setTrips(it)
-                keyProvider.setTrips(it)}
-        })
+            expenses?.let {
+                adapter.setTrips(it)
+                keyProvider.setTrips(it)
+            }
+        }
 
         val fabTrips: FloatingActionButton = view.findViewById(R.id.fab_trips)
         fabTrips.setOnClickListener { /*fabView ->*/
@@ -89,12 +91,12 @@ class TripsFragment : Fragment(R.layout.fragment_trips) {
                         data.getStringExtra(NewTripActivity.EXTRA_FROM),
                         data.getStringExtra(NewTripActivity.EXTRA_TO),
                         data.getDoubleExtra(NewTripActivity.EXTRA_DISTANCE, 0.0),
-                        data.getSerializableExtra(NewTripActivity.EXTRA_START) as Calendar,
+                        data.getSerializableExtra(NewTripActivity.EXTRA_START) as Calendar? ?:Calendar.getInstance(),
                         data.getSerializableExtra(NewTripActivity.EXTRA_COURSE) as UUID?,
                         data.getSerializableExtra(NewTripActivity.EXTRA_SKATER) as UUID?,
                         data.getStringExtra(NewTripActivity.EXTRA_NAME),
                         data.getStringExtra(NewTripActivity.EXTRA_NOTE),
-                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                        getRandomMaterialColor()
                     )
                     tripsViewModel.insert(trip)
                 }
@@ -114,16 +116,12 @@ class TripsFragment : Fragment(R.layout.fragment_trips) {
         }
     }
 
-    private fun getRandomMaterialColor(typeColor: String): Int {
-        var returnColor = Color.GRAY
-        val arrayId = resources.getIdentifier("mdcolor_$typeColor", "array", activity?.packageName)
+    private fun getRandomMaterialColor(): Int {
+        val colors = resources.obtainTypedArray(R.array.mdcolor_400)
+        val index = (Math.random() * colors.length()).toInt()
+        val returnColor = colors.getColor(index, Color.GRAY)
+        colors.recycle()
 
-        if (arrayId != 0) {
-            val colors = resources.obtainTypedArray(arrayId)
-            val index = (Math.random() * colors.length()).toInt()
-            returnColor = colors.getColor(index, Color.GRAY)
-            colors.recycle()
-        }
         return returnColor
     }
 

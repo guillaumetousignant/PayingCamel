@@ -51,22 +51,22 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         }
 
         // REMOVE  if removed, first thing added from the main view will fail if nothing from the database is used (no rate etc)
-        calendarViewModel.allCourses.observe(viewLifecycleOwner, { /*courses ->*/
+        calendarViewModel.allCourses.observe(viewLifecycleOwner) { /*courses ->*/
             // Update the cached copy of the words in the adapter.
             //courses?.let { adapter.setCourses(it) }
-        })
-        calendarViewModel.allTrips.observe(viewLifecycleOwner, { /*trips ->*/
+        }
+        calendarViewModel.allTrips.observe(viewLifecycleOwner) { /*trips ->*/
             // Update the cached copy of the words in the adapter.
             //trips?.let { adapter.setTrips(it) }
-        })
-        calendarViewModel.allExpenses.observe(viewLifecycleOwner, { /*expenses ->*/
+        }
+        calendarViewModel.allExpenses.observe(viewLifecycleOwner) { /*expenses ->*/
             // Update the cached copy of the words in the adapter.
             //expenses?.let { adapter.setExpenses(it) }
-        })
-        calendarViewModel.allFills.observe(viewLifecycleOwner, { /*fills ->*/
+        }
+        calendarViewModel.allFills.observe(viewLifecycleOwner) { /*fills ->*/
             // Update the cached copy of the words in the adapter.
             //fills?.let { adapter.setFills(it) }
-        })
+        }
 
         val speedDialView = view.findViewById<SpeedDialView>(R.id.speedDial)
         speedDialView.addActionItem(
@@ -154,14 +154,14 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                     val course = Course(
                         UUID.randomUUID(),
                         data.getSerializableExtra(NewCourseActivity.EXTRA_SKATER) as UUID?,
-                        data.getSerializableExtra(NewCourseActivity.EXTRA_START) as Calendar,
-                        data.getSerializableExtra(NewCourseActivity.EXTRA_END) as Calendar,
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_START) as Calendar? ?:Calendar.getInstance(),
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_END) as Calendar? ?:Calendar.getInstance(),
                         data.getIntExtra(NewCourseActivity.EXTRA_RATE, 0),
                         data.getIntExtra(NewCourseActivity.EXTRA_AMOUNT, 0),
                         data.getStringExtra(NewCourseActivity.EXTRA_NAME),
                         data.getStringExtra(NewCourseActivity.EXTRA_NOTE),
                         data.getBooleanExtra(NewCourseActivity.EXTRA_PAID, false),
-                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                        getRandomMaterialColor()
                     )
                     calendarViewModel.insert(course)
                 }
@@ -191,12 +191,12 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                         data.getStringExtra(NewTripActivity.EXTRA_FROM),
                         data.getStringExtra(NewTripActivity.EXTRA_TO),
                         data.getDoubleExtra(NewTripActivity.EXTRA_DISTANCE, 0.0),
-                        data.getSerializableExtra(NewTripActivity.EXTRA_START) as Calendar,
+                        data.getSerializableExtra(NewTripActivity.EXTRA_START) as Calendar? ?:Calendar.getInstance(),
                         data.getSerializableExtra(NewTripActivity.EXTRA_COURSE) as UUID?,
                         data.getSerializableExtra(NewTripActivity.EXTRA_SKATER) as UUID?,
                         data.getStringExtra(NewTripActivity.EXTRA_NAME),
                         data.getStringExtra(NewTripActivity.EXTRA_NOTE),
-                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                        getRandomMaterialColor()
                     )
                     calendarViewModel.insert(trip)
                 }
@@ -223,12 +223,12 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                     val expense = Expense(
                         UUID.randomUUID(),
                         data.getIntExtra(NewExpenseActivity.EXTRA_AMOUNT, 0),
-                        data.getSerializableExtra(NewExpenseActivity.EXTRA_START) as Calendar,
+                        data.getSerializableExtra(NewExpenseActivity.EXTRA_START) as Calendar? ?:Calendar.getInstance(),
                         data.getSerializableExtra(NewExpenseActivity.EXTRA_COURSE) as UUID?,
                         data.getSerializableExtra(NewExpenseActivity.EXTRA_SKATER) as UUID?,
                         data.getStringExtra(NewExpenseActivity.EXTRA_NAME),
                         data.getStringExtra(NewExpenseActivity.EXTRA_NOTE),
-                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                        getRandomMaterialColor()
                     )
                     calendarViewModel.insert(expense)
                 }
@@ -255,10 +255,10 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                     val fill = Fill(
                         UUID.randomUUID(),
                         data.getIntExtra(NewFillActivity.EXTRA_AMOUNT, 0),
-                        data.getSerializableExtra(NewFillActivity.EXTRA_START) as Calendar,
+                        data.getSerializableExtra(NewFillActivity.EXTRA_START) as Calendar? ?:Calendar.getInstance(),
                         data.getStringExtra(NewFillActivity.EXTRA_NAME),
                         data.getStringExtra(NewFillActivity.EXTRA_NOTE),
-                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                        getRandomMaterialColor()
                     )
                     calendarViewModel.insert(fill)
                 }
@@ -278,16 +278,12 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         }
     }
 
-    private fun getRandomMaterialColor(typeColor: String): Int {
-        var returnColor = Color.GRAY
-        val arrayId = resources.getIdentifier("mdcolor_$typeColor", "array", activity?.packageName)
+    private fun getRandomMaterialColor(): Int {
+        val colors = resources.obtainTypedArray(R.array.mdcolor_400)
+        val index = (Math.random() * colors.length()).toInt()
+        val returnColor = colors.getColor(index, Color.GRAY)
+        colors.recycle()
 
-        if (arrayId != 0) {
-            val colors = resources.obtainTypedArray(arrayId)
-            val index = (Math.random() * colors.length()).toInt()
-            returnColor = colors.getColor(index, Color.GRAY)
-            colors.recycle()
-        }
         return returnColor
     }
 

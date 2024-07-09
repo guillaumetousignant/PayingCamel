@@ -42,7 +42,7 @@ class CoursesFragment : Fragment(R.layout.fragment_courses) {
         super.onViewCreated(view, savedInstanceState)
 
         coursesViewModel =
-            ViewModelProvider(this).get(CoursesViewModel::class.java)
+            ViewModelProvider(this)[CoursesViewModel::class.java]
         val recyclerView: RecyclerView = view.findViewById(R.id.courses_recyclerview)
         //val adapter = CourseListAdapter(this)
         val adapter = CourseListAdapter(context) {}
@@ -62,11 +62,13 @@ class CoursesFragment : Fragment(R.layout.fragment_courses) {
 
         selectionTracker.addObserver(CourseSelectionObserver())
 
-        coursesViewModel.allCourses.observe(viewLifecycleOwner, { courses ->
+        coursesViewModel.allCourses.observe(viewLifecycleOwner) { courses ->
             // Update the cached copy of the words in the adapter.
-            courses?.let { adapter.setCourses(it)
-                keyProvider.setCourses(it)}
-        })
+            courses?.let {
+                adapter.setCourses(it)
+                keyProvider.setCourses(it)
+            }
+        }
 
         val fabCourses: FloatingActionButton = view.findViewById(R.id.fab_courses)
         fabCourses.setOnClickListener { /*fabView ->*/
@@ -83,14 +85,14 @@ class CoursesFragment : Fragment(R.layout.fragment_courses) {
                     val course = Course(
                         UUID.randomUUID(),
                         data.getSerializableExtra(NewCourseActivity.EXTRA_SKATER) as UUID?,
-                        data.getSerializableExtra(NewCourseActivity.EXTRA_START) as Calendar,
-                        data.getSerializableExtra(NewCourseActivity.EXTRA_END) as Calendar,
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_START) as Calendar? ?:Calendar.getInstance(),
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_END) as Calendar? ?:Calendar.getInstance(),
                         data.getIntExtra(NewCourseActivity.EXTRA_RATE, 0),
                         data.getIntExtra(NewCourseActivity.EXTRA_AMOUNT, 0),
                         data.getStringExtra(NewCourseActivity.EXTRA_NAME),
                         data.getStringExtra(NewCourseActivity.EXTRA_NOTE),
                         data.getBooleanExtra(NewCourseActivity.EXTRA_PAID, false),
-                        getRandomMaterialColor(getString(R.string.icon_color_type))
+                        getRandomMaterialColor()
                     )
                     coursesViewModel.insert(course)
                 }
@@ -110,16 +112,12 @@ class CoursesFragment : Fragment(R.layout.fragment_courses) {
         }
     }
 
-    private fun getRandomMaterialColor(typeColor: String): Int {
-        var returnColor = Color.GRAY
-        val arrayId = resources.getIdentifier("mdcolor_$typeColor", "array", activity?.packageName)
+    private fun getRandomMaterialColor(): Int {
+        val colors = resources.obtainTypedArray(R.array.mdcolor_400)
+        val index = (Math.random() * colors.length()).toInt()
+        val returnColor = colors.getColor(index, Color.GRAY)
+        colors.recycle()
 
-        if (arrayId != 0) {
-            val colors = resources.obtainTypedArray(arrayId)
-            val index = (Math.random() * colors.length()).toInt()
-            returnColor = colors.getColor(index, Color.GRAY)
-            colors.recycle()
-        }
         return returnColor
     }
 

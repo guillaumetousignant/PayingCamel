@@ -46,13 +46,13 @@ class NewTripActivity : AppCompatActivity(R.layout.activity_new_trip) {
         editNoteView = findViewById(R.id.trip_edit_note)
         distanceView = findViewById(R.id.trip_edit_distance)
 
-        val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR) as Calendar
+        val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR) as Calendar? ?:Calendar.getInstance()
         initCalendar.set(Calendar.MILLISECOND, 0)
         initCalendar.set(Calendar.SECOND, 0)
         initCalendar.set(Calendar.MINUTE, 0)
         val factory = NewTripViewModelFactory(application, initCalendar)
         newTripViewModel =
-            ViewModelProvider(this, factory).get(NewTripViewModel::class.java) // Added
+            ViewModelProvider(this, factory)[NewTripViewModel::class.java] // Added
 
         setSupportActionBar(findViewById(R.id.new_trip_toolbar))
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp) // set drawable icon
@@ -72,7 +72,7 @@ class NewTripActivity : AppCompatActivity(R.layout.activity_new_trip) {
         val skaterObserver = Observer<Skater?> { skater ->
             // Update the UI, in this case, a TextView.
             skater?.let{
-                skaterNameText.text = "%s %s".format(it.first_name, it.last_name)
+                skaterNameText.text = getString(R.string.skater_full_name, it.first_name, it.last_name)
             }
         }
 

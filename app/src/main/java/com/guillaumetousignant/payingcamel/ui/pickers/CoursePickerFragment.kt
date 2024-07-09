@@ -35,9 +35,9 @@ class CoursePickerFragment(val course: MutableLiveData<Course?>, private val all
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity) // CHECK can return null
 
-        allCourses.observe(this, { courses ->
+        allCourses.observe(this) { courses ->
             // Update the cached copy of the words in the adapter.
             courses?.let { adapter.setCourses(it) }
-        })
+        }
     }
 }
