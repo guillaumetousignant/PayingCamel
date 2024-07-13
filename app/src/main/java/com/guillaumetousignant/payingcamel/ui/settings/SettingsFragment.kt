@@ -4,17 +4,25 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.icu.util.Calendar
 import android.os.Bundle
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.credentials.ClearCredentialStateRequest
+import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.GetCredentialResponse
+import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.Scope
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.google.android.material.snackbar.Snackbar
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import com.google.api.client.http.javanet.NetHttpTransport
@@ -23,6 +31,8 @@ import com.google.api.services.drive.Drive
 import com.google.api.services.drive.DriveScopes
 import com.google.api.services.drive.DriveRequest
 import com.guillaumetousignant.payingcamel.R
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 
 
 class SettingsFragment : PreferenceFragmentCompat() { // Changed
@@ -31,6 +41,8 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
     private val RC_REQUEST_PERMISSION_SUCCESS_CONTINUE_FILE_RESTORATION = 1234568
 
     private lateinit var settingsViewModel: SettingsViewModel
+
+    private val coroutineScope = MainScope() // Probably needs to be CoroutineScope(), but this needs a CoroutineContext as an argument,
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) { // Added
         settingsViewModel =
@@ -183,123 +195,95 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
         }
     }
 
-    private fun isUserSignedIn(): Boolean {
-        context?.let {
-            val account = GoogleSignIn.getLastSignedInAccount(it)
-            return account != null
-        }
-        return false
-    }
-
     private fun googleSignIn() {
-        if (!isUserSignedIn()) {
-            getGoogleSingInClient()?.let {
-                startSignInForResult.launch(it.signInIntent)
-            } ?:run {
-                view?.let {
-                    Snackbar.make(it, R.string.no_sign_in_client, Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null).show()
+        val nonce = "${getString(R.string.app_name)}-getGoogleSingInClient-${Calendar.getInstance()}"
+
+        val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
+            .setFilterByAuthorizedAccounts(false) // true in doc
+            .setServerClientId("304629624245-noig90cri5lom6jpp40ec9oag3ikkpj7.apps.googleusercontent.com") // WEB_CLIENT_ID originally
+            .setAutoSelectEnabled(true)
+            .setNonce(nonce)
+            .build()
+
+        val request: GetCredentialRequest = GetCredentialRequest.Builder()
+            .addCredentialOption(googleIdOption)
+            .build()
+
+        context?.let  { theContext ->
+            val credentialManager = CredentialManager.create(theContext)
+
+            coroutineScope.launch {
+                try {
+                    val result = credentialManager.getCredential(
+                        request = request,
+                        context = theContext,
+                    )
+                    handleSignIn(result)
+                } catch (e: GetCredentialException) {
+                    handleFailure(e)
                 }
-            }
-        } else {
-            view?.let {
-                Snackbar.make(it, R.string.already_signed_in, Snackbar.LENGTH_SHORT)
-                    .setAction("Action", null).show()
             }
         }
     }
 
     private fun googleSignOut() {
-        if (isUserSignedIn()){
-            getGoogleSingInClient()?.let { googleSignInClient ->
-                googleSignInClient.signOut().addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
+        context?.let  { theContext ->
+            val request = ClearCredentialStateRequest()
+
+            val credentialManager = CredentialManager.create(theContext)
+            coroutineScope.launch {
+                credentialManager.clearCredentialState(
+                    request = request
+                )
+            }
+        }
+    }
+
+    private fun handleSignIn(result: GetCredentialResponse) {
+        // Handle the successfully returned credential.
+        when (val credential = result.credential) {
+            // GoogleIdToken credential
+            is CustomCredential -> {
+                if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
+                    try {
+                        // Use googleIdTokenCredential and extract id to validate and
+                        // authenticate on your server.
+                        val googleIdTokenCredential = GoogleIdTokenCredential
+                            .createFrom(credential.data)
+
                         view?.let {
-                            Snackbar.make(it, R.string.signed_out, Snackbar.LENGTH_SHORT)
+                            Snackbar.make(it, String.format(this.getString(R.string.signed_in), googleIdTokenCredential.displayName), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show()
                         }
-                    } else {
+                    } catch (e: GoogleIdTokenParsingException) {
                         view?.let {
-                            Snackbar.make(it, R.string.failed_sign_out, Snackbar.LENGTH_SHORT)
+                            Snackbar.make(it, this.getString(R.string.invalid_google_token_id_response), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show()
                         }
                     }
-                }
-            } ?:run {
-                view?.let {
-                    Snackbar.make(it, R.string.no_sign_in_client, Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null).show()
-                }
-            }
-        } else {
-            view?.let {
-                Snackbar.make(it, R.string.not_signed_in, Snackbar.LENGTH_SHORT)
-                    .setAction("Action", null).show()
-            }
-        }
-    }
-
-    private fun getGoogleSingInClient() : GoogleSignInClient? {
-        /**
-         * Configure sign-in to request the user's ID, email address, and basic
-         * profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-         */
-        val gso = GoogleSignInOptions
-            .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .requestProfile()
-            .build()
-
-        /**
-         * Build a GoogleSignInClient with the options specified by gso.
-         */
-        activity?.let {
-            return GoogleSignIn.getClient(it, gso)
-        }
-        return null
-    }
-
-    private val startSignInForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-        when (result.resultCode) {
-            Activity.RESULT_OK -> {
-                result.data?.let { data ->
-                    handleSignData(data)
-                }
-            }
-            Activity.RESULT_CANCELED -> {
-                view?.let {
-                    Snackbar.make(it, R.string.cancelled, Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show()
+                } else {
+                    // Catch any unrecognized custom credential type here.
+                    view?.let {
+                        Snackbar.make(it, this.getString(R.string.unexpected_type_custom_credential), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
+                    }
                 }
             }
             else -> {
+                // Catch any unrecognized credential type here.
                 view?.let {
-                    Snackbar.make(it, R.string.unknown_result_code, Snackbar.LENGTH_LONG)
+                    Snackbar.make(it, this.getString(R.string.unexpected_type_custom_credential), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show()
                 }
             }
         }
     }
 
-    private fun handleSignData(data: Intent?) {
-        // The Task returned from this call is always completed, no need to attach
-        // a listener.
-        GoogleSignIn.getSignedInAccountFromIntent(data)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful){
-                    // user successfully logged-in
-                    view?.let {
-                        Snackbar.make(it, String.format(this.getString(R.string.signed_in), task.result?.displayName), Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show()
-                    }
-                } else {
-                    // authentication failed
-                    view?.let {
-                        Snackbar.make(it, String.format(this.getString(R.string.failed_sign_in), task.exception), Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show()
-                    }
-                }
-            }
+    private fun handleFailure(error: GetCredentialException) {
+        view?.let {
+            Snackbar.make(it, error.toString(), Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+        }
     }
 
     private fun getDriveService() : Drive? {

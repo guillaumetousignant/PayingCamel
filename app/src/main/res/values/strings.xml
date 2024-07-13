@@ -112,4 +112,7 @@
     <string name="no_drive_permission">Need Google Drive permission to access Google Drive</string>
     <string name="skater_full_name">%s %s</string>
     <string name="distance_format">%s %s</string>
+    <string name="invalid_google_token_id_response">Received an invalid Google ID token response</string>
+    <string name="unexpected_type_custom_credential">Unexpected type of custom credential</string>
+    <string name="unexpected_type_credential">Unexpected type of credential</string>
 </resources>

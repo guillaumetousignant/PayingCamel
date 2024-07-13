@@ -111,4 +111,7 @@
     <string name="no_drive_permission">Besoin de la permission Google Drive pour accéder à Google Drive</string>
     <string name="skater_full_name">%s %s</string>
     <string name="distance_format">%s %s</string>
+    <string name="invalid_google_token_id_response">Reçu un jeton de réponse Google ID invalide</string>
+    <string name="unexpected_type_custom_credential">Type inattendu d\'identifiant personnalisé</string>
+    <string name="unexpected_type_credential">Type inattendu d\'identifiant</string>
 </resources>
