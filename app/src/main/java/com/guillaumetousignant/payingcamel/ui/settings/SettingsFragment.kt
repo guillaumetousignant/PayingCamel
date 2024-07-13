@@ -3,6 +3,7 @@ package com.guillaumetousignant.payingcamel.ui.settings
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.icu.util.Calendar
 import android.os.Bundle
@@ -18,6 +19,8 @@ import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import com.google.android.gms.auth.api.identity.AuthorizationRequest
+import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.Scope
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
@@ -220,7 +223,7 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                     )
                     handleSignIn(result)
                 } catch (e: GetCredentialException) {
-                    handleFailure(e)
+                    handleSignInFailure(e)
                 }
             }
         }
@@ -279,10 +282,49 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
         }
     }
 
-    private fun handleFailure(error: GetCredentialException) {
+    private fun handleSignInFailure(error: GetCredentialException) {
         view?.let {
-            Snackbar.make(it, error.toString(), Snackbar.LENGTH_LONG)
+            Snackbar.make(it, error.localizedMessage, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
+        }
+    }
+
+    private fun authorizeDrive() {
+
+        val requestedScopes = listOf(Scope(DriveScopes.DRIVE_APPDATA))
+        val authorizationRequest = AuthorizationRequest.Builder().setRequestedScopes(requestedScopes).build()
+        context?.let {
+            Identity.getAuthorizationClient(it)
+                .authorize(authorizationRequest)
+                .addOnSuccessListener { authorizationResult ->
+                    if (authorizationResult.hasResolution()) {
+                        // Access needs to be granted by the user
+                        val pendingIntent = authorizationResult.pendingIntent
+                        try {
+                            pendingIntent?.let { thePendingIntent ->
+                                startIntentSenderForResult(
+                                    thePendingIntent.intentSender,
+                                    REQUEST_AUTHORIZE, null, 0, 0, 0, null
+                                );
+                            }
+
+                        } catch ( e: IntentSender.SendIntentException) {
+                            view?.let { theView ->
+                                Snackbar.make(theView, "Couldn't start Authorization UI: ${e.localizedMessage}", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show()
+                            }
+                        }
+                    } else {
+                        // Access already granted, continue with user action
+                        saveToDriveAppFolder(authorizationResult);
+                    }
+                }
+                .addOnFailureListener { e ->
+                    view?.let { theView ->
+                        Snackbar.make(theView, "Failed to authorize, error: ${e.localizedMessage}", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
+                    }
+                }
         }
     }
 
