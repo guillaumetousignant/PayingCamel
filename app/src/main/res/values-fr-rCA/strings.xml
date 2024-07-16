@@ -95,7 +95,7 @@
     <string name="failed_sign_in">Échec de la connexion avec message \"%s\"</string>
     <string name="already_signed_in">Utilisateur déjà connecté</string>
     <string name="signed_out">Déconnecté</string>
-    <string name="failed_sign_out">Erreur de déconnexion</string>
+    <string name="failed_sign_out">Échec de la déconnexion avec message \"%s\"</string>
     <string name="signed_in">Utilisateur %s connecté</string>
     <string name="settings_sign_in_title">Connecter</string>
     <string name="settings_sign_in_summary">Se connecter à un compte Google pour sauvegarder la base de données</string>
@@ -109,9 +109,11 @@
     <string name="settings_restore_drive_summary">Restaure la base de données à partir de Google Drive</string>
     <string name="no_internet_permission">Besoin de la permission internet pour accéder à Google Drive</string>
     <string name="no_drive_permission">Besoin de la permission Google Drive pour accéder à Google Drive</string>
-    <string name="skater_full_name">%s %s</string>
-    <string name="distance_format">%s %s</string>
+    <string name="skater_full_name">%1$s %2$s</string>
+    <string name="distance_format">%1$s %2$s</string>
     <string name="invalid_google_token_id_response">Reçu un jeton de réponse Google ID invalide</string>
     <string name="unexpected_type_custom_credential">Type inattendu d\'identifiant personnalisé</string>
     <string name="unexpected_type_credential">Type inattendu d\'identifiant</string>
+    <string name="google_drive_backup_failed">Échec de la sauvegarde Google Drive avec message: \"%s\"</string>
+    <string name="google_drive_restore_failed">Échec de la restauration Google Drive avec message: \"%s\"</string>
 </resources>

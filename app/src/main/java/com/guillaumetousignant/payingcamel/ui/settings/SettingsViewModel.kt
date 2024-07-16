@@ -221,78 +221,42 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         val formatter = DateTimeFormatter.ISO_DATE_TIME
         val formatted = current.format(formatter)
 
-        var increment = 0
         val prefix = "PayingCamelDatabase_$formatted"
-        var outPath = "$prefix.pcbackup"
-        var outPath1 = "$prefix-shm.pcbackup"
-        var outPath2 = "$prefix-wal.pcbackup"
+        val outPath = "$prefix.pcbackup"
+        val outPath1 = "$prefix-shm.pcbackup"
+        val outPath2 = "$prefix-wal.pcbackup"
 
-        var pageToken: String?
-        do {
-            val result = drive.files().list().apply {
-                spaces = "appDataFolder"
-                fields = "nextPageToken, files(id, name)"
-                pageToken = this.pageToken
-            }.execute()
-            for (file in result.files) {
-                if (file.name.startsWith(prefix) && file.name.endsWith(".pcbackup")) {
-                    val endIndex = when {
-                        file.name.endsWith("-shm.pcbackup") -> {
-                            file.name.length - "-shm.pcbackup".length
-                        }
-                        file.name.endsWith("-wal.pcbackup") -> {
-                            file.name.length - "-wal.pcbackup".length
-                        }
-                        file.name.endsWith(".pcbackup") -> {
-                            file.name.length - ".pcbackup".length
-                        }
-                        else -> {
-                            -1
-                        }
-                    }
+        try {
 
-                    if (endIndex != -1) {
-                        if (prefix.length == endIndex && increment <= 0) {
-                            increment = 1
-                        }
-                        else {
-                            try {
-                                val inc = file.name.substring(prefix.length, endIndex).toInt()
-                                if (inc >= increment) {
-                                    increment = inc + 1
-                                }
-                            } catch (nfe: NumberFormatException) {
-                                // not a valid int
-                            }
-                        }
-                    }
-                }
+            val gFile = com.google.api.services.drive.model.File()
+            gFile.name = outPath
+            gFile.parents = listOf("appDataFolder")
+            val gFile1 = com.google.api.services.drive.model.File()
+            gFile1.name = outPath1
+            gFile1.parents = listOf("appDataFolder")
+            val gFile2 = com.google.api.services.drive.model.File()
+            gFile2.name = outPath2
+            gFile2.parents = listOf("appDataFolder")
+
+            val fileContent = FileContent("application/x-sqlite3", inFile)
+            val fileContent1 = FileContent("application/x-sqlite3", inFile1)
+            val fileContent2 = FileContent("application/x-sqlite3", inFile2)
+
+            drive.Files().create(gFile, fileContent).setFields("id").execute()
+            drive.Files().create(gFile1, fileContent1).setFields("id").execute()
+            drive.Files().create(gFile2, fileContent2).setFields("id").execute()
+
+            (context as Activity).findViewById<View>(android.R.id.content).rootView?.let{
+                Snackbar.make(it, R.string.database_backed_up, Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
             }
-        } while (pageToken != null)
-
-        if (increment > 0) {
-            outPath = "PayingCamelDatabase_${formatted}_${increment}.pcbackup"
-            outPath1 = "PayingCamelDatabase_${formatted}_${increment}-shm.pcbackup"
-            outPath2 = "PayingCamelDatabase_${formatted}_${increment}-wal.pcbackup"
         }
-
-        val gFile = com.google.api.services.drive.model.File()
-        gFile.name = outPath
-        gFile.parents = listOf("appDataFolder")
-        val gFile1 = com.google.api.services.drive.model.File()
-        gFile1.name = outPath1
-        gFile1.parents = listOf("appDataFolder")
-        val gFile2 = com.google.api.services.drive.model.File()
-        gFile2.name = outPath2
-        gFile2.parents = listOf("appDataFolder")
-
-        val fileContent = FileContent("application/x-sqlite3", inFile)
-        val fileContent1 = FileContent("application/x-sqlite3", inFile1)
-        val fileContent2 = FileContent("application/x-sqlite3", inFile2)
-
-        drive.Files().create(gFile,fileContent).setFields("id").execute()
-        drive.Files().create(gFile1,fileContent1).setFields("id").execute()
-        drive.Files().create(gFile2,fileContent2).setFields("id").execute()
+        catch (e: Exception){
+            (context as Activity).findViewById<View>(android.R.id.content).rootView?.let{
+                Snackbar.make(it, context.getString(R.string.google_drive_backup_failed, e.localizedMessage), Snackbar.LENGTH_LONG)
+                    .setAction("Action", null).show()
+            }
+        }
     }
 
     fun restoreDrive(drive: Drive, context: Context) = scope.launch(Dispatchers.IO) {
@@ -373,15 +337,28 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 }
             }
 
-            val intent = Intent(context, MainActivity::class.java)
-            intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
-            intent.addFlags(FLAG_ACTIVITY_CLEAR_TASK)
-            context.startActivity(intent)
-            if (context is Activity) {
-                context.finish()
-            }
+            try {
+                val intent = Intent(context, MainActivity::class.java)
+                intent.addFlags(FLAG_ACTIVITY_NEW_TASK)
+                intent.addFlags(FLAG_ACTIVITY_CLEAR_TASK)
+                context.startActivity(intent)
+                if (context is Activity) {
+                    context.finish()
+                }
 
-            Runtime.getRuntime().exit(0)
+                Runtime.getRuntime().exit(0)
+
+                (context as Activity).findViewById<View>(android.R.id.content).rootView?.let{
+                    Snackbar.make(it, R.string.database_restored, Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
+            }
+            catch (e: Exception) {
+                (context as Activity).findViewById<View>(android.R.id.content).rootView?.let{
+                    Snackbar.make(it, context.getString(R.string.google_drive_restore_failed, e.localizedMessage), Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show()
+                }
+            }
         }
         else {
             (context as Activity).findViewById<View>(android.R.id.content).rootView?.let{

@@ -15,24 +15,26 @@ import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.GetCredentialResponse
+import androidx.credentials.exceptions.ClearCredentialException
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.ViewModelProvider
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.gms.auth.api.identity.AuthorizationRequest
+import com.google.android.gms.auth.api.identity.AuthorizationResult
 import com.google.android.gms.auth.api.identity.Identity
-import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.common.api.Scope
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.google.android.material.snackbar.Snackbar
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential
 import com.google.api.client.http.javanet.NetHttpTransport
 import com.google.api.client.json.gson.GsonFactory
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.DriveScopes
-import com.google.api.services.drive.DriveRequest
+import com.google.auth.http.HttpCredentialsAdapter
+import com.google.auth.oauth2.AccessToken
+import com.google.auth.oauth2.GoogleCredentials
 import com.guillaumetousignant.payingcamel.R
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -40,8 +42,8 @@ import kotlinx.coroutines.launch
 
 class SettingsFragment : PreferenceFragmentCompat() { // Changed
 
-    private val RC_REQUEST_PERMISSION_SUCCESS_CONTINUE_FILE_CREATION = 1234567
-    private val RC_REQUEST_PERMISSION_SUCCESS_CONTINUE_FILE_RESTORATION = 1234568
+    private val backupRequestAuthorize = 1234567
+    private val restoreRequestAuthorize = 1234568
 
     private lateinit var settingsViewModel: SettingsViewModel
 
@@ -144,34 +146,22 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                 // user clicked "backup_drive" button
                 // take appropriate actions
                 // return "true" to indicate you handled the click
-                context?.let{
-                    if (!GoogleSignIn.hasPermissions(
-                            GoogleSignIn.getLastSignedInAccount(it),
-                            Scope(DriveScopes.DRIVE_APPDATA))) {
-                        GoogleSignIn.requestPermissions(
-                            this,
-                            RC_REQUEST_PERMISSION_SUCCESS_CONTINUE_FILE_CREATION,
-                            GoogleSignIn.getLastSignedInAccount(it),
-                            Scope(DriveScopes.DRIVE_APPDATA)) // This is the old way of doing things! uses onActivityResult, which sucks
+                context?.let { theContext ->
+                    if (ContextCompat.checkSelfPermission(theContext, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
+                        backupDriveClick()
                     } else {
-                        googleDriveBackup()
+                        backupInternetResultLauncher.launch(Manifest.permission.INTERNET)
                     }
                 }
 
                 true
             }
             "restore_drive" -> {
-                context?.let{
-                    if (!GoogleSignIn.hasPermissions(
-                            GoogleSignIn.getLastSignedInAccount(it),
-                            Scope(DriveScopes.DRIVE_APPDATA))) {
-                        GoogleSignIn.requestPermissions(
-                            this,
-                            RC_REQUEST_PERMISSION_SUCCESS_CONTINUE_FILE_RESTORATION,
-                            GoogleSignIn.getLastSignedInAccount(it),
-                            Scope(DriveScopes.DRIVE_APPDATA)) // This is the old way of doing things! uses onActivityResult, which sucks
+                context?.let { theContext ->
+                    if (ContextCompat.checkSelfPermission(theContext, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
+                        restoreDriveClick()
                     } else {
-                        googleDriveRestore()
+                        restoreInternetResultLauncher.launch(Manifest.permission.INTERNET)
                     }
                 }
 
@@ -235,9 +225,21 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
 
             val credentialManager = CredentialManager.create(theContext)
             coroutineScope.launch {
-                credentialManager.clearCredentialState(
-                    request = request
-                )
+                try {
+                    credentialManager.clearCredentialState(
+                        request = request
+                    )
+                    view?.let {
+                        Snackbar.make(it, getString(R.string.signed_out), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
+                    }
+                }
+                catch(e: ClearCredentialException) {
+                    view?.let {
+                        Snackbar.make(it, getString(R.string.failed_sign_out, e.localizedMessage), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show()
+                    }
+                }
             }
         }
     }
@@ -255,7 +257,7 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                             .createFrom(credential.data)
 
                         view?.let {
-                            Snackbar.make(it, String.format(this.getString(R.string.signed_in), googleIdTokenCredential.displayName), Snackbar.LENGTH_LONG)
+                            Snackbar.make(it, this.getString(R.string.signed_in, googleIdTokenCredential.id), Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show()
                         }
                     } catch (e: GoogleIdTokenParsingException) {
@@ -284,13 +286,12 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
 
     private fun handleSignInFailure(error: GetCredentialException) {
         view?.let {
-            Snackbar.make(it, error.localizedMessage, Snackbar.LENGTH_LONG)
+            Snackbar.make(it, this.getString(R.string.failed_sign_in, error.localizedMessage), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
     }
 
-    private fun authorizeDrive() {
-
+    private fun backupDriveClick() {
         val requestedScopes = listOf(Scope(DriveScopes.DRIVE_APPDATA))
         val authorizationRequest = AuthorizationRequest.Builder().setRequestedScopes(requestedScopes).build()
         context?.let {
@@ -304,7 +305,7 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                             pendingIntent?.let { thePendingIntent ->
                                 startIntentSenderForResult(
                                     thePendingIntent.intentSender,
-                                    REQUEST_AUTHORIZE, null, 0, 0, 0, null
+                                    backupRequestAuthorize, null, 0, 0, 0, null
                                 );
                             }
 
@@ -316,7 +317,8 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                         }
                     } else {
                         // Access already granted, continue with user action
-                        saveToDriveAppFolder(authorizationResult);
+                        val drive = getDrive(authorizationResult)
+                        googleDriveBackup(drive);
                     }
                 }
                 .addOnFailureListener { e ->
@@ -328,67 +330,69 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
         }
     }
 
-    private fun getDriveService() : Drive? {
-        context?.let {
-            GoogleSignIn.getLastSignedInAccount(it)?.let { googleAccount ->
-                googleAccount.idToken
-                val credential = GoogleAccountCredential.usingOAuth2(
-                    it, listOf(DriveScopes.DRIVE_APPDATA)
-                )
-                credential.selectedAccount = googleAccount.account
-                return Drive.Builder(
-                    NetHttpTransport(),
-                    GsonFactory.getDefaultInstance(),
-                    credential
-                )
-                    .setApplicationName(getString(R.string.app_name))
-                    .build()
-            }
-        }
-        return null
+    private fun getDrive(authorizationResult: AuthorizationResult) : Drive {
+        val credentials =
+            GoogleCredentials.create(AccessToken(authorizationResult.accessToken, null))
+
+        return Drive.Builder(
+            NetHttpTransport(),
+            GsonFactory.getDefaultInstance(),
+            HttpCredentialsAdapter(credentials)
+        )
+            .setApplicationName(getString(R.string.app_name))
+            .build()
     }
 
-    private fun googleDriveBackup() {
-        val drive = getDriveService()
-        drive?.let {
-            context?.let { theContext ->
-                if (ContextCompat.checkSelfPermission(theContext, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
-                    settingsViewModel.backupDrive(it, theContext)
-                    view?.let{ theView ->
-                        Snackbar.make(theView, R.string.database_backed_up, Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show()
-                    }
-                }
-                else {
-                    backupInternetResultLauncher.launch(Manifest.permission.INTERNET)
-                }
-            }
-        } ?:run {
-            view?.let {
-                Snackbar.make(it, R.string.not_signed_in, Snackbar.LENGTH_SHORT)
-                    .setAction("Action", null).show()
-            }
+    private fun googleDriveBackup(drive: Drive) {
+        context?.let { theContext ->
+            settingsViewModel.backupDrive(drive, theContext)
         }
     }
-    
-    private fun googleDriveRestore() {
-        val drive = getDriveService()
-        drive?.let {
-            context?.let { theContext ->
-                if (ContextCompat.checkSelfPermission(theContext, Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED) {
-                    settingsViewModel.restoreDrive(it, theContext)
-                    view?.let{ theView ->
-                        Snackbar.make(theView, R.string.database_restored, Snackbar.LENGTH_LONG)
+
+    private fun restoreDriveClick() {
+        val requestedScopes = listOf(Scope(DriveScopes.DRIVE_APPDATA))
+        val authorizationRequest = AuthorizationRequest.Builder().setRequestedScopes(requestedScopes).build()
+        context?.let {
+            Identity.getAuthorizationClient(it)
+                .authorize(authorizationRequest)
+                .addOnSuccessListener { authorizationResult ->
+                    if (authorizationResult.hasResolution()) {
+                        // Access needs to be granted by the user
+                        val pendingIntent = authorizationResult.pendingIntent
+                        try {
+                            pendingIntent?.let { thePendingIntent ->
+                                startIntentSenderForResult(
+                                    thePendingIntent.intentSender,
+                                    restoreRequestAuthorize, null, 0, 0, 0, null
+                                );
+                            }
+
+                        } catch ( e: IntentSender.SendIntentException) {
+                            view?.let { theView ->
+                                Snackbar.make(theView, "Couldn't start Authorization UI: ${e.localizedMessage}", Snackbar.LENGTH_LONG)
+                                    .setAction("Action", null).show()
+                            }
+                        }
+                    } else {
+                        // Access already granted, continue with user action
+                        val drive = getDrive(authorizationResult)
+                        googleDriveRestore(drive);
+                    }
+                }
+                .addOnFailureListener { e ->
+                    view?.let { theView ->
+                        Snackbar.make(theView, "Failed to authorize, error: ${e.localizedMessage}", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show()
                     }
                 }
-                else {
-                    restoreInternetResultLauncher.launch(Manifest.permission.INTERNET)
-                }
-            }
-        } ?:run {
-            view?.let {
-                Snackbar.make(it, R.string.not_signed_in, Snackbar.LENGTH_SHORT)
+        }
+    }
+
+    private fun googleDriveRestore(drive: Drive) {
+        context?.let { theContext ->
+            settingsViewModel.restoreDrive(drive, theContext)
+            view?.let{ theView ->
+                Snackbar.make(theView, R.string.database_restored, Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
             }
         }
@@ -398,21 +402,7 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
         // Handle Permission granted/rejected
         if (isGranted) {
             // Permission is granted
-            val drive = getDriveService()
-            drive?.let {
-                context?.let { theContext ->
-                    settingsViewModel.backupDrive(it, theContext)
-                    view?.let{ theView ->
-                        Snackbar.make(theView, R.string.database_backed_up, Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show()
-                    }
-                }
-            } ?:run {
-                view?.let {
-                    Snackbar.make(it, R.string.not_signed_in, Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null).show()
-                }
-            }
+            backupDriveClick()
         } else {
             // Permission is denied
             view?.let {
@@ -426,21 +416,7 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
         // Handle Permission granted/rejected
         if (isGranted) {
             // Permission is granted
-            val drive = getDriveService()
-            drive?.let {
-                context?.let { theContext ->
-                    settingsViewModel.restoreDrive(it, theContext)
-                    view?.let{ theView ->
-                        Snackbar.make(theView, R.string.database_restored, Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show()
-                    }
-                }
-            } ?:run {
-                view?.let {
-                    Snackbar.make(it, R.string.not_signed_in, Snackbar.LENGTH_SHORT)
-                        .setAction("Action", null).show()
-                }
-            }
+            restoreDriveClick()
         } else {
             // Permission is denied
             view?.let {
@@ -455,9 +431,13 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            RC_REQUEST_PERMISSION_SUCCESS_CONTINUE_FILE_CREATION -> {
+            restoreRequestAuthorize -> {
                 if(resultCode == Activity.RESULT_OK) {
-                    googleDriveBackup()
+                    context?.let {
+                        val authorizationResult = Identity.getAuthorizationClient(it).getAuthorizationResultFromIntent(data)
+                        val drive = getDrive(authorizationResult)
+                        googleDriveRestore(drive)
+                    }
                 }
                 else {
                     // Permission is denied
@@ -467,9 +447,13 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                     }
                 }
             }
-            RC_REQUEST_PERMISSION_SUCCESS_CONTINUE_FILE_RESTORATION -> {
+            backupRequestAuthorize -> {
                 if(resultCode == Activity.RESULT_OK) {
-                    googleDriveRestore()
+                    context?.let {
+                        val authorizationResult = Identity.getAuthorizationClient(it).getAuthorizationResultFromIntent(data)
+                        val drive = getDrive(authorizationResult)
+                        googleDriveBackup(drive)
+                    }
                 }
                 else {
                     // Permission is denied
