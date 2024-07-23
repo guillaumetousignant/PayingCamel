@@ -24,3 +24,5 @@
 -keep class androidx.credentials.playservices.** {
   *;
 }
+-keepattributes LineNumberTable,SourceFile
+-renamesourcefileattribute SourceFile
