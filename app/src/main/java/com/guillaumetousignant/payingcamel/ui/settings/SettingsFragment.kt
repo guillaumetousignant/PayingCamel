@@ -306,9 +306,8 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                                 startIntentSenderForResult(
                                     thePendingIntent.intentSender,
                                     backupRequestAuthorize, null, 0, 0, 0, null
-                                );
+                                )
                             }
-
                         } catch ( e: IntentSender.SendIntentException) {
                             view?.let { theView ->
                                 Snackbar.make(theView, "Couldn't start Authorization UI: ${e.localizedMessage}", Snackbar.LENGTH_LONG)
@@ -318,7 +317,7 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                     } else {
                         // Access already granted, continue with user action
                         val drive = getDrive(authorizationResult)
-                        googleDriveBackup(drive);
+                        googleDriveBackup(drive)
                     }
                 }
                 .addOnFailureListener { e ->
@@ -364,7 +363,7 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                                 startIntentSenderForResult(
                                     thePendingIntent.intentSender,
                                     restoreRequestAuthorize, null, 0, 0, 0, null
-                                );
+                                )
                             }
 
                         } catch ( e: IntentSender.SendIntentException) {
@@ -376,7 +375,7 @@ class SettingsFragment : PreferenceFragmentCompat() { // Changed
                     } else {
                         // Access already granted, continue with user action
                         val drive = getDrive(authorizationResult)
-                        googleDriveRestore(drive);
+                        googleDriveRestore(drive)
                     }
                 }
                 .addOnFailureListener { e ->
