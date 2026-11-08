@@ -91,9 +91,9 @@ class TripsFragment : Fragment(R.layout.fragment_trips) {
                         data.getStringExtra(NewTripActivity.EXTRA_FROM),
                         data.getStringExtra(NewTripActivity.EXTRA_TO),
                         data.getDoubleExtra(NewTripActivity.EXTRA_DISTANCE, 0.0),
-                        data.getSerializableExtra(NewTripActivity.EXTRA_START) as Calendar? ?:Calendar.getInstance(),
-                        data.getSerializableExtra(NewTripActivity.EXTRA_COURSE) as UUID?,
-                        data.getSerializableExtra(NewTripActivity.EXTRA_SKATER) as UUID?,
+                        data.getSerializableExtra(NewTripActivity.EXTRA_START, Calendar::class.java) ?:Calendar.getInstance(),
+                        data.getSerializableExtra(NewTripActivity.EXTRA_COURSE, UUID::class.java),
+                        data.getSerializableExtra(NewTripActivity.EXTRA_SKATER, UUID::class.java),
                         data.getStringExtra(NewTripActivity.EXTRA_NAME),
                         data.getStringExtra(NewTripActivity.EXTRA_NOTE),
                         getRandomMaterialColor()

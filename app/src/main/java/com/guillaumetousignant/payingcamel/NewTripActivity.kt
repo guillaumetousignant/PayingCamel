@@ -46,7 +46,7 @@ class NewTripActivity : AppCompatActivity(R.layout.activity_new_trip) {
         editNoteView = findViewById(R.id.trip_edit_note)
         distanceView = findViewById(R.id.trip_edit_distance)
 
-        val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR) as Calendar? ?:Calendar.getInstance()
+        val initCalendar = intent.getSerializableExtra(EXTRA_CALENDAR, Calendar::class.java) ?:Calendar.getInstance()
         initCalendar.set(Calendar.MILLISECOND, 0)
         initCalendar.set(Calendar.SECOND, 0)
         initCalendar.set(Calendar.MINUTE, 0)

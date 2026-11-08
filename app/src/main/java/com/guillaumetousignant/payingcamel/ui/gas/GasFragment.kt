@@ -85,7 +85,7 @@ class GasFragment : Fragment(R.layout.fragment_gas) {
                     val fill = Fill(
                         UUID.randomUUID(),
                         data.getIntExtra(NewFillActivity.EXTRA_AMOUNT, 0),
-                        data.getSerializableExtra(NewFillActivity.EXTRA_START) as Calendar? ?:Calendar.getInstance(),
+                        data.getSerializableExtra(NewFillActivity.EXTRA_START, Calendar::class.java) ?:Calendar.getInstance(),
                         data.getStringExtra(NewFillActivity.EXTRA_NAME),
                         data.getStringExtra(NewFillActivity.EXTRA_NOTE),
                         getRandomMaterialColor()

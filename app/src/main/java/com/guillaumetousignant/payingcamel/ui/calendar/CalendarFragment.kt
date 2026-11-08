@@ -153,9 +153,9 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                 result.data?.let { data ->
                     val course = Course(
                         UUID.randomUUID(),
-                        data.getSerializableExtra(NewCourseActivity.EXTRA_SKATER) as UUID?,
-                        data.getSerializableExtra(NewCourseActivity.EXTRA_START) as Calendar? ?:Calendar.getInstance(),
-                        data.getSerializableExtra(NewCourseActivity.EXTRA_END) as Calendar? ?:Calendar.getInstance(),
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_SKATER, UUID::class.java),
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_START, Calendar::class.java) ?:Calendar.getInstance(),
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_END, Calendar::class.java) ?:Calendar.getInstance(),
                         data.getIntExtra(NewCourseActivity.EXTRA_RATE, 0),
                         data.getIntExtra(NewCourseActivity.EXTRA_AMOUNT, 0),
                         data.getStringExtra(NewCourseActivity.EXTRA_NAME),
@@ -191,9 +191,9 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                         data.getStringExtra(NewTripActivity.EXTRA_FROM),
                         data.getStringExtra(NewTripActivity.EXTRA_TO),
                         data.getDoubleExtra(NewTripActivity.EXTRA_DISTANCE, 0.0),
-                        data.getSerializableExtra(NewTripActivity.EXTRA_START) as Calendar? ?:Calendar.getInstance(),
-                        data.getSerializableExtra(NewTripActivity.EXTRA_COURSE) as UUID?,
-                        data.getSerializableExtra(NewTripActivity.EXTRA_SKATER) as UUID?,
+                        data.getSerializableExtra(NewTripActivity.EXTRA_START, Calendar::class.java) ?:Calendar.getInstance(),
+                        data.getSerializableExtra(NewTripActivity.EXTRA_COURSE, UUID::class.java),
+                        data.getSerializableExtra(NewTripActivity.EXTRA_SKATER, UUID::class.java),
                         data.getStringExtra(NewTripActivity.EXTRA_NAME),
                         data.getStringExtra(NewTripActivity.EXTRA_NOTE),
                         getRandomMaterialColor()
@@ -223,9 +223,9 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                     val expense = Expense(
                         UUID.randomUUID(),
                         data.getIntExtra(NewExpenseActivity.EXTRA_AMOUNT, 0),
-                        data.getSerializableExtra(NewExpenseActivity.EXTRA_START) as Calendar? ?:Calendar.getInstance(),
-                        data.getSerializableExtra(NewExpenseActivity.EXTRA_COURSE) as UUID?,
-                        data.getSerializableExtra(NewExpenseActivity.EXTRA_SKATER) as UUID?,
+                        data.getSerializableExtra(NewExpenseActivity.EXTRA_START, Calendar::class.java) ?:Calendar.getInstance(),
+                        data.getSerializableExtra(NewExpenseActivity.EXTRA_COURSE, UUID::class.java),
+                        data.getSerializableExtra(NewExpenseActivity.EXTRA_SKATER, UUID::class.java),
                         data.getStringExtra(NewExpenseActivity.EXTRA_NAME),
                         data.getStringExtra(NewExpenseActivity.EXTRA_NOTE),
                         getRandomMaterialColor()
@@ -255,7 +255,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                     val fill = Fill(
                         UUID.randomUUID(),
                         data.getIntExtra(NewFillActivity.EXTRA_AMOUNT, 0),
-                        data.getSerializableExtra(NewFillActivity.EXTRA_START) as Calendar? ?:Calendar.getInstance(),
+                        data.getSerializableExtra(NewFillActivity.EXTRA_START, Calendar::class.java) ?:Calendar.getInstance(),
                         data.getStringExtra(NewFillActivity.EXTRA_NAME),
                         data.getStringExtra(NewFillActivity.EXTRA_NOTE),
                         getRandomMaterialColor()

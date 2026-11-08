@@ -84,9 +84,9 @@ class CoursesFragment : Fragment(R.layout.fragment_courses) {
                 result.data?.let { data ->
                     val course = Course(
                         UUID.randomUUID(),
-                        data.getSerializableExtra(NewCourseActivity.EXTRA_SKATER) as UUID?,
-                        data.getSerializableExtra(NewCourseActivity.EXTRA_START) as Calendar? ?:Calendar.getInstance(),
-                        data.getSerializableExtra(NewCourseActivity.EXTRA_END) as Calendar? ?:Calendar.getInstance(),
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_SKATER, UUID::class.java),
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_START, Calendar::class.java) ?:Calendar.getInstance(),
+                        data.getSerializableExtra(NewCourseActivity.EXTRA_END, Calendar::class.java) ?:Calendar.getInstance(),
                         data.getIntExtra(NewCourseActivity.EXTRA_RATE, 0),
                         data.getIntExtra(NewCourseActivity.EXTRA_AMOUNT, 0),
                         data.getStringExtra(NewCourseActivity.EXTRA_NAME),

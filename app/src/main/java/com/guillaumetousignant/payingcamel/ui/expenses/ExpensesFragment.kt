@@ -86,9 +86,9 @@ class ExpensesFragment : Fragment(R.layout.fragment_expenses) {
                     val expense = Expense(
                         UUID.randomUUID(),
                         data.getIntExtra(NewExpenseActivity.EXTRA_AMOUNT, 0),
-                        data.getSerializableExtra(NewExpenseActivity.EXTRA_START) as Calendar? ?:Calendar.getInstance(),
-                        data.getSerializableExtra(NewExpenseActivity.EXTRA_COURSE) as UUID?,
-                        data.getSerializableExtra(NewExpenseActivity.EXTRA_SKATER) as UUID?,
+                        data.getSerializableExtra(NewExpenseActivity.EXTRA_START, Calendar::class.java) ?:Calendar.getInstance(),
+                        data.getSerializableExtra(NewExpenseActivity.EXTRA_COURSE, UUID::class.java),
+                        data.getSerializableExtra(NewExpenseActivity.EXTRA_SKATER, UUID::class.java),
                         data.getStringExtra(NewExpenseActivity.EXTRA_NAME),
                         data.getStringExtra(NewExpenseActivity.EXTRA_NOTE),
                         getRandomMaterialColor()

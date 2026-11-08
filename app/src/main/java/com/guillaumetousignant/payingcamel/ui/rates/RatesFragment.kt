@@ -84,7 +84,7 @@ class RatesFragment : Fragment(R.layout.fragment_rates) {
                         data.getIntExtra(NewRateActivity.EXTRA_AMOUNT, 0),
                         data.getStringExtra(NewRateActivity.EXTRA_NAME),
                         data.getStringExtra(NewRateActivity.EXTRA_NOTE),
-                        data.getSerializableExtra(NewRateActivity.EXTRA_SKATER) as UUID?,
+                        data.getSerializableExtra(NewRateActivity.EXTRA_SKATER, UUID::class.java),
                         getRandomMaterialColor()
                     )
                     ratesViewModel.insert(rate)
