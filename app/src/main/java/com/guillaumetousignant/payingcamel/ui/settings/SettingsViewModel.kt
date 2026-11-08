@@ -378,8 +378,8 @@ fun getFileName(uri: Uri, context: Context): String? {
     if (result == null) {
         uri.path?.let { path ->
             result = path
-            val cut = result?.lastIndexOf('/')
-            cut?.let {
+            val cut = result.lastIndexOf('/')
+            cut.let {
                 if (cut != -1) {
                     result = result?.substring(it + 1)
                 }
