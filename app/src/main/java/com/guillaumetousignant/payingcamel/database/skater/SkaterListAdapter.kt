@@ -44,7 +44,7 @@ class SkaterListAdapter internal constructor(
 
         fun getItemDetails(): ItemDetailsLookup.ItemDetails<String> =
             object : ItemDetailsLookup.ItemDetails<String>() {
-                override fun getPosition(): Int = adapterPosition
+                override fun getPosition(): Int = getBindingAdapterPosition()
                 override fun getSelectionKey(): String? = uuid
             }
 

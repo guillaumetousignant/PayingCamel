@@ -8,6 +8,9 @@ import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.appcompat.widget.Toolbar
 import android.widget.EditText
 import com.google.android.material.snackbar.Snackbar
 
@@ -28,10 +31,23 @@ class NewPathActivity : AppCompatActivity(R.layout.activity_new_path) {
         editToView = findViewById(R.id.path_edit_to)
         editNoteView = findViewById(R.id.path_edit_note)
 
-        setSupportActionBar(findViewById(R.id.new_path_toolbar))
+        val toolBar = findViewById<Toolbar>(R.id.new_path_toolbar)
+        setSupportActionBar(toolBar)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp) // set drawable icon
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        window.statusBarColor = getColor(R.color.colorPrimaryDark) // Why is this needed??
+
+        val initialHeight = toolBar.layoutParams.height
+        val initialPadding = toolBar.paddingTop
+        ViewCompat.setOnApplyWindowInsetsListener(toolBar) { v: View, windowInsets: WindowInsetsCompat ->
+            val insets = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            v.layoutParams.height = initialHeight.plus(insets.top)
+            v.setPadding(v.paddingLeft, initialPadding + insets.top, v.paddingRight, v.paddingBottom)
+
+            // Return CONSUMED if you don't want the window insets to keep passing
+            // down to descendant views.
+            WindowInsetsCompat.CONSUMED
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -146,12 +146,7 @@ class PathsFragment : Fragment(R.layout.fragment_paths) {
     }
 
     private inner class ActionModeCallback : ActionMode.Callback {
-        private var statusBarColor: Int? = 0
         override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
-            statusBarColor = activity?.window?.statusBarColor
-            activity?.let{
-                it.window?.statusBarColor = it.getColor(R.color.colorAccent)
-            }
             mode.menuInflater.inflate(R.menu.menu_action_mode, menu)
             return true
         }
@@ -182,9 +177,6 @@ class PathsFragment : Fragment(R.layout.fragment_paths) {
         }
 
         override fun onDestroyActionMode(mode: ActionMode) {
-            statusBarColor?.let{
-                activity?.window?.statusBarColor = it
-            }
             selectionTracker.clearSelection()
             actionMode = null
             /*recyclerView.post(Runnable {

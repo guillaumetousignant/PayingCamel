@@ -10,8 +10,8 @@ android {
         applicationId "com.guillaumetousignant.payingcamel"
         minSdk 34
         targetSdk 37
-        versionCode 115
-        versionName '1.1.5'
+        versionCode 116
+        versionName '1.1.6'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         ksp {
             arg("room.schemaLocation", "$projectDir/schemas".toString())
@@ -109,7 +109,7 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
         exclude module: 'guava-jdk5'
     }
-    implementation('com.google.apis:google-api-services-drive:v3-rev20240628-2.0.0') {
+    implementation('com.google.apis:google-api-services-drive:v3-rev20261023-2.9.2') {
         exclude group: 'org.apache.httpcomponents'
         exclude module: 'guava-jdk5'
     }
